@@ -2,12 +2,13 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://hardcodersmx.github.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://hardcoders.mx
+#url: http://hardcodersmx.github.com
+title: hardcoders.mx
+subtitle: Vive para codear
+author: hardcoders.mx
 simple_search: http://google.com/search
-description:
+description: hardcoders.mx es una comunidad de desarrolladores interesados en aprender nuevas tencologias y compartir el conocimiento.
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
