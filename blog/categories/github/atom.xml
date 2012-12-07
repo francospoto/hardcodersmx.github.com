@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[hardcoders.mx]]></title>
-  <link href="http://hardcoders.mx/atom.xml" rel="self"/>
+  <title><![CDATA[Category: github | hardcoders.mx]]></title>
+  <link href="http://hardcoders.mx/blog/categories/github/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
   <updated>2012-12-06T18:33:50-07:00</updated>
   <id>http://hardcoders.mx/</id>
@@ -39,10 +39,9 @@
 
 <p>Supongamos que creaste un fork de <a href="https://github.com/hardcodersmx/hardcodersmx.github.com">el repositorio de esta web</a>, ahora requieres hacer un clone. ej:</p>
 
-<figure class='code'><figcaption><span>Clonar tu repositorio (reemplaza albertein por tu usuario)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git@github.com:albertein/hardcodersmx.github.com
-</span></code></pre></td></tr></table></div></figure>
-
+<p><code>bash Clonar tu repositorio (reemplaza albertein por tu usuario)
+git clone git@github.com:albertein/hardcodersmx.github.com
+</code></p>
 
 <p>Con esto tendrás una copia local (clone) de tu fork en github, ya estamos casi listos para iniciar a trabajar.</p>
 
@@ -54,10 +53,9 @@
 
 <p>Recuerda siempre usar un nombre descriptivo para la rama que vas a crear.</p>
 
-<figure class='code'><figcaption><span>Crea tu feature branch (Dentro de tu proyecto, ¡claro!)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git checkout -b fix_issue_123
-</span></code></pre></td></tr></table></div></figure>
-
+<p><code>bash Crea tu feature branch (Dentro de tu proyecto, ¡claro!)
+git checkout -b fix_issue_123
+</code></p>
 
 <p>El comando anterior crea la nueva rama y te cambiá a ella para que puedas trabajar.</p>
 
@@ -65,16 +63,15 @@
 
 <p>¡Ahora si!, realiza todos los cambios que requieras, agrega al stage tus archivos y haz un commit con un mensaje descriptivo.</p>
 
-<figure class='code'><figcaption><span>Ejemplo</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#Edita test1.foo</span>
-</span><span class='line'><span class="c">#Edita test2.foo</span>
-</span><span class='line'>git add test1.foo test2.foo
-</span><span class='line'>git commit -m <span class="s1">&#39;Added two test cases for feature 123&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>```bash Ejemplo</p>
 
+<h1>Edita test1.foo</h1>
+
+<h1>Edita test2.foo</h1>
+
+<p>git add test1.foo test2.foo
+git commit -m 'Added two test cases for feature 123'
+```</p>
 
 <h2>Rebase</h2>
 
@@ -84,47 +81,41 @@
 
 <p>Para eso primero ocupamos obtener todos los cambios que hayan ocurrido en el repositorio original</p>
 
-<figure class='code'><figcaption><span>Obtener cambios desde mainstream</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Los nuevos cambios los integraremos sobre master </span>
-</span><span class='line'><span class="c"># y no sobre nuestro feature branch</span>
-</span><span class='line'>git checkout master
-</span><span class='line'>
-</span><span class='line'><span class="c"># Para obtener los nuevos cambios ocupamos agregar un &quot;remote&quot; para que git</span>
-</span><span class='line'><span class="c"># pueda localizar el repositorio convencional, usualmente al remote que apunta al</span>
-</span><span class='line'><span class="c"># repositorio tradicional se le llama mainstream</span>
-</span><span class='line'>git remote add mainstream git@github.com:hardcodersmx/hardodersmx.github.com
-</span><span class='line'>
-</span><span class='line'><span class="c"># Posteriormente bajamos todos los cambios, si hiciste caso y no desarrollaste nada </span>
-</span><span class='line'><span class="c"># sobre master no deberías de tener ningún problema ni conflicto.</span>
-</span><span class='line'>git pull mainstream master
-</span></code></pre></td></tr></table></div></figure>
+<p>```bash Obtener cambios desde mainstream</p>
 
+<h1>Los nuevos cambios los integraremos sobre master</h1>
+
+<h1>y no sobre nuestro feature branch</h1>
+
+<p>git checkout master</p>
+
+<h1>Para obtener los nuevos cambios ocupamos agregar un "remote" para que git</h1>
+
+<h1>pueda localizar el repositorio convencional, usualmente al remote que apunta al</h1>
+
+<h1>repositorio tradicional se le llama mainstream</h1>
+
+<p>git remote add mainstream git@github.com:hardcodersmx/hardodersmx.github.com</p>
+
+<h1>Posteriormente bajamos todos los cambios, si hiciste caso y no desarrollaste nada</h1>
+
+<h1>sobre master no deberías de tener ningún problema ni conflicto.</h1>
+
+<p>git pull mainstream master
+```</p>
 
 <p>Ya que contamos todos con todos los nuevos cambios en el repositorio es hora de hacer un rebase, al hacer un rebase aplicamos todos los commits que se encuentren en mainstream (master) y no en nuestra feature branch, para posteriormente aplicar el commit de nuestra rama al ultimo, como si fuera el ultimo cambio que se hubiera realizado. Recomiendo leer <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">3.6 Git Branching - Rebasing</a> para comprender completamente este paso.</p>
 
-<figure class='code'><figcaption><span>Hacer el rebase</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Primero nos regresamos a nuestro feature branch</span>
-</span><span class='line'>git checkout fix_issue_123
-</span><span class='line'>
-</span><span class='line'><span class="c">#Para hacer el rebase desde master a nuestra rama actual</span>
-</span><span class='line'>git rebase master
-</span></code></pre></td></tr></table></div></figure>
+<p>```bash Hacer el rebase</p>
 
+<h1>Primero nos regresamos a nuestro feature branch</h1>
+
+<p>git checkout fix_issue_123</p>
+
+<h1>Para hacer el rebase desde master a nuestra rama actual</h1>
+
+<p>git rebase master
+```</p>
 
 <p>Si llega a ocurrir cualquier conflicto en este punto tenemos que corregirlo y continuar con el proceso.</p>
 
@@ -132,12 +123,12 @@
 
 <p>Todo esta listo, el problema es que nadie mas que tu puede ver tus cambios, es hora de subir tus cambios a github.</p>
 
-<figure class='code'><figcaption><span>push a origin</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Necesitamos subir nuestro feature branch a github para que el mundo lo vea</span>
-</span><span class='line'>git push origin fix_issue_123
-</span></code></pre></td></tr></table></div></figure>
+<p>```bash push a origin</p>
 
+<h1>Necesitamos subir nuestro feature branch a github para que el mundo lo vea</h1>
+
+<p>git push origin fix_issue_123
+```</p>
 
 <h2>Pull request</h2>
 
@@ -148,15 +139,6 @@
 <p>No todos los proyectos de software se manejan de la misma manera, algunos pueden requerir un rebase mientras otros no, e incluso algunos pueden tener otro mecanismo distinto al pull request, recuerda siempre buscar si el proyecto tiene algún lineamiento para el contribuidor.</p>
 
 <p>¡Happy hacking!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[¡Iniciamos!]]></title>
-    <link href="http://hardcoders.mx/blog/2012/12/06/iniciamos/"/>
-    <updated>2012-12-06T17:11:00-07:00</updated>
-    <id>http://hardcoders.mx/blog/2012/12/06/iniciamos</id>
-    <content type="html"><![CDATA[<p>Bienvenidos a hardcoders.mx, un sito de coder a coder. Más que otro sitio dedicado a repetir noticias esperamos generar contenido útil para todo coder interesado en nuevas tecnologias.</p>
 ]]></content>
   </entry>
   
