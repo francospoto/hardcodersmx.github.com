@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octopress | hardcoders.mx]]></title>
+  <link href="http://hardcoders.mx/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://hardcoders.mx/"/>
+  <updated>2012-12-11T15:44:33-07:00</updated>
+  <id>http://hardcoders.mx/</id>
+  <author>
+    <name><![CDATA[hardcoders.mx]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Como contribuir a un blog en octopress]]></title>
+    <link href="http://hardcoders.mx/blog/2012/12/10/como-contribuir-a-un-blog-en-octopress/"/>
+    <updated>2012-12-10T18:24:00-07:00</updated>
+    <id>http://hardcoders.mx/blog/2012/12/10/como-contribuir-a-un-blog-en-octopress</id>
+    <content type="html"><![CDATA[<p><a href="http://octopress.org/">Octropress</a> es un framework para <a href="http://github.com/mojombo/jekyll">Jekyll</a>, que permite generar tu blog y entre otras gracias está preparado para publicarlo fácilmente en <a href="http://pages.github.com">GitHub Pages</a>.</p>
+
+<p>Este sitio esta hecho en Octopress, por lo que después de leer esta guía introductoria, y tomando de base <a href="/blog/2012/12/06/como-contribuir-a-un-proyecto-en-github/">el ultimo post</a>, estarías ya listo para contribuir tu contenido a hardcoders.</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<h2>Requisitos</h2>
+
+<p>¿Que necesitas para iniciar?, principalmente <a href="http://www.ruby-lang.org/">ruby</a>, que para estas alturas ya es casi seguro que lo tengas en tu equipo, ¿o no?.</p>
+
+<p>Adicionalmente requieres de <a href="http://git-scm.com/">git</a>, no es estrictamente necesario pero sin el no hay manera que contribuyas de vuelta los cambios, a menos que tu fetiche sea enviar patchfiles por correo.</p>
+
+<p>Por ultimo, requieres tener a la mano una guía de <a href="http://daringfireball.net/projects/markdown/syntax">markdown</a> para resolver cualquier duda al momento de que estés formateando tu post.</p>
+
+<h2>fork y clone</h2>
+
+<p>Primero requieres tener una copia del repositorio del blog, tomaremos como ejemplo el <a href="https://github.com/hardcodersmx/hardcodersmx.github.com">repositorio de este mismo blog</a>.</p>
+
+<p>El primer paso es clonar el repositorio en github para tener una copia que puedas modificar, para luego hacer un clone en tu equipo.</p>
+
+<p>```bash Crea un clone de el repositorio</p>
+
+<h1>No olvides cambiar albertein por tu nombre de usuario de github</h1>
+
+<p>git clone git@github.com:albertein/hardcodersmx.github.com
+```</p>
+
+<h2>source y master</h2>
+
+<p>Octopress maneja todo usando dos ramas principales, una de ellas es <code>master</code>, la cual contiene el   sitio ya generado. Debido a que ustedes no harán un deploy al sitio al menos que estén manejando su propio blog, esto lo ignoraremos en este articulo.</p>
+
+<p>La rama que nos interesa es <code>source</code>, en ella se tiene la plataforma de octopress así como el fuente de los posts y paginas. En esta rama es donde necesitas crear tus posts, por lo que hay que asegurarse que te encuentres en esa rama.</p>
+
+<p><code>bash Cambiar a source
+git checkout source
+</code></p>
+
+<h2>Feature branch</h2>
+
+<p>Es una buena practica crear tu post en una rama especifica para eso, en hardcoders recomendamos que el nombre de la ralla se componga de una descripción corta del articulo cambiando espacios por underscores y agregando el prefijo _post, ej: `post_contribuir_blog_octopress.</p>
+
+<p>```bash Crea tu feature branch</p>
+
+<h1>Recuerda asegurarte que te encuentres en la rama source antes de esto</h1>
+
+<p>git checkout -b post_contibuir_blog_octropess
+```</p>
+
+<h2>Crear post</h2>
+
+<p>Para crear un post vamos a hacer uso de unas rake tasks que Octopress ah puesto a nuestra disposición, para iniciar basta con ejecutar la tarea <code>rake new_post</code> y enviar el titulo del post como parámetro, ej:</p>
+
+<p><code>bash No olvides poner el titulo de tu post
+rake new_post["Como contribuir a un blog en octopress"]
+</code></p>
+
+<p>Esto les generara un archivo markdown en el path <code>source/_posts/</code>, el nombre del archivo es el titulo en formato url friendly con el timestamp de prefijo, este es el archivo que tenemos que editar para crear el post.</p>
+
+<h2>Editar contenido</h2>
+
+<p>Una vez creado tenemos que editar el archivo generado para poder poner el contenido de nuestro post. Hay un par de cosas que se tienen que hacer antes de incluir el contenido del articulo.</p>
+
+<ol>
+<li>Indicar el autor, ej: <code>author: "Alberto Avila"</code></li>
+<li>Incluir las categorías, ej: <code>categories: [git, octopress]</code></li>
+</ol>
+
+
+<p>Ya solo queda crear el contenido del articulo, solo recuerden incluir el snippet <code>&lt;!-- more --&gt;</code> para indicar el fin de la introducción que se muestra en la pagina principal, y continuar con el resto del articulo.</p>
+
+<h2>Formato</h2>
+
+<p>Los post están formateados usando Markdown, adicionalmente pueden leer <a href="http://octopress.org/docs/blogging/code/">como compartir code snippets</a>.</p>
+
+<h2>Preview</h2>
+
+<p>Mientras se trabaja con el formato de la entrada es muy posible que se desea pre-visualizar el resultado de el avance hasta el momento, para hacer esto vasta con tener corriendo siempre una tarea.</p>
+
+<p><code>bash Pre-visualizar tus avances.
+rake preview
+</code></p>
+
+<p>Esto tarea mantiene vigilado el sistema de archivos, y genera automáticamente el sitio cada que detecta un cambio, además, corre un servidor web en el puerto 4000, por lo que para pre-visualizar el sitio basta con dirigirte a http://localhost:4000 en tu browser.</p>
+
+<h2>Publicar</h2>
+
+<p>Una vez conforme con el resultado solo hace falta compartir los cambios para que pueda ser publicado.</p>
+
+<p>```bash Publicando tus cambios</p>
+
+<h1>Primero ocupamos agregar al stage nuestro post y hacerle commit</h1>
+
+<h1>Recuerda usar un commit message apropiado</h1>
+
+<p>git add source/_posts/12-12-10-como-contribuir-a-un-blog-en-octopress.markdown
+git commit -m 'Added "como contribuir a un blog en octropress" post'</p>
+
+<h1>Ahora necesitamos actualizar nuestro fork en github para hacer públicos tus cambios.</h1>
+
+<h1>Recuerda usar el nombre de tu rama</h1>
+
+<p>git push origin post_contibuir_blog_octropess</p>
+
+<p>```</p>
+
+<p>Ahora puedes ir a github, buscar tu fork, ir a la vista de la rama que estas usando y solicitar el pull request.</p>
+
+<h2>Aclaración</h2>
+
+<p>Si el interés radica en colaborar con nosotros y todo esto se te hace demasiado laborioso siempre puedes enviarnos un correo con tu entrada en texto llano o (preferentemente) Markdown, y nosotros lo publicamos atribuyéndote el crédito. :)</p>
+]]></content>
+  </entry>
+  
+</feed>
