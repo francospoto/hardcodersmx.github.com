@@ -9,7 +9,7 @@
   <meta name="author" content="hardcoders.mx">
 
   
-  <meta name="description" content="Octropress es un framework para Jekyll, que permite generar tu blog y entre otras gracias está preparado para publicarlo fácilmente en GitHub Pages. &hellip;">
+  <meta name="description" content="Socket.io es una librería para manejar websockets a través de Node.js. Esto nos permite usar websockets en cualquier navegador con una sola librería &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,67 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/11/chat-basico-con-socket-dot-io/">Chat Básico Con Socket.io</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-11T16:52:00-07:00" pubdate data-updated="true">Dec 11<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/12/11/chat-basico-con-socket-dot-io/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://socket.io">Socket.io</a> es una librería para manejar websockets a través de <a href="http://nodejs.org">Node.js</a>. Esto nos permite usar websockets en cualquier navegador con una sola librería.</p>
+
+<p>Los websockets son una comunicación duplex, esto es enviar y recibir información al servidor al mismo tiempo.</p>
+
+<h2>Flujo del chat</h2>
+
+<p>Básicamente el flujo del chat será el siguiente:</p>
+
+<ul>
+<li>Al abrir el cliente nos lanzará un prompt pidiendonos un nick.</li>
+<li>El servidor contendrá un arreglo con los nicks en línea.</li>
+<li>Cuando un user se conecte el servidor agregará el nuevo nick al arreglo y emitirá la lista de los nicks al cliente.</li>
+<li>Cuando un user se desconecte removerá el nick de la lista y emitirá la lista de los nicks al cliente.</li>
+<li>Cuando el cliente reciba una lista de nicks borrará la lista actual y imprirá los nuevos nicks.</li>
+<li>Escribiremos un mensaje y se lo enviaremos al servidor (node.js).</li>
+<li>Luego el servidor enviará el mensaje a todos los sockets que esten conectados, incluyendo al que emitió el mensaje.</li>
+<li>El cliente al recibir un mensaje lo pondrá en la lista de mensajes.</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/12/11/chat-basico-con-socket-dot-io/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -216,6 +277,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/11/chat-basico-con-socket-dot-io/">Chat básico con Socket.io</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/10/como-contribuir-a-un-blog-en-octopress/">Como contribuir a un blog en octopress</a>

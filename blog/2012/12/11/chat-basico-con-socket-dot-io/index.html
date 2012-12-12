@@ -1,24 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[hardcoders.mx]]></title>
-  <link href="http://hardcoders.mx/atom.xml" rel="self"/>
-  <link href="http://hardcoders.mx/"/>
-  <updated>2012-12-12T11:59:04-07:00</updated>
-  <id>http://hardcoders.mx/</id>
-  <author>
-    <name><![CDATA[hardcoders.mx]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Chat básico con Socket.io - hardcoders.mx</title>
+  <meta name="author" content="hardcoders.mx">
 
   
-  <entry>
-    <title type="html"><![CDATA[Chat básico con Socket.io]]></title>
-    <link href="http://hardcoders.mx/blog/2012/12/11/chat-basico-con-socket-dot-io/"/>
-    <updated>2012-12-11T16:52:00-07:00</updated>
-    <id>http://hardcoders.mx/blog/2012/12/11/chat-basico-con-socket-dot-io</id>
-    <content type="html"><![CDATA[<p><a href="http://socket.io">Socket.io</a> es una librería para manejar websockets a través de <a href="http://nodejs.org">Node.js</a>. Esto nos permite usar websockets en cualquier navegador con una sola librería.</p>
+  <meta name="description" content="Socket.io es una librería para manejar websockets a través de Node.js. Esto nos permite usar websockets en cualquier navegador con una sola librería &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hardcoders.mx/blog/2012/12/11/chat-basico-con-socket-dot-io/">
+  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="hardcoders.mx" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36827366-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">hardcoders.mx</a></h1>
+  
+    <h2>Vive para codear</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:hardcoders.mx" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Chat Básico Con Socket.io</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-11T16:52:00-07:00" pubdate data-updated="true">Dec 11<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://socket.io">Socket.io</a> es una librería para manejar websockets a través de <a href="http://nodejs.org">Node.js</a>. Esto nos permite usar websockets en cualquier navegador con una sola librería.</p>
 
 <p>Los websockets son una comunicación duplex, esto es enviar y recibir información al servidor al mismo tiempo.</p>
 
@@ -383,282 +469,166 @@
 <p>Esta fue una versión simple de un chat web. Obviamente podemos hacer más cosas como guardar las conversaciones, hacer login, seleccionar avatar, pero se los dejo a su imaginación.</p>
 
 <p>No olviden dejar sus comentarios, dudas y así. A hardcodear!!</p>
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[Como contribuir a un blog en octopress]]></title>
-    <link href="http://hardcoders.mx/blog/2012/12/10/como-contribuir-a-un-blog-en-octopress/"/>
-    <updated>2012-12-10T18:24:00-07:00</updated>
-    <id>http://hardcoders.mx/blog/2012/12/10/como-contribuir-a-un-blog-en-octopress</id>
-    <content type="html"><![CDATA[<p><a href="http://octopress.org/">Octropress</a> es un framework para <a href="http://github.com/mojombo/jekyll">Jekyll</a>, que permite generar tu blog y entre otras gracias está preparado para publicarlo fácilmente en <a href="http://pages.github.com">GitHub Pages</a>.</p>
 
-<p>Este sitio esta hecho en Octopress, por lo que después de leer esta guía introductoria, y tomando de base <a href="http://hardcoders.mx/blog/2012/12/06/como-contribuir-a-un-proyecto-en-github/">el ultimo post</a>, estarías ya listo para contribuir tu contenido a hardcoders.</p>
+<span class="byline author vcard">Posted by <span class="fn">Isaac Zepeda</span></span>
 
-<!-- more -->
+      
 
 
-<p></p>
-
-<h2>Requisitos</h2>
-
-<p>¿Que necesitas para iniciar?, principalmente <a href="http://www.ruby-lang.org/">ruby</a>, que para estas alturas ya es casi seguro que lo tengas en tu equipo, ¿o no?.</p>
-
-<p>Adicionalmente requieres de <a href="http://git-scm.com/">git</a>, no es estrictamente necesario pero sin el no hay manera que contribuyas de vuelta los cambios, a menos que tu fetiche sea enviar patchfiles por correo.</p>
-
-<p>Por ultimo, requieres tener a la mano una guía de <a href="http://daringfireball.net/projects/markdown/syntax">markdown</a> para resolver cualquier duda al momento de que estés formateando tu post.</p>
-
-<h2>fork y clone</h2>
-
-<p>Primero requieres tener una copia del repositorio del blog, tomaremos como ejemplo el <a href="https://github.com/hardcodersmx/hardcodersmx.github.com">repositorio de este mismo blog</a>.</p>
-
-<p>El primer paso es clonar el repositorio en github para tener una copia que puedas modificar, para luego hacer un clone en tu equipo.</p>
-
-<figure class='code'><figcaption><span>Crea un clone de el repositorio </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># No olvides cambiar albertein por tu nombre de usuario de github</span>
-</span><span class='line'>git clone git@github.com:albertein/hardcodersmx.github.com
-</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>source y master</h2>
-
-<p>Octopress maneja todo usando dos ramas principales, una de ellas es <code>master</code>, la cual contiene el   sitio ya generado. Debido a que ustedes no harán un deploy al sitio al menos que estén manejando su propio blog, esto lo ignoraremos en este articulo.</p>
-
-<p>La rama que nos interesa es <code>source</code>, en ella se tiene la plataforma de octopress así como el fuente de los posts y paginas. En esta rama es donde necesitas crear tus posts, por lo que hay que asegurarse que te encuentres en esa rama.</p>
-
-<figure class='code'><figcaption><span>Cambiar a source</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git checkout <span class="nb">source</span>
-</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Feature branch</h2>
-
-<p>Es una buena practica crear tu post en una rama especifica para eso, en hardcoders recomendamos que el nombre de la ralla se componga de una descripción corta del articulo cambiando espacios por underscores y agregando el prefijo _post, ej: `post_contribuir_blog_octopress.</p>
-
-<figure class='code'><figcaption><span>Crea tu feature branch</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Recuerda asegurarte que te encuentres en la rama source antes de esto</span>
-</span><span class='line'>git checkout -b post_contibuir_blog_octropess
-</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Crear post</h2>
-
-<p>Para crear un post vamos a hacer uso de unas rake tasks que Octopress ah puesto a nuestra disposición, para iniciar basta con ejecutar la tarea <code>rake new_post</code> y enviar el titulo del post como parámetro, ej:</p>
-
-<figure class='code'><figcaption><span>No olvides poner el titulo de tu post</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_post<span class="o">[</span><span class="s2">&quot;Como contribuir a un blog en octopress&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Esto les generara un archivo markdown en el path <code>source/_posts/</code>, el nombre del archivo es el titulo en formato url friendly con el timestamp de prefijo, este es el archivo que tenemos que editar para crear el post.</p>
-
-<h2>Editar contenido</h2>
-
-<p>Una vez creado tenemos que editar el archivo generado para poder poner el contenido de nuestro post. Hay un par de cosas que se tienen que hacer antes de incluir el contenido del articulo.</p>
-
-<ol>
-<li>Indicar el autor, ej: <code>author: "Alberto Avila"</code></li>
-<li>Incluir las categorías, ej: <code>categories: [git, octopress]</code></li>
-</ol>
-
-
-<p>Ya solo queda crear el contenido del articulo, solo recuerden incluir el snippet <code>&lt;!-- more --&gt;</code> para indicar el fin de la introducción que se muestra en la pagina principal, y continuar con el resto del articulo.</p>
-
-<h2>Formato</h2>
-
-<p>Los post están formateados usando Markdown, adicionalmente pueden leer <a href="http://octopress.org/docs/blogging/code/">como compartir code snippets</a>.</p>
-
-<h2>Preview</h2>
-
-<p>Mientras se trabaja con el formato de la entrada es muy posible que se desea pre-visualizar el resultado de el avance hasta el momento, para hacer esto vasta con tener corriendo siempre una tarea.</p>
-
-<figure class='code'><figcaption><span>Pre-visualizar tus avances.</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake preview
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Esto tarea mantiene vigilado el sistema de archivos, y genera automáticamente el sitio cada que detecta un cambio, además, corre un servidor web en el puerto 4000, por lo que para pre-visualizar el sitio basta con dirigirte a http://localhost:4000 en tu browser.</p>
-
-<h2>Publicar</h2>
-
-<p>Una vez conforme con el resultado solo hace falta compartir los cambios para que pueda ser publicado.</p>
-
-<figure class='code'><figcaption><span>Publicando tus cambios</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Primero ocupamos agregar al stage nuestro post y hacerle commit</span>
-</span><span class='line'><span class="c"># Recuerda usar un commit message apropiado</span>
-</span><span class='line'>git add <span class="nb">source</span>/_posts/12-12-10-como-contribuir-a-un-blog-en-octopress.markdown
-</span><span class='line'>git commit -m <span class="s1">&#39;Added &quot;como contribuir a un blog en octropress&quot; post&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># Ahora necesitamos actualizar nuestro fork en github para hacer públicos tus cambios.</span>
-</span><span class='line'><span class="c"># Recuerda usar el nombre de tu rama</span>
-</span><span class='line'>
-</span><span class='line'>git push origin post_contibuir_blog_octropess
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Ahora puedes ir a github, buscar tu fork, ir a la vista de la rama que estas usando y solicitar el pull request.</p>
-
-<h2>Aclaración</h2>
-
-<p>Si el interés radica en colaborar con nosotros y todo esto se te hace demasiado laborioso siempre puedes enviarnos un correo con tu entrada en texto llano o (preferentemente) Markdown, y nosotros lo publicamos atribuyéndote el crédito. :)</p>
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[Como contribuir a un proyecto en github]]></title>
-    <link href="http://hardcoders.mx/blog/2012/12/06/como-contribuir-a-un-proyecto-en-github/"/>
-    <updated>2012-12-06T17:24:00-07:00</updated>
-    <id>http://hardcoders.mx/blog/2012/12/06/como-contribuir-a-un-proyecto-en-github</id>
-    <content type="html"><![CDATA[<p>git como herramienta de versionamiento ha ganado mucha popularidad, y con el github como repositorio de código (Algunos podrían incluso decir que la influencia es en sentido contrario). Por lo que no es raro que la mayoria de herramientas y librearías que usas en el día a día estén hospedadas en github, lo que hace realmente valioso que se tenga al menos conocimientos rudimentarios de git, y más aun saber como poder contribuir parches ó cambios a tus proyectos preferidos.</p>
-
-<p>Espero que esta breve guía ayude a familiarizar a los no iniciados en un workflow sencillo que permita colaborar en una gran cantidad de proyectos de software.</p>
-
-<!-- more -->
 
 
-<p></p>
+<time datetime="2012-12-11T16:52:00-07:00" pubdate data-updated="true">Dec 11<span>th</span>, 2012</time>
+      
 
-<p>Estas trabajando y encontraste un bug en una librería, esta librería está escrita en un lenguaje que conoces y decides aventarte y resolver el problema.</p>
-
-<p>Tomaremos como base que conoces los comandos básicos de git y que ya tienes tu cuenta creada y configurada en github para poder trabajar, si no es así puedes consultar el libro <a href="http://git-scm.com/book">Pro Git</a> completamente gratuito.</p>
-
-<h2>Creando tu fork</h2>
-
-<p>El primer paso es crear un fork del repositorio al cual quieres colaborar, los manteiners del proyecto no confían en cualquier persona random del internet para que muevan su código, por lo que si quieres hacer tus cambios necesitas primero crear un fork, que no es mas que crear una copia del repositorio en tu cuenta de github local en la cual tu tengas control total.</p>
-
-<h2>Clona tu fork en tu equipo</h2>
-
-<p>Supongamos que creaste un fork de <a href="https://github.com/hardcodersmx/hardcodersmx.github.com">el repositorio de esta web</a>, ahora requieres hacer un clone. ej:</p>
-
-<figure class='code'><figcaption><span>Clonar tu repositorio (reemplaza albertein por tu usuario)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git@github.com:albertein/hardcodersmx.github.com
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Con esto tendrás una copia local (clone) de tu fork en github, ya estamos casi listos para iniciar a trabajar.</p>
-
-<h2>Crea tu feature branch</h2>
-
-<p>En este momento estas listo para corregir el bug, pero antes de ponerte a tirar código hay algo mas que se tiene que hacer.</p>
-
-<p>La mayoría de los proyectos, si no es que casi todos, prefieren que todos tus cambios lo hagas en un feature branch, esto es, que crees una nueva rama de desarrollo para que crees tus cambios, esto es útil para aislar tus cambios de todo lo demás, y te puede ser útil si en medio del desarrollo encuentras algún otro bug, en lugar de dejar todo embarrado en la misma rama deberás crear una nueva rama para ese otro feature y así el mantainer del proyecto puede aplicar los cambios individualmente.</p>
-
-<p>Recuerda siempre usar un nombre descriptivo para la rama que vas a crear.</p>
-
-<figure class='code'><figcaption><span>Crea tu feature branch (Dentro de tu proyecto, ¡claro!)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git checkout -b fix_issue_123
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>El comando anterior crea la nueva rama y te cambiá a ella para que puedas trabajar.</p>
-
-<h2>¡Realiza tus cambios!</h2>
-
-<p>¡Ahora si!, realiza todos los cambios que requieras, agrega al stage tus archivos y haz un commit con un mensaje descriptivo.</p>
-
-<figure class='code'><figcaption><span>Ejemplo</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#Edita test1.foo</span>
-</span><span class='line'><span class="c">#Edita test2.foo</span>
-</span><span class='line'>git add test1.foo test2.foo
-</span><span class='line'>git commit -m <span class="s1">&#39;Added two test cases for feature 123&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Rebase</h2>
-
-<p>Este paso puede ser opcional, dependiendo del tiempo que te haya tomado realizar tus cambios y del proyecto al que quieras contribuir.</p>
-
-<p>Durante el tiempo que tomaste en crear tus cambios el desarrollo del proyecto original continuo, por lo que es muy probable que tengas que realizar un rebase o mínimo un merge convencional para que puedan integrar tus cambios.</p>
-
-<p>Para eso primero ocupamos obtener todos los cambios que hayan ocurrido en el repositorio original</p>
-
-<figure class='code'><figcaption><span>Obtener cambios desde mainstream</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Los nuevos cambios los integraremos sobre master </span>
-</span><span class='line'><span class="c"># y no sobre nuestro feature branch</span>
-</span><span class='line'>git checkout master
-</span><span class='line'>
-</span><span class='line'><span class="c"># Para obtener los nuevos cambios ocupamos agregar un &quot;remote&quot; para que git</span>
-</span><span class='line'><span class="c"># pueda localizar el repositorio convencional, usualmente al remote que apunta al</span>
-</span><span class='line'><span class="c"># repositorio tradicional se le llama mainstream</span>
-</span><span class='line'>git remote add mainstream git@github.com:hardcodersmx/hardodersmx.github.com
-</span><span class='line'>
-</span><span class='line'><span class="c"># Posteriormente bajamos todos los cambios, si hiciste caso y no desarrollaste nada </span>
-</span><span class='line'><span class="c"># sobre master no deberías de tener ningún problema ni conflicto.</span>
-</span><span class='line'>git pull mainstream master
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Ya que contamos todos con todos los nuevos cambios en el repositorio es hora de hacer un rebase, al hacer un rebase aplicamos todos los commits que se encuentren en mainstream (master) y no en nuestra feature branch, para posteriormente aplicar el commit de nuestra rama al ultimo, como si fuera el ultimo cambio que se hubiera realizado. Recomiendo leer <a href="http://git-scm.com/book/en/Git-Branching-Rebasing">3.6 Git Branching - Rebasing</a> para comprender completamente este paso.</p>
-
-<figure class='code'><figcaption><span>Hacer el rebase</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Primero nos regresamos a nuestro feature branch</span>
-</span><span class='line'>git checkout fix_issue_123
-</span><span class='line'>
-</span><span class='line'><span class="c">#Para hacer el rebase desde master a nuestra rama actual</span>
-</span><span class='line'>git rebase master
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Si llega a ocurrir cualquier conflicto en este punto tenemos que corregirlo y continuar con el proceso.</p>
-
-<h2>Subir cambios</h2>
-
-<p>Todo esta listo, el problema es que nadie mas que tu puede ver tus cambios, es hora de subir tus cambios a github.</p>
-
-<figure class='code'><figcaption><span>push a origin</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Necesitamos subir nuestro feature branch a github para que el mundo lo vea</span>
-</span><span class='line'>git push origin fix_issue_123
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Pull request</h2>
-
-<p>Ahora tan solo tienes que ir a github, cambiar a tu feature branch y hacer el pull request. Recuerda poner un mensaje entendible y conciso de que se trata. Después de eso tan solo falta darle seguimiento y esperar a que se apruebe.</p>
-
-<h2>Aclaración</h2>
-
-<p>No todos los proyectos de software se manejan de la misma manera, algunos pueden requerir un rebase mientras otros no, e incluso algunos pueden tener otro mecanismo distinto al pull request, recuerda siempre buscar si el proyecto tiene algún lineamiento para el contribuidor.</p>
-
-<p>¡Happy hacking!</p>
-]]></content>
-  </entry>
+<span class="categories">
   
-  <entry>
-    <title type="html"><![CDATA[¡Iniciamos!]]></title>
-    <link href="http://hardcoders.mx/blog/2012/12/06/iniciamos/"/>
-    <updated>2012-12-06T17:11:00-07:00</updated>
-    <id>http://hardcoders.mx/blog/2012/12/06/iniciamos</id>
-    <content type="html"><![CDATA[<p>Bienvenidos a hardcoders.mx, un sito de coder a coder. Más que otro sitio dedicado a repetir noticias esperamos generar contenido útil para todo coder interesado en nuevas tecnologias.</p>
-]]></content>
-  </entry>
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/node-js/'>node.js</a>, <a class='category' href='/blog/categories/socket-io/'>socket.io</a>
   
-</feed>
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://hardcoders.mx/blog/2012/12/11/chat-basico-con-socket-dot-io/" data-via="" data-counturl="http://hardcoders.mx/blog/2012/12/11/chat-basico-con-socket-dot-io/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/10/como-contribuir-a-un-blog-en-octopress/" title="Previous Post: Como contribuir a un blog en octopress">&laquo; Como contribuir a un blog en octopress</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/11/chat-basico-con-socket-dot-io/">Chat básico con Socket.io</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/10/como-contribuir-a-un-blog-en-octopress/">Como contribuir a un blog en octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/06/como-contribuir-a-un-proyecto-en-github/">Como contribuir a un proyecto en github</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/06/iniciamos/">¡Iniciamos!</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - hardcoders.mx -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'hardcoders';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hardcoders.mx/blog/2012/12/11/chat-basico-con-socket-dot-io/';
+        var disqus_url = 'http://hardcoders.mx/blog/2012/12/11/chat-basico-con-socket-dot-io/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: javascript | hardcoders.mx]]></title>
+  <link href="http://hardcoders.mx/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://hardcoders.mx/"/>
+  <updated>2012-12-12T11:59:04-07:00</updated>
+  <id>http://hardcoders.mx/</id>
+  <author>
+    <name><![CDATA[hardcoders.mx]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Chat básico con Socket.io]]></title>
+    <link href="http://hardcoders.mx/blog/2012/12/11/chat-basico-con-socket-dot-io/"/>
+    <updated>2012-12-11T16:52:00-07:00</updated>
+    <id>http://hardcoders.mx/blog/2012/12/11/chat-basico-con-socket-dot-io</id>
+    <content type="html"><![CDATA[<p><a href="http://socket.io">Socket.io</a> es una librería para manejar websockets a través de <a href="http://nodejs.org">Node.js</a>. Esto nos permite usar websockets en cualquier navegador con una sola librería.</p>
+
+<p>Los websockets son una comunicación duplex, esto es enviar y recibir información al servidor al mismo tiempo.</p>
+
+<h2>Flujo del chat</h2>
+
+<p>Básicamente el flujo del chat será el siguiente:</p>
+
+<ul>
+<li>Al abrir el cliente nos lanzará un prompt pidiendonos un nick.</li>
+<li>El servidor contendrá un arreglo con los nicks en línea.</li>
+<li>Cuando un user se conecte el servidor agregará el nuevo nick al arreglo y emitirá la lista de los nicks al cliente.</li>
+<li>Cuando un user se desconecte removerá el nick de la lista y emitirá la lista de los nicks al cliente.</li>
+<li>Cuando el cliente reciba una lista de nicks borrará la lista actual y imprirá los nuevos nicks.</li>
+<li>Escribiremos un mensaje y se lo enviaremos al servidor (node.js).</li>
+<li>Luego el servidor enviará el mensaje a todos los sockets que esten conectados, incluyendo al que emitió el mensaje.</li>
+<li>El cliente al recibir un mensaje lo pondrá en la lista de mensajes.</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h2>Requisitos</h2>
+
+<p>Instalar <a href="http://nodejs.org">Node.js</a>, en GNU/Linux <a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager">recomiendo usar alguna de estas formas</a> y en Mac o Windows lo mejor sería <a href="http://nodejs.org/download/">descargar el instalable</a>.</p>
+
+<p>Instalar <a href="http://socket.io">Socket.io</a>, si instalaron el npm (Node Packaged Modules) lo pueden instalar con un simple comando:</p>
+
+<p>```bash Instalar socket.io</p>
+
+<h1>Ejecutar comando en la carpeta que tendrá el archivo js del servidor (node.js)</h1>
+
+<p>npm install socket.io
+```</p>
+
+<p>Descargar <a href="http://jquery.com/">jQuery</a>, este nos facilitará la vida.</p>
+
+<h2>A codear!</h2>
+
+<p>Un chat es una aplicación cliente-servidor. Nuestro <strong>cliente</strong> corre en un navegador y estará conformado por un archivo HTML (presentación de la información), un css (estilos) y Javascript (que controla la comunicación con el servidor y todo el dinamismo). El <strong>servidor</strong> estará conformado por un archivo javascript que ejecutaremos con node.js.</p>
+
+<p>Primero creamos un html que será parte del cliente.</p>
+
+<p>```html index.html
+&lt;!DOCTYPE html>
+<html>
+<head></p>
+
+<pre><code>&lt;link rel="stylesheet" type="text/css" href="css/chat.css" /&gt;
+</code></pre>
+
+<p></head>
+<body></p>
+
+<pre><code>&lt;div id="container"&gt;
+    &lt;section id="messages-container"&gt;
+        &lt;div id="messages"&gt;&lt;/div&gt;
+    &lt;/section&gt;
+    &lt;section id="users"&gt;&lt;/section&gt;
+
+    &lt;div class="clear"&gt;&lt;/div&gt;
+
+    &lt;section id="msg-input"&gt;
+        &lt;input name="message" size="50" type="text" placeholder="Mensaje..." /&gt;
+    &lt;/section&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="js/jquery-1.8.2.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="js/chat.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p></body>
+</html>
+```</p>
+
+<p>En línea 21 estamos agregando el javascript de socket.io, esto funcionará solo si tenemos corriendo nuestro archivo node.js en el servidor (un poco de esto más adelante).</p>
+
+<p>Ahora el CSS</p>
+
+<p>```css css/chat.css</p>
+
+<h1>container {</h1>
+
+<pre><code>margin: 10px 0px 0px 10px;
+padding: 10px;
+</code></pre>
+
+<p>}</p>
+
+<h1>messages-container {</h1>
+
+<pre><code>float: left;
+border: 1px solid #CCCCCC;
+width: 800px;
+height: 300px;
+overflow: auto;
+</code></pre>
+
+<p>}</p>
+
+<h1>users {</h1>
+
+<pre><code>float: left;
+margin-left: 10px;
+border: 1px solid #CCC;
+overflow: auto;
+height: 300px;
+width: 200px;
+</code></pre>
+
+<p>}</p>
+
+<p>.clear {</p>
+
+<pre><code>clear: both;
+</code></pre>
+
+<p>}</p>
+
+<h1>msg-input {</h1>
+
+<pre><code>margin-top: 20px;
+</code></pre>
+
+<p>}</p>
+
+<h1>msg-input input {</h1>
+
+<pre><code>width: 800px;
+height: 30px;
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>Javascript en el servidor</h2>
+
+<p>Ahora creamos un archivo javascript que será el que corra en el lado del servidor. Básicamente lo que se hace aquí es recibir mensajes del cliente y emitir mensajes al cliente o clientes que estan conectados.</p>
+
+<p>Cuando emitimos un mensaje a los clientes le decimos el nombre del mensaje seguido por las variables que queremos emitir al servidor.</p>
+
+<p>Node.js está basado en eventos por lo tanto para recibir mensajes, registramos dicho mensaje y pasamos una función como callback que se ejecutará cuando dicho mensaje sea recibido y donde cada parámetro del callback será una variable emitida por la otra parte.</p>
+
+<p>Piece of cake!</p>
+
+<p>```javascript chat-server.js
+// Este archivo, por simplicidad, debe de estar en
+// la misma carpeta donde instalaste socket.io</p>
+
+<p>// Importamos socket.io y asignamos el puerto por donde recibirá la conexión
+var io = require("socket.io").listen(8080);
+var nicks = [];</p>
+
+<p>// Cuando alguien se conecte
+io.sockets.on("connection", function(socket) {</p>
+
+<pre><code>// Cuando el cliente emita el mensaje nick
+socket.on("nick", function(nick) {
+    nicks.push(nick); // Guardamos el nick
+    io.sockets.emit("nicks", nicks); // Emitimos al cliente todos los nicks
+
+    // Cuando el cliente ya haya enviando su nick
+    // y emita un mensaje
+    socket.on("msg", function(msg) {
+        // Emitimos el nick y el mensaje a todos los sockets conectados (clientes).
+        // Podemos usar la variable nick gracias a que sucede un closure :)
+        io.sockets.emit("msg", nick, msg);
+    });
+
+    // Cuando alguien se desconecte
+    // eliminamos el nick del arreglo
+    // y emitimos de nuevo todos los nicks
+    socket.on("disconnect", function() {
+        nicks.splice(nicks.indexOf(nick), 1);
+        io.sockets.emit("nicks", nicks);
+    });
+});
+</code></pre>
+
+<p>});
+```</p>
+
+<p>Con esto ya queda listo el javascript del lado del servidor, ahora tenemos que levantar el servidor:</p>
+
+<p><code>bash Levantar el servidor de node.js
+nodejs chat-server.js
+</code></p>
+
+<p>Para terminar el proceso presionamos CTRL+C. Recuerda que cada vez que modifiques el chat-server.js hay que terminar el servidor y volverlo a levantar.</p>
+
+<h2>Javascript en el cliente</h2>
+
+<p>Al igual que el javascript del servidor, el cliente recibe y emite mensajes, además de que manipula el DOM, usando jQuery.</p>
+
+<p>```javascript js/chat.js
+$(function() {</p>
+
+<pre><code>// Nos conectamos al server, esto emite un
+// mensaje de "connection"
+var socket = io.connect("http://localhost:8080");
+
+// Cuando la conección es exitosa le preguntamos al user
+// su nick mediante un prompt y lo emitimos al servidor
+socket.on("connect", function() {
+    socket.emit("nick", prompt("Nick?"));
+});
+
+$('#msg-input input').keypress(function(e) {
+    if (e.which == 13) {
+        // Cuando se presiona enter en el input
+        // emitimos el contenido de dicho input
+        socket.emit("msg", $(this).val());
+        $(this).val('');
+    }
+});
+
+// Cuando el cliente recibe un mensaje, creamos un div
+// Ponemos el nick y el mensaje dentro y lo agregamos
+// a la lista de mensajes
+socket.on("msg", function(nick, msg) {
+    $(document.createElement("div"))
+    .html("&lt;strong&gt;" + nick + ": &lt;/strong&gt;" + msg)
+    .appendTo("#messages");
+
+    // Esto nos permite mantener visible el último mensaje
+    $('#messages-container').scrollTop($('#messages').height());
+});
+
+// Cuando el cliente recibe una lista de nicks
+socket.on("nicks", function(nicks) {
+    $("#users").html('');
+    for (var i = 0; i &lt; nicks.length; i++) {
+        $(document.createElement("li")).text(nicks[i]).appendTo("#users");
+    }
+});
+</code></pre>
+
+<p>});
+```</p>
+
+<p>Una pequeña explicación. En la línea 21 estamos escuchando el mensaje "msg" y cuando el servidor lo emita se ejecutala funcion que esta como segundo parámetro y esta recibe dos parámetros, si recordamos el código chat-server.js en la línea 21:</p>
+
+<p><code>javascript
+...
+io.sockets.emit("msg", nick, msg);
+...
+</code></p>
+
+<p>Estamos emitiendo el mensaje "msg" a todos los sockets conectados con el método emit que, en este caso, recibe 3 parámetros: el primero el nombre del mensaje y luego el nick y el msg. Como se puede ver el envio y recepción de variables entre servidor y cliente es muy transparente.</p>
+
+<h2>Fin</h2>
+
+<p>Esta fue una versión simple de un chat web. Obviamente podemos hacer más cosas como guardar las conversaciones, hacer login, seleccionar avatar, pero se los dejo a su imaginación.</p>
+
+<p>No olviden dejar sus comentarios, dudas y así. A hardcodear!!</p>
+]]></content>
+  </entry>
+  
+</feed>
