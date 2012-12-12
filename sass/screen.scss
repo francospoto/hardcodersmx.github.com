@@ -44,6 +44,15 @@ $heading-font-family: "PT Serif", "Georgia", "Helvetica Neue", Arial, sans-serif
 @include global-reset;
 @include reset-html5;
 
-@import "solarized";
-@import "syntax";
+@import "syntax/solarized";
+@import "syntax/syntax";
 
+@import "toast/reset";
+@import "toast/grid";
+@import "toast/type";
+
+
+.header-wrap {
+  width: 100%;
+  background: #222;
+}
