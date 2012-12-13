@@ -11,6 +11,8 @@ author: "Isaac Zepeda"
 
 Los websockets son una comunicación duplex, esto es enviar y recibir información al servidor al mismo tiempo.
 
+*Actualización: Demo agregado*
+
 Flujo del chat
 --------------
 
@@ -229,6 +231,15 @@ io.sockets.emit("msg", nick, msg);
 ```
 
 Estamos emitiendo el mensaje "msg" a todos los sockets conectados con el método emit que, en este caso, recibe 3 parámetros: el primero el nombre del mensaje y luego el nick y el msg. Como se puede ver el envio y recepción de variables entre servidor y cliente es muy transparente.
+
+Demo
+-----
+
+Después de un rato de moverle a un par de proveedores de hosting para node.js termine usando [dotcloud](http://dotcloud.com) y ya quedó el demo tan solicitado :).
+
+[http://soygeek.com.mx/demos/chat](http://soygeek.com.mx/demos/chat)
+
+Si no haya nadie conectado con quien probar lo que pueden hacer es abrir el demo en dos pestañas de su navegador poner nicks diferentes y empezar a testear :).
 
 Fin
 ----
