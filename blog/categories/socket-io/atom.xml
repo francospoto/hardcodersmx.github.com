@@ -4,7 +4,7 @@
   <title><![CDATA[Category: socket.io | hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/blog/categories/socket-io/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2012-12-12T11:59:04-07:00</updated>
+  <updated>2012-12-12T18:23:35-07:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -21,6 +21,8 @@
     <content type="html"><![CDATA[<p><a href="http://socket.io">Socket.io</a> es una librería para manejar websockets a través de <a href="http://nodejs.org">Node.js</a>. Esto nos permite usar websockets en cualquier navegador con una sola librería.</p>
 
 <p>Los websockets son una comunicación duplex, esto es enviar y recibir información al servidor al mismo tiempo.</p>
+
+<p><em>Actualización: Demo agregado</em></p>
 
 <h2>Flujo del chat</h2>
 
@@ -269,6 +271,14 @@ io.sockets.emit("msg", nick, msg);
 </code></p>
 
 <p>Estamos emitiendo el mensaje "msg" a todos los sockets conectados con el método emit que, en este caso, recibe 3 parámetros: el primero el nombre del mensaje y luego el nick y el msg. Como se puede ver el envio y recepción de variables entre servidor y cliente es muy transparente.</p>
+
+<h2>Demo</h2>
+
+<p>Después de un rato de moverle a un par de proveedores de hosting para node.js termine usando <a href="http://dotcloud.com">dotcloud</a> y ya quedó el demo tan solicitado :).</p>
+
+<p><a href="http://soygeek.com.mx/demos/chat">http://soygeek.com.mx/demos/chat</a></p>
+
+<p>Si no haya nadie conectado con quien probar lo que pueden hacer es abrir el demo en dos pestañas de su navegador poner nicks diferentes y empezar a testear :).</p>
 
 <h2>Fin</h2>
 
