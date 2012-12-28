@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Objetos en Javascript"
-date: 2012-12-24 17:26
+date: 2012-12-27 19:00
 comments: true
 categories: [Javascript]
 author: Isaac Zepeda
