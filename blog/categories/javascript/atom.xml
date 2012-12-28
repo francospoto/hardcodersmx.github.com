@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2012-12-27T19:42:56-07:00</updated>
+  <updated>2012-12-28T11:14:18-07:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -63,7 +63,11 @@ alert(persona2.nombre); // Muestra "undefined"
 
 <h2>Objetos Literales</h2>
 
-<p>También podemos crear objetos usando el Javascript Object Notation (JSON).</p>
+<p><del>También podemos crear objetos usando el Javascript Object Notation (JSON).</del></p>
+
+<p><strong>Nota Aclaratoria:</strong> usar objetos literales no significa usar JSON, JSON es una notación basada ó influenciada por la sintaxis de los objetos literales de Javascript. Un object literal es una manera de definir un objeto conforme a la sintaxis definida de Javascript. JSON en cambio es un formato de intercambio de información que se codifica con un formato similar al definido para los objetos literales. <em>(Gracias a Alberto Ávila por esta aclaración en sus comentarios)</em></p>
+
+<p>En un objeto literal las propiedades son creadas como lista de pares key/value.</p>
 
 <p>```javascript Objetos literales
 var persona = {</p>
