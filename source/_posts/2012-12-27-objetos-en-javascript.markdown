@@ -148,8 +148,6 @@ Persona.prototype.correr = function() {
 
 El ```prototype``` es un objeto que tienen todos los objetos en Javascript, cuando queremos acceder a una propiedad ```Persona.nombre``` Javascript busca la propiedad en el objeto mismo, si no lo encuentra va lo busca al ```prototype```, si no la encuentra busca dentro del ```prototype``` del objeto ```prototype```, esto se conoce como _prototype-chain_ y nos sirve para la herencia.
 
-Nota: En futuro cercano haré un post donde detallaré esto acerca del ```prototype```.
-
 Herencia
 --------
 
