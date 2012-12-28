@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2012-12-27T19:25:13-07:00</updated>
+  <updated>2012-12-27T19:42:56-07:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -186,8 +186,6 @@ this.caminar = function() {
 ```</p>
 
 <p>El <code>prototype</code> es un objeto que tienen todos los objetos en Javascript, cuando queremos acceder a una propiedad <code>Persona.nombre</code> Javascript busca la propiedad en el objeto mismo, si no lo encuentra va lo busca al <code>prototype</code>, si no la encuentra busca dentro del <code>prototype</code> del objeto <code>prototype</code>, esto se conoce como <em>prototype-chain</em> y nos sirve para la herencia.</p>
-
-<p>Nota: En futuro cercano haré un post donde detallaré esto acerca del <code>prototype</code>.</p>
 
 <h2>Herencia</h2>
 
