@@ -47,7 +47,11 @@ alert(persona2.nombre); // Muestra "undefined"
 Objetos Literales
 ------------------
 
-También podemos crear objetos usando el Javascript Object Notation (JSON).
+<del>También podemos crear objetos usando el Javascript Object Notation (JSON).</del>
+
+**Nota Aclaratoria:** usar objetos literales no significa usar JSON, JSON es una notación basada ó influenciada por la sintaxis de los objetos literales de Javascript. Un object literal es una manera de definir un objeto conforme a la sintaxis definida de Javascript. JSON en cambio es un formato de intercambio de información que se codifica con un formato similar al definido para los objetos literales. _(Gracias a Alberto Ávila por esta aclaración en sus comentarios)_
+
+En un objeto literal las propiedades son creadas como lista de pares key/value.
 
 ```javascript Objetos literales
 var persona = {
