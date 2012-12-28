@@ -1,0 +1,610 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Objetos en Javascript - hardcoders.mx</title>
+  <meta name="author" content="hardcoders.mx">
+
+  
+  <meta name="description" content="En Javascript hay diversas formas de crear objetos, todas son válidas y sirven para cumplir diversos propósitos. Javascript está basado en prototipos &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hardcoders.mx/blog/2012/12/27/objetos-en-javascript/">
+  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="hardcoders.mx" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36827366-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">hardcoders.mx</a></h1>
+  
+    <h2>Vive para codear</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:hardcoders.mx" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Objetos en Javascript</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-27T19:00:00-07:00" pubdate data-updated="true">Dec 27<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>En Javascript hay diversas formas de crear objetos, todas son válidas y sirven para cumplir diversos propósitos. Javascript está basado en prototipos y no en clases (como Java o C#). En este tutorial veremos:</p>
+
+<ul>
+<li>Objetos simples.</li>
+<li>Objetos literales.</li>
+<li>Funciones como constructores.</li>
+<li>Herencia.</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h2>Objetos Simples</h2>
+
+<p>La forma más simple de crear un objeto es instanciar un objeto de tipo <code>Object</code> y agregarle las propiedades y métodos dinámicamente:</p>
+
+<figure class='code'><figcaption><span>Objetos simples</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">persona</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+</span><span class='line'><span class="nx">persona</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">=</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">persona</span><span class="p">.</span><span class="nx">edad</span> <span class="o">=</span> <span class="mi">28</span><span class="p">;</span>
+</span><span class='line'><span class="nx">persona</span><span class="p">.</span><span class="nx">imprimir</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">edad</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">persona</span><span class="p">.</span><span class="nx">imprimir</span><span class="p">();</span> <span class="c1">// Mostrará un alert &quot;Isaac 28&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cuando agregamos propiedades de forma dinámica, estas solo se agregan al objeto en cuestión y nuevos objetos instanciados no tendrán estas propiedades:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">persona</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+</span><span class='line'><span class="nx">persona</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">=</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">persona2</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">persona</span><span class="p">.</span><span class="nx">nombre</span><span class="p">);</span> <span class="c1">// Muestra &quot;Isaac&quot;</span>
+</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">persona2</span><span class="p">.</span><span class="nx">nombre</span><span class="p">);</span> <span class="c1">// Muestra &quot;undefined&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Objetos Literales</h2>
+
+<p>También podemos crear objetos usando el Javascript Object Notation (JSON).</p>
+
+<figure class='code'><figcaption><span>Objetos literales</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">persona</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">nombre</span><span class="o">:</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">edad</span><span class="o">:</span> <span class="mi">28</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">imprimir</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">edad</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">persona</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">=</span> <span class="s2">&quot;Isaac Zepeda&quot;</span><span class="p">;</span> <span class="c1">// Puedo modificar sus propiedades</span>
+</span><span class='line'><span class="nx">persona</span><span class="p">.</span><span class="nx">imprimir</span><span class="p">();</span> <span class="c1">// E invocar sus métodos</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Funciones como constructores</h2>
+
+<p>Como pueden notar cuando construimos objetos simples o literales no hay manera de crear nuevas o varias instancias de estos objetos, digamos que necesito un objeto <code>Persona</code> y crear varias instancias de el, aquí es donde entran las funciones como constructores:</p>
+
+<figure class='code'><figcaption><span>Funciones como constructores</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">Persona</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Para definir variables de instancia usamos la palabra reservada &#39;this&#39;</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">=</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">edad</span> <span class="o">=</span> <span class="mi">28</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Esta es una variable local a la función y no puede ser accedida desde fuera.</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">count</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Para instanciar un nuevo objeto usamos la palabra reservada new</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">persona1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Persona</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">persona2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Persona</span><span class="p">();</span>
+</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">persona1</span><span class="p">.</span><span class="nx">nombre</span><span class="p">);</span> <span class="c1">// Isaac</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">persona2</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">=</span> <span class="s2">&quot;Pancho&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">persona2</span><span class="p">.</span><span class="nx">nombre</span><span class="p">);</span> <span class="c1">// Pancho</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// undefined, no se puede acceder ya que es una variable local no de instancia</span>
+</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">persona1</span><span class="p">.</span><span class="nx">count</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ahora podemos pasarle valores al constructor para que establezca <code>nombre</code> y <code>edad</code> con el valor que nos plazca, y si no están definidos que tome un valor por default usando el operador <code>||</code>.</p>
+
+<figure class='code'><figcaption><span>Constructor con argumentos</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">Persona</span><span class="p">(</span><span class="nx">nombre</span><span class="p">,</span> <span class="nx">edad</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// si nombre es indefinido o nulo tomará el valor &quot;Isaac&quot;</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">=</span> <span class="nx">nombre</span> <span class="o">||</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">edad</span> <span class="o">=</span> <span class="nx">edad</span> <span class="o">||</span> <span class="mi">28</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">p1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Persona</span><span class="p">(</span><span class="s2">&quot;Alberto&quot;</span><span class="p">,</span> <span class="mi">17</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">p2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Persona</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Agregando Métodos</h3>
+
+<p>Hay dos maneras de agregar métodos, la primera es agregarlos como cualquier otra propiedad dentro del constructor y la otra definiendolo es su <code>prototype</code>.</p>
+
+<figure class='code'><figcaption><span>Defiendo el método dentro del constructor</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">Persona</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">=</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">caminar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; está caminando&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Definiendo el método es su prototype</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">Persona</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">=</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Persona</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">caminar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; está caminando&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ambos funcionan correctamente, pero hay pequeñas diferencias.</p>
+
+<p>Si se define el método dentro del constructor cada vez que se instancie el objeto creará una propiedad con un objeto de tipo función, así si el objeto <code>Persona</code> se instancia 3 veces se crearán 3 funciones en memoria que hacen lo mismo. En cambio si lo creamos en el <code>prototype</code> la función se creará solo una vez, y todas las instancias de <code>Persona</code> apuntarán a la misma función, usando menos memoria y mejorando un poco el performance.</p>
+
+<p>Sin embargo, cuando creamos un método en el <code>prototype</code>, este no puede acceder a las variables locales del constructor:</p>
+
+<figure class='code'><figcaption><span>Accediendo a variables locales</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">Persona</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">caminar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="nx">count</span><span class="p">);</span> <span class="c1">// Muestra 1;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Persona</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">correr</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="nx">count</span><span class="p">);</span> <span class="c1">// Dará error ya que count no esta definida</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>El <code>prototype</code> es un objeto que tienen todos los objetos en Javascript, cuando queremos acceder a una propiedad <code>Persona.nombre</code> Javascript busca la propiedad en el objeto mismo, si no lo encuentra va lo busca al <code>prototype</code>, si no la encuentra busca dentro del <code>prototype</code> del objeto <code>prototype</code>, esto se conoce como <em>prototype-chain</em> y nos sirve para la herencia.</p>
+
+<p>Nota: En futuro cercano haré un post donde detallaré esto acerca del <code>prototype</code>.</p>
+
+<h2>Herencia</h2>
+
+<p>A través del <em>prototype-chain</em> podemos tener herencia en Javascript.</p>
+
+<p>Supongamos que tenemos un tipo padre <code>Mamifero</code> que tiene el método <code>caminar</code> y <code>ver</code>. Luego tenemos un hijo <code>Humano</code> que sobreescribe al método <code>caminar</code> y agrega un nuevo método <code>correr</code>.</p>
+
+<p>Para heredar <code>Humano</code> de <code>Mamifero</code>, el objeto <code>prototype</code> de <code>Humano</code> debe contener una instancia de su padre, en este caso <code>Mamifero</code>.</p>
+
+<figure class='code'><figcaption><span>Herencia</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Definimos al padre</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Mamifero</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">extremidades</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Mamifero</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">ver</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;El mamífero ve.&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Mamifero</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">caminar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;El mamífero camina con &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">extremidades</span> <span class="o">+</span> <span class="s1">&#39; extremidades.&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Definimos al hijo</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Humano</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">extremidades</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">=</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Le decimos quien es su padre</span>
+</span><span class='line'><span class="nx">Humano</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Mamifero</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Reescribimos y agregamos los métodos de Humano</span>
+</span><span class='line'><span class="nx">Humano</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">caminar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;El humano camina con &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">extremidades</span> <span class="o">+</span> <span class="s1">&#39; extremidades.&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Humano</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">correr</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;El humano corre&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">perro</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Mamifero</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">persona</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Humano</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">perro</span><span class="p">.</span><span class="nx">ver</span><span class="p">();</span> <span class="c1">// Método definidio en Mamifero</span>
+</span><span class='line'><span class="nx">perro</span><span class="p">.</span><span class="nx">caminar</span><span class="p">();</span> <span class="c1">// Llama al método en Mamifero</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">persona</span><span class="p">.</span><span class="nx">ver</span><span class="p">();</span> <span class="c1">// Llama al método definido en Mamifero</span>
+</span><span class='line'><span class="nx">persona</span><span class="p">.</span><span class="nx">caminar</span><span class="p">();</span> <span class="c1">// Llama al método sobreescrito en Humano</span>
+</span><span class='line'><span class="nx">persona</span><span class="p">.</span><span class="nx">correr</span><span class="p">();</span> <span class="c1">// Llama al método definido en Humano que no existe en Mamifero</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>El objeto <code>Humano.prototype</code> es un objeto de tipo <code>Mamifero</code> (línea 21), luego agreamos dinámicamente métodos a ese prototipo (líneas 24, 25). Como <code>Mamifero</code> es un objeto el también tiene un propiedad <code>prototype</code> al cual se le defineron 2 métodos (líneas 6, 10).</p>
+
+<p>Entonces, cuando invocamos el método <code>persona.caminar()</code> Javascript busca en el objeto mismo, no lo encuentra y busca en su prototipo (<code>Humano.prototype.caminar</code>), lo encuentra y lo invoca.</p>
+
+<p>Cuando invocamos el método <code>persona.ver()</code> Javascript busca en el objeto mismo, no lo encuentra, luego busca en su prototipo (<code>Humano.prototype.ver</code>), no lo encuentra, y se va en la cadena de prototipos hasta que lo encuentre en este caso <code>Humano.prototype.prototype.ver</code>, ya que <code>Humano.prototype.prototype</code> apunta a <code>Mamifero.prototype</code>.</p>
+
+<p>Espero que haya quedado claro esto del <code>prototype</code>.</p>
+
+<h2>Bibliografía</h2>
+
+<p>Para saber más acerca de los objetos y de la propiedad <code>prototype</code>:</p>
+
+<ul>
+<li><a href="http://helephant.com/2008/08/17/how-javascript-objects-work/">How Javascript objects work</a></li>
+<li><a href="http://net.tutsplus.com/tutorials/javascript-ajax/prototypes-in-javascript-what-you-need-to-know/">Prototypes in JavaScript</a></li>
+<li><a href="http://stackoverflow.com/questions/572897/how-does-javascript-prototype-work">How does JavaScript .prototype work?</a></li>
+<li><a href="http://stackoverflow.com/questions/6163186/prototype-or-inline-what-is-the-difference">Prototype or inline, what is the difference?</a></li>
+<li><a href="http://stackoverflow.com/questions/5529285/prototype-chaining-constructor-inheritance">Prototype chaining, Constructor, Inheritance</a></li>
+<li><a href="http://javascript.crockford.com/prototypal.html">Prototypal Inheritance in JavaScript</a></li>
+</ul>
+
+
+<p>Bienvenidos sean sus comentarios, sugerencias, dudas, etc.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Isaac Zepeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-27T19:00:00-07:00" pubdate data-updated="true">Dec 27<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>Javascript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://hardcoders.mx/blog/2012/12/27/objetos-en-javascript/" data-via="" data-counturl="http://hardcoders.mx/blog/2012/12/27/objetos-en-javascript/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/11/chat-basico-con-socket-dot-io/" title="Previous Post: Chat básico con Socket.io">&laquo; Chat básico con Socket.io</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/27/objetos-en-javascript/">Objetos en Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/11/chat-basico-con-socket-dot-io/">Chat básico con Socket.io</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/10/como-contribuir-a-un-blog-en-octopress/">Como contribuir a un blog en octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/06/como-contribuir-a-un-proyecto-en-github/">Como contribuir a un proyecto en github</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/06/iniciamos/">¡Iniciamos!</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - hardcoders.mx -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'hardcoders';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hardcoders.mx/blog/2012/12/27/objetos-en-javascript/';
+        var disqus_url = 'http://hardcoders.mx/blog/2012/12/27/objetos-en-javascript/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
