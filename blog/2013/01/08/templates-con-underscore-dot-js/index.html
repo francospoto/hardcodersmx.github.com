@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Templates con Underscore.js - hardcoders.mx</title>
+  <meta name="author" content="hardcoders.mx">
+
+  
+  <meta name="description" content="En este post veremos como compilar templates del lado de cliente con Javascript y Underscore.js, por que usar templates del lado del cliente, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js/">
+  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="hardcoders.mx" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36827366-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">hardcoders.mx</a></h1>
+  
+    <h2>Vive para codear</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:hardcoders.mx" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Templates Con Underscore.js</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-08T21:00:00-07:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>En este post veremos como compilar templates del lado de cliente con Javascript y <a href="http://underscorejs.org/">Underscore.js</a>, por que usar templates del lado del cliente, disfrutenlo y dejen sus comentarios.</p>
+
+<!-- more -->
+
+
+<h2>¿Qué es Underscore.js?</h2>
+
+<p><a href="http://underscorejs.org/">Underscore.js</a> es una librería de Javascript que contiene alrededor de 80 funciones que nos hacen la vida en Javascript más sencilla. Tiene funciones como <strong>map</strong>, <strong>each</strong>, entre otras muchas.</p>
+
+<p>Los templates son sólo una parte de todas sus aplicaciones, que veremos a continuación.</p>
+
+<h2>¿Para que me sirven templates del lado del cliente?</h2>
+
+<p>Actualmente muchas aplicaciones estan hechas en Javascript que consume una API o un servicio, esta API regresa muchas veces los datos en JSON.</p>
+
+<p>Por ejemplo, tenemos un listado de personas y en nuestro cliente hacemos una llamada AJAX que nos regresa los datos de esas personas en JSON y luego tenemos que desplegar esa información en una tabla. Cuando no usamos Templates lo que tenemos que hacer es recorrer ese arreglo de objetos e ir creando en una cádena el HTML y luego ponerla en el lugar del DOM que queremos, por ejemplo usando jQuery:</p>
+
+<figure class='code'><figcaption><span>No usando templates</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span>
+</span><span class='line'>      <span class="s1">&#39;/url/recurso&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="c1">// Suponiendo que data tiene id, nombre, edad</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="s1">&#39;&lt;table&gt;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Nombre&lt;/th&gt;&lt;th&gt;Edad&lt;/th&gt;&lt;/tr&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>              <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;tr&gt;&#39;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="s1">&#39;&lt;td&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39;&lt;/td&gt;&#39;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="s1">&#39;&lt;td&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">nombre</span> <span class="o">+</span> <span class="s1">&#39;&lt;/td&gt;&#39;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="s1">&#39;&lt;td&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">edad</span> <span class="o">+</span> <span class="s1">&#39;&lt;/td&gt;&#39;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="s1">&#39;&lt;/tr&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/table&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#contenedor&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>    
+</span><span class='line'>  <span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Puede haber muchas variantes de lo anterior, pero sería algo similar. Esto podría funcionar por un tiempo, pero cuando la aplicación crezca esto se va a volver tedioso, poco escalable y difícil de mantener. Aquí es donde entran al rescate los templates del lado del cliente.</p>
+
+<h2>Usando Templates</h2>
+
+<p>En Underscore.js la función a usar para generar los templates será <code>_.template(templateString, [data], [settings])</code>. El primer argumento es un string que contiene el html a compilar. El segundo es un objeto javascript con las variables que se usaremos en el template.</p>
+
+<p>Cuando usamos solo el primer argumento la función nos regresará una función que después ejecutaremos, la cual nos regresará un string con el html compilado.</p>
+
+<iframe style="width: 100%; height: 220px" src="http://jsfiddle.net/keogh/XZQQA/embedded/js,html,result/presentation"></iframe>
+
+
+<p>Cuando usamos los dos primeros argumentos la función regresará un string con HTML compilado listo para meterlo al DOM.</p>
+
+<iframe style="width: 100%; height: 150px" src="http://jsfiddle.net/keogh/uxyvy/embedded/js,html,result/presentation"></iframe>
+
+
+<h2>Los Tags</h2>
+
+<p>Dentro del HTML a compilar queremos imprimir variables y a veces ejecutar código, esto va dentro de unos tags especiales, los cuales pueden cambiarse (más de eso adelante). Underscore.js tiene 3 tags por default, cada uno con diferentes funcionalidades:</p>
+
+<ul>
+<li><strong>Evaluate:</strong> <code>&lt;% ... %&gt;</code> Ejecuta código Javascript.</li>
+<li><strong>Interpolate:</strong> <code>&lt;%= ... %&gt;</code> Sirve para imprimir variables. (También podemos imprimir variables usando el <em>evaluate</em> y la función <code>print</code> de Javascript <code>&lt;% print(nombre); %&gt;)</code>.</li>
+<li><strong>Escape:</strong> <code>&lt;%- ... %&gt;</code> Sirve para código HTML escapado.</li>
+</ul>
+
+
+<h2>Las Variables</h2>
+
+<p>Las variables se pasan al compilador como un <a href="/blog/2012/12/27/objetos-en-javascript/">objeto literal</a>, ya sea como segundo parámetro de <code>_.template</code> o como primer parámetro de la función que nos regresa cuando usamos solo el primer parámetro en <code>_.template</code>.</p>
+
+<p>En el template el nombre de la variable sera el <em>key</em> de los elementos del objeto literal, y el valor de la variable será el <em>value</em> de los elementos del objeto literal.</p>
+
+<figure class='code'><figcaption><span>Variables en el template</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">nombre</span><span class="o">:</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">edad</span><span class="o">:</span> <span class="mi">28</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// nombre para obtener &quot;Isaac&quot; y edad para obtener &quot;28&quot;</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#contenido&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="s2">&quot;Hola &lt;%= nombre %&gt; tienes &lt;%= edad %&gt; años&quot;</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>A Seguir Templeteando</h2>
+
+<p>Cuando el template es más complejo, como el primer ejemplo, escribir el código HTML como string para pasarlo como primer argumento sería poco efectivo. Entonces lo que haremos será tener el código HTML junto con el javascript a compilar dentro de una etiqueta <code>&lt;script type="text/template"&gt;...&lt;/script&gt;</code>.</p>
+
+<p>Entonces siguiendo esto tendríamos (el template esta en la pestaña HTML):</p>
+
+<iframe style="width: 100%; height: 350px" src="http://jsfiddle.net/keogh/JUvnD/embedded/js,html,result/presentation"></iframe>
+
+
+<p>En lugar de un <code>for</code> podríamos usar la función <code>each</code> de Underscore.js.</p>
+
+<iframe style="width: 100%; height: 350px" src="http://jsfiddle.net/keogh/46haD/embedded/js,html,result/presentation"></iframe>
+
+
+<h2>Tags Personalizados</h2>
+
+<p>En lugar de usar el <em>ERB-style</em> podemos crear nuestros propios tags, ya sea porque nos sentimos más cómodos usando <em>{{ &#8230; }}</em> u otros. Por ejemplo, cuando estás en Ruby on Rails los tags usados son los mismos que usa underscore.js por default <code>&lt;% ... %&gt;</code>, esto traera problemas.</p>
+
+<p>Entonces podemos definir 3 nuevos tags: <em>{{ &#8230; }}</em> para <em>evaluate</em>, <em>{{= &#8230; }}</em> para <em>interpolate</em>, y <em>{{- &#8230; }}</em> para <em>escape</em>.</p>
+
+<p>Esto lo hacemos mandadole un objeto como tercer parámetro a <code>_.template</code> o definirlo globalmente para todos las compilaciones que haremos en nuestra aplicación con la variable <code>_.templateSettings</code></p>
+
+<figure class='code'><figcaption><span>Tags Personalizados</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Usando como tercer parámetro</span>
+</span><span class='line'><span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="s2">&quot;Hola &quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">nombre</span><span class="o">:</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">},</span> <span class="p">{</span><span class="nx">interpolate</span><span class="o">:</span> <span class="sr">/\{\{\=(.+?)\}\}/g</span><span class="p">,});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Definiedolo globalmente</span>
+</span><span class='line'><span class="nx">_</span><span class="p">.</span><span class="nx">templateSettings</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">interpolate</span><span class="o">:</span> <span class="sr">/\{\{\=(.+?)\}\}/g</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">evaluate</span><span class="o">:</span> <span class="sr">/\{\{(.+?)\}\}/g</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">escape</span><span class="o">:</span> <span class="sr">/\{\{\-(.+?)\}\}/g</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Fuente: <a href="http://stackoverflow.com/questions/7514922/rails-with-underscore-js-templates">http://stackoverflow.com/questions/7514922/rails-with-underscore-js-templates</a></p>
+
+<p>Con esto podemos modificar nuestro ejemplo y cambiar los tags:</p>
+
+<iframe style="width: 100%; height: 350px" src="http://jsfiddle.net/keogh/RxunZ/embedded/js,html,result/presentation"></iframe>
+
+
+<h2>Fin</h2>
+
+<p>Con esto terminamos el post de templates del lado del cliente usando Underscore.js, si quieres aprender más de Underscore.js y todas sus funciones visita <a href="http://underscorejs.org">http://underscorejs.org</a>.</p>
+
+<p>En entregas posteriores trataré de desentrañar todas las funciones de Underscore.js con ejemplos. No olviden dejar sus comentarios, dudas, etc.</p>
+
+<p>A Codear!!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Isaac Zepeda</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-08T21:00:00-07:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>Javascript</a>, <a class='category' href='/blog/categories/underscore-js/'>Underscore.js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js/" data-via="" data-counturl="http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/28/nodejs-para-novatos-parte-1/" title="Previous Post: nodejs para novatos - parte 1">&laquo; nodejs para novatos - parte 1</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/08/templates-con-underscore-dot-js/">Templates con Underscore.js</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/28/nodejs-para-novatos-parte-1/">nodejs para novatos - parte 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/27/objetos-en-javascript/">Objetos en Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/11/chat-basico-con-socket-dot-io/">Chat básico con Socket.io</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/10/como-contribuir-a-un-blog-en-octopress/">Como contribuir a un blog en octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - hardcoders.mx -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'hardcoders';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js/';
+        var disqus_url = 'http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

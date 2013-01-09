@@ -4,7 +4,7 @@
   <title><![CDATA[hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2012-12-28T11:14:18-07:00</updated>
+  <updated>2013-01-08T21:02:15-07:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -12,6 +12,328 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Templates con Underscore.js]]></title>
+    <link href="http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js/"/>
+    <updated>2013-01-08T21:00:00-07:00</updated>
+    <id>http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js</id>
+    <content type="html"><![CDATA[<p>En este post veremos como compilar templates del lado de cliente con Javascript y <a href="http://underscorejs.org/">Underscore.js</a>, por que usar templates del lado del cliente, disfrutenlo y dejen sus comentarios.</p>
+
+<!-- more -->
+
+
+<h2>¿Qué es Underscore.js?</h2>
+
+<p><a href="http://underscorejs.org/">Underscore.js</a> es una librería de Javascript que contiene alrededor de 80 funciones que nos hacen la vida en Javascript más sencilla. Tiene funciones como <strong>map</strong>, <strong>each</strong>, entre otras muchas.</p>
+
+<p>Los templates son sólo una parte de todas sus aplicaciones, que veremos a continuación.</p>
+
+<h2>¿Para que me sirven templates del lado del cliente?</h2>
+
+<p>Actualmente muchas aplicaciones estan hechas en Javascript que consume una API o un servicio, esta API regresa muchas veces los datos en JSON.</p>
+
+<p>Por ejemplo, tenemos un listado de personas y en nuestro cliente hacemos una llamada AJAX que nos regresa los datos de esas personas en JSON y luego tenemos que desplegar esa información en una tabla. Cuando no usamos Templates lo que tenemos que hacer es recorrer ese arreglo de objetos e ir creando en una cádena el HTML y luego ponerla en el lugar del DOM que queremos, por ejemplo usando jQuery:</p>
+
+<figure class='code'><figcaption><span>No usando templates</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span>
+</span><span class='line'>      <span class="s1">&#39;/url/recurso&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="c1">// Suponiendo que data tiene id, nombre, edad</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="s1">&#39;&lt;table&gt;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Nombre&lt;/th&gt;&lt;th&gt;Edad&lt;/th&gt;&lt;/tr&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>              <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;tr&gt;&#39;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="s1">&#39;&lt;td&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">id</span> <span class="o">+</span> <span class="s1">&#39;&lt;/td&gt;&#39;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="s1">&#39;&lt;td&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">nombre</span> <span class="o">+</span> <span class="s1">&#39;&lt;/td&gt;&#39;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="s1">&#39;&lt;td&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">edad</span> <span class="o">+</span> <span class="s1">&#39;&lt;/td&gt;&#39;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="s1">&#39;&lt;/tr&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="nx">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/table&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#contenedor&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>    
+</span><span class='line'>  <span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Puede haber muchas variantes de lo anterior, pero sería algo similar. Esto podría funcionar por un tiempo, pero cuando la aplicación crezca esto se va a volver tedioso, poco escalable y difícil de mantener. Aquí es donde entran al rescate los templates del lado del cliente.</p>
+
+<h2>Usando Templates</h2>
+
+<p>En Underscore.js la función a usar para generar los templates será <code>_.template(templateString, [data], [settings])</code>. El primer argumento es un string que contiene el html a compilar. El segundo es un objeto javascript con las variables que se usaremos en el template.</p>
+
+<p>Cuando usamos solo el primer argumento la función nos regresará una función que después ejecutaremos, la cual nos regresará un string con el html compilado.</p>
+
+<iframe style="width: 100%; height: 220px" src="http://jsfiddle.net/keogh/XZQQA/embedded/js,html,result/presentation"></iframe>
+
+
+<p>Cuando usamos los dos primeros argumentos la función regresará un string con HTML compilado listo para meterlo al DOM.</p>
+
+<iframe style="width: 100%; height: 150px" src="http://jsfiddle.net/keogh/uxyvy/embedded/js,html,result/presentation"></iframe>
+
+
+<h2>Los Tags</h2>
+
+<p>Dentro del HTML a compilar queremos imprimir variables y a veces ejecutar código, esto va dentro de unos tags especiales, los cuales pueden cambiarse (más de eso adelante). Underscore.js tiene 3 tags por default, cada uno con diferentes funcionalidades:</p>
+
+<ul>
+<li><strong>Evaluate:</strong> <code>&lt;% ... %&gt;</code> Ejecuta código Javascript.</li>
+<li><strong>Interpolate:</strong> <code>&lt;%= ... %&gt;</code> Sirve para imprimir variables. (También podemos imprimir variables usando el <em>evaluate</em> y la función <code>print</code> de Javascript <code>&lt;% print(nombre); %&gt;)</code>.</li>
+<li><strong>Escape:</strong> <code>&lt;%- ... %&gt;</code> Sirve para código HTML escapado.</li>
+</ul>
+
+
+<h2>Las Variables</h2>
+
+<p>Las variables se pasan al compilador como un <a href="http://hardcoders.mx/blog/2012/12/27/objetos-en-javascript/">objeto literal</a>, ya sea como segundo parámetro de <code>_.template</code> o como primer parámetro de la función que nos regresa cuando usamos solo el primer parámetro en <code>_.template</code>.</p>
+
+<p>En el template el nombre de la variable sera el <em>key</em> de los elementos del objeto literal, y el valor de la variable será el <em>value</em> de los elementos del objeto literal.</p>
+
+<figure class='code'><figcaption><span>Variables en el template</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">nombre</span><span class="o">:</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">edad</span><span class="o">:</span> <span class="mi">28</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// nombre para obtener &quot;Isaac&quot; y edad para obtener &quot;28&quot;</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#contenido&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="s2">&quot;Hola &lt;%= nombre %&gt; tienes &lt;%= edad %&gt; años&quot;</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>A Seguir Templeteando</h2>
+
+<p>Cuando el template es más complejo, como el primer ejemplo, escribir el código HTML como string para pasarlo como primer argumento sería poco efectivo. Entonces lo que haremos será tener el código HTML junto con el javascript a compilar dentro de una etiqueta <code>&lt;script type="text/template"&gt;...&lt;/script&gt;</code>.</p>
+
+<p>Entonces siguiendo esto tendríamos (el template esta en la pestaña HTML):</p>
+
+<iframe style="width: 100%; height: 350px" src="http://jsfiddle.net/keogh/JUvnD/embedded/js,html,result/presentation"></iframe>
+
+
+<p>En lugar de un <code>for</code> podríamos usar la función <code>each</code> de Underscore.js.</p>
+
+<iframe style="width: 100%; height: 350px" src="http://jsfiddle.net/keogh/46haD/embedded/js,html,result/presentation"></iframe>
+
+
+<h2>Tags Personalizados</h2>
+
+<p>En lugar de usar el <em>ERB-style</em> podemos crear nuestros propios tags, ya sea porque nos sentimos más cómodos usando <em>{{ &#8230; }}</em> u otros. Por ejemplo, cuando estás en Ruby on Rails los tags usados son los mismos que usa underscore.js por default <code>&lt;% ... %&gt;</code>, esto traera problemas.</p>
+
+<p>Entonces podemos definir 3 nuevos tags: <em>{{ &#8230; }}</em> para <em>evaluate</em>, <em>{{= &#8230; }}</em> para <em>interpolate</em>, y <em>{{- &#8230; }}</em> para <em>escape</em>.</p>
+
+<p>Esto lo hacemos mandadole un objeto como tercer parámetro a <code>_.template</code> o definirlo globalmente para todos las compilaciones que haremos en nuestra aplicación con la variable <code>_.templateSettings</code></p>
+
+<figure class='code'><figcaption><span>Tags Personalizados</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Usando como tercer parámetro</span>
+</span><span class='line'><span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="s2">&quot;Hola &quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">nombre</span><span class="o">:</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">},</span> <span class="p">{</span><span class="nx">interpolate</span><span class="o">:</span> <span class="sr">/\{\{\=(.+?)\}\}/g</span><span class="p">,});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Definiedolo globalmente</span>
+</span><span class='line'><span class="nx">_</span><span class="p">.</span><span class="nx">templateSettings</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">interpolate</span><span class="o">:</span> <span class="sr">/\{\{\=(.+?)\}\}/g</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">evaluate</span><span class="o">:</span> <span class="sr">/\{\{(.+?)\}\}/g</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">escape</span><span class="o">:</span> <span class="sr">/\{\{\-(.+?)\}\}/g</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Fuente: <a href="http://stackoverflow.com/questions/7514922/rails-with-underscore-js-templates">http://stackoverflow.com/questions/7514922/rails-with-underscore-js-templates</a></p>
+
+<p>Con esto podemos modificar nuestro ejemplo y cambiar los tags:</p>
+
+<iframe style="width: 100%; height: 350px" src="http://jsfiddle.net/keogh/RxunZ/embedded/js,html,result/presentation"></iframe>
+
+
+<h2>Fin</h2>
+
+<p>Con esto terminamos el post de templates del lado del cliente usando Underscore.js, si quieres aprender más de Underscore.js y todas sus funciones visita <a href="http://underscorejs.org">http://underscorejs.org</a>.</p>
+
+<p>En entregas posteriores trataré de desentrañar todas las funciones de Underscore.js con ejemplos. No olviden dejar sus comentarios, dudas, etc.</p>
+
+<p>A Codear!!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[nodejs para novatos - parte 1]]></title>
+    <link href="http://hardcoders.mx/blog/2012/12/28/nodejs-para-novatos-parte-1/"/>
+    <updated>2012-12-28T09:39:00-07:00</updated>
+    <id>http://hardcoders.mx/blog/2012/12/28/nodejs-para-novatos-parte-1</id>
+    <content type="html"><![CDATA[<p>Como nuestro amigo <a href="http://soygeek.com.mx">Isaac Zepeda</a> se fue a lo grande con <a href="http://hardcoders.mx/blog/2012/12/11/chat-basico-con-socket-dot-io/">su anterior post sobe nodejs</a>, no me queda más que tratar de escribir una pequeña introducción mas tranquila y civil, sin grandes pretensiones, sobre nodejs, para tratar de ayudarlos a entender de que va todo esto.</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<h2>Introducción</h2>
+
+<p><a href="http://nodejs.org">Node.js</a> es una plataforma construida sobre la <a href="http://code.google.com/p/v8/">v8 engine de google</a>, el javascript engine libre que le da vida a chrome. Es decir, es un conjunto de librerías montadas sobre la v8 engine que nos permite correr javascript fuera del browser, y enviarlo al lado del servidor.</p>
+
+<p>¿Que tiene de especial esto?, pues que la manera que esta estructurado hace sencillo realizar aplicaciones de red de manera rápida y escalable (O al menos ese es su pitch). Node.js sigue un modelo event-driven non-blocking (más sobre eso mas adelante) el cual se lleva muy bien con javascript y le permite atender una gran cantidad de usuarios sin mayores problemas.</p>
+
+<p>Con esto dicho vamos de lleno a estamparnos con el clásico hello world con un pequeño twist.</p>
+
+<figure class='code'><figcaption><span>hello-world.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;world&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">},</span> <span class="mi">3000</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Si tenemos instalado node lo anterior lo podemos correr con <code>node hello-world.js</code>.</p>
+
+<p>Esto nos imprime <code>hello</code> y tres segundos después imprime <code>world</code>, esto nos muestra un par de cosas, la primera es que tenemos disponible nuestro viejo amigo <code>setTimeout</code>. La segunda y quizás más importante es que una aplicación de node no termina hasta que no se ejecuten todos sus callbacks pendientes.</p>
+
+<h2>Hello world web</h2>
+
+<p>Ahora vamos a hacer un pequeño salto quantico a lo siguiente:</p>
+
+<figure class='code'><figcaption><span>hello-world-http.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">processRequest</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">});</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;Hello World\n&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">processRequest</span><span class="p">);</span>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">1337</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Server running at http://127.0.0.1:1337/&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Si corremos esto crearemos un pequeño webserver que escucha en la interfaz local en el puerto <code>1337</code>, este webserver responde a toda petición con el texto <code>hello world</code>, si abren su navegador en <code>http://localhost:1337</code> pueden ver el resultado.</p>
+
+<p>Ahora el análisis, en la primer linea <code>var http = require('http');</code>, importamos <a href="http://nodejs.org/api/http.html">el modulo http</a> y lo asignamos a la variable <code>http</code>.</p>
+
+<p>Todas las librerías integradas en nodejs están definidas en módulos, para <em>importar</em> estos módulos tenemos que usar la función <code>require</code>, y asignar el resultado de la llamada a una variable la cual quedara enlazada a la definición del modulo y por medio de ella podremos llamar sus distintos métodos. Uno también puede definir sus propios módulos, y puede usar módulos third-party, pero eso esta fuera del alcance de esta entrada.</p>
+
+<p>Entre la linea 3 y 6 definimos una función la cual usaremos para responder las solicitudes http, esta función espera recibir un request http, y tiene como obligación realizar las llamadas necesarias sobre <code>response</code> para darle respuesta a la solicitud http. Lo único que hace en este ejemplo es escribir el status code <code>200 OK</code>, escribe el header <code>Content-Type: 'plain/text'</code>, escribe <code>hello world</code>en la respuesta y termina la respuesta.</p>
+
+<p>Por si sola esta función no hace nada, tiene que ser llamada en el contexto correcto para que pueda dar respuesta a las peticiones http.</p>
+
+<p>Ahora en la linea 8 <code>var server = http.createServer(processRequest);</code> llamamos al método <a href="http://nodejs.org/api/http.html#http_http_createserver_requestlistener">createServer del modulo http</a>, y como parámetro enviamos una referencia a la función <code>processRequest</code>recién definida, esta llamada nos regresara un objeto http server la cual estamos asignando a <code>server</code>. Este objeto mandara llamar a la función que indicamos (<code>processRequest</code>) por cada petición http que reciba.</p>
+
+<p>Por ultimo, solo hace falta iniciar el servidor, eso lo logramos con la linea 9 donde realizamos <code>server.listen(1337, '127.0.0.1');</code>, aquí solo indicamos a que interfaz de red y puerto enlazaremos nuestro servidor y logramos que empiece a aceptar peticiones http y estas sean procesadas por nuestra función <code>processRequest</code>.</p>
+
+<p>Comúnmente este ejemplo y otros similares los encontramos un poco diferentes, en lugar de definir el método previamente es común verlo inline, como por ejemplo:</p>
+
+<figure class='code'><figcaption><span>hello-world-http-2.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">});</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;Hello World\n&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">1337</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Server running at http://127.0.0.1:1337/&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Primordialmente es una cuestión de estilo, recomiendo usar la versión que les sea mas clara.</p>
+
+<h2>Servidor de eco.</h2>
+
+<p>Ahora veamos el siguiente ejemplo:</p>
+
+<figure class='code'><figcaption><span>echo.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">net</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;net&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">socket</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Sup buddy&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>En este ejemplo usamos el <a href="http://nodejs.org/api/net.html">modulo net</a> el cual nos permite crear clientes y servidores TCP, si se fijan el ejemplo es muy similar, solo que el callback del método <code>createServer</code> recibe un solo parámetro, socket.</p>
+
+<p>Cada que nuestro server reciba una nueva conexión TCP, invocara nuestro callback y como parámetro nos enviara el objeto socket que nos sirve para comunicarnos con el cliente que recién se conecta, si queremos leer la información que nos envíen, o bien escribir de vuelta lo haremos sobre este objeto.</p>
+
+<p>En ese caso lo único que estamos haciendo es imprimir en la consola, por lo que si lo corremos <code>node echo.js</code>, y posteriormente nos conectamos, con, por ejemplo telnet, recibiremos el mensaje en la consola. <code>telnet localhost 8080</code>.</p>
+
+<p>Vamos a aumentar el ejemplo ahora con la funcionalidad que realmente estamos buscando:</p>
+
+<figure class='code'><figcaption><span>echo-v2.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">net</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;net&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">socket</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">socket</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dentro del callback de la nueva conexión tenemos ahora la siguiente llamada <code>socket.on('data', ...</code>. Lo que estamos haciendo es suscribirnos al evento <code>data</code> del socket que recién recibimos. Este evento se lanza cada que recibimos información por parte del socket, y en el callback nos envía como parámetro los datos recibidos <code>function(data) { ...</code>.</p>
+
+<p>En este callback lo único que hacemos es escribir de vuelta lo que recibimos al socket con <code>socket.write(data);</code>, con lo cual tenemos un servidor de eco en TCP, es decir, todo lo que recibe lo envía de vuelta a el cliente.</p>
+
+<h2>Próximas entregas</h2>
+
+<p>En las próximas entregas seguiremos explorando Node.js e intentare exponer su modelo asíncrono y como nos afecta al hacer nuestras aplicaciones.</p>
+
+<p>Hasta la próxima :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Objetos en Javascript]]></title>

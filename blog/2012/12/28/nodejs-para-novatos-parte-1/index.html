@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>nodejs para novatos - parte 1 - hardcoders.mx</title>
+  <meta name="author" content="hardcoders.mx">
+
+  
+  <meta name="description" content="Como nuestro amigo Isaac Zepeda se fue a lo grande con su anterior post sobe nodejs, no me queda más que tratar de escribir una pequeña introducción &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hardcoders.mx/blog/2012/12/28/nodejs-para-novatos-parte-1/">
+  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="hardcoders.mx" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36827366-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">hardcoders.mx</a></h1>
+  
+    <h2>Vive para codear</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:hardcoders.mx" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Nodejs Para Novatos - Parte 1</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-28T09:39:00-07:00" pubdate data-updated="true">Dec 28<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Como nuestro amigo <a href="http://soygeek.com.mx">Isaac Zepeda</a> se fue a lo grande con <a href="/blog/2012/12/11/chat-basico-con-socket-dot-io/">su anterior post sobe nodejs</a>, no me queda más que tratar de escribir una pequeña introducción mas tranquila y civil, sin grandes pretensiones, sobre nodejs, para tratar de ayudarlos a entender de que va todo esto.</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<h2>Introducción</h2>
+
+<p><a href="http://nodejs.org">Node.js</a> es una plataforma construida sobre la <a href="http://code.google.com/p/v8/">v8 engine de google</a>, el javascript engine libre que le da vida a chrome. Es decir, es un conjunto de librerías montadas sobre la v8 engine que nos permite correr javascript fuera del browser, y enviarlo al lado del servidor.</p>
+
+<p>¿Que tiene de especial esto?, pues que la manera que esta estructurado hace sencillo realizar aplicaciones de red de manera rápida y escalable (O al menos ese es su pitch). Node.js sigue un modelo event-driven non-blocking (más sobre eso mas adelante) el cual se lleva muy bien con javascript y le permite atender una gran cantidad de usuarios sin mayores problemas.</p>
+
+<p>Con esto dicho vamos de lleno a estamparnos con el clásico hello world con un pequeño twist.</p>
+
+<figure class='code'><figcaption><span>hello-world.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;world&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">},</span> <span class="mi">3000</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Si tenemos instalado node lo anterior lo podemos correr con <code>node hello-world.js</code>.</p>
+
+<p>Esto nos imprime <code>hello</code> y tres segundos después imprime <code>world</code>, esto nos muestra un par de cosas, la primera es que tenemos disponible nuestro viejo amigo <code>setTimeout</code>. La segunda y quizás más importante es que una aplicación de node no termina hasta que no se ejecuten todos sus callbacks pendientes.</p>
+
+<h2>Hello world web</h2>
+
+<p>Ahora vamos a hacer un pequeño salto quantico a lo siguiente:</p>
+
+<figure class='code'><figcaption><span>hello-world-http.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">processRequest</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">});</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;Hello World\n&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">processRequest</span><span class="p">);</span>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">1337</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Server running at http://127.0.0.1:1337/&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Si corremos esto crearemos un pequeño webserver que escucha en la interfaz local en el puerto <code>1337</code>, este webserver responde a toda petición con el texto <code>hello world</code>, si abren su navegador en <code>http://localhost:1337</code> pueden ver el resultado.</p>
+
+<p>Ahora el análisis, en la primer linea <code>var http = require('http');</code>, importamos <a href="http://nodejs.org/api/http.html">el modulo http</a> y lo asignamos a la variable <code>http</code>.</p>
+
+<p>Todas las librerías integradas en nodejs están definidas en módulos, para <em>importar</em> estos módulos tenemos que usar la función <code>require</code>, y asignar el resultado de la llamada a una variable la cual quedara enlazada a la definición del modulo y por medio de ella podremos llamar sus distintos métodos. Uno también puede definir sus propios módulos, y puede usar módulos third-party, pero eso esta fuera del alcance de esta entrada.</p>
+
+<p>Entre la linea 3 y 6 definimos una función la cual usaremos para responder las solicitudes http, esta función espera recibir un request http, y tiene como obligación realizar las llamadas necesarias sobre <code>response</code> para darle respuesta a la solicitud http. Lo único que hace en este ejemplo es escribir el status code <code>200 OK</code>, escribe el header <code>Content-Type: 'plain/text'</code>, escribe <code>hello world</code>en la respuesta y termina la respuesta.</p>
+
+<p>Por si sola esta función no hace nada, tiene que ser llamada en el contexto correcto para que pueda dar respuesta a las peticiones http.</p>
+
+<p>Ahora en la linea 8 <code>var server = http.createServer(processRequest);</code> llamamos al método <a href="http://nodejs.org/api/http.html#http_http_createserver_requestlistener">createServer del modulo http</a>, y como parámetro enviamos una referencia a la función <code>processRequest</code>recién definida, esta llamada nos regresara un objeto http server la cual estamos asignando a <code>server</code>. Este objeto mandara llamar a la función que indicamos (<code>processRequest</code>) por cada petición http que reciba.</p>
+
+<p>Por ultimo, solo hace falta iniciar el servidor, eso lo logramos con la linea 9 donde realizamos <code>server.listen(1337, '127.0.0.1');</code>, aquí solo indicamos a que interfaz de red y puerto enlazaremos nuestro servidor y logramos que empiece a aceptar peticiones http y estas sean procesadas por nuestra función <code>processRequest</code>.</p>
+
+<p>Comúnmente este ejemplo y otros similares los encontramos un poco diferentes, en lugar de definir el método previamente es común verlo inline, como por ejemplo:</p>
+
+<figure class='code'><figcaption><span>hello-world-http-2.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">});</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;Hello World\n&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">1337</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Server running at http://127.0.0.1:1337/&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Primordialmente es una cuestión de estilo, recomiendo usar la versión que les sea mas clara.</p>
+
+<h2>Servidor de eco.</h2>
+
+<p>Ahora veamos el siguiente ejemplo:</p>
+
+<figure class='code'><figcaption><span>echo.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">net</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;net&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">socket</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Sup buddy&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>En este ejemplo usamos el <a href="http://nodejs.org/api/net.html">modulo net</a> el cual nos permite crear clientes y servidores TCP, si se fijan el ejemplo es muy similar, solo que el callback del método <code>createServer</code> recibe un solo parámetro, socket.</p>
+
+<p>Cada que nuestro server reciba una nueva conexión TCP, invocara nuestro callback y como parámetro nos enviara el objeto socket que nos sirve para comunicarnos con el cliente que recién se conecta, si queremos leer la información que nos envíen, o bien escribir de vuelta lo haremos sobre este objeto.</p>
+
+<p>En ese caso lo único que estamos haciendo es imprimir en la consola, por lo que si lo corremos <code>node echo.js</code>, y posteriormente nos conectamos, con, por ejemplo telnet, recibiremos el mensaje en la consola. <code>telnet localhost 8080</code>.</p>
+
+<p>Vamos a aumentar el ejemplo ahora con la funcionalidad que realmente estamos buscando:</p>
+
+<figure class='code'><figcaption><span>echo-v2.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">net</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;net&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">net</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">socket</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">socket</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dentro del callback de la nueva conexión tenemos ahora la siguiente llamada <code>socket.on('data', ...</code>. Lo que estamos haciendo es suscribirnos al evento <code>data</code> del socket que recién recibimos. Este evento se lanza cada que recibimos información por parte del socket, y en el callback nos envía como parámetro los datos recibidos <code>function(data) { ...</code>.</p>
+
+<p>En este callback lo único que hacemos es escribir de vuelta lo que recibimos al socket con <code>socket.write(data);</code>, con lo cual tenemos un servidor de eco en TCP, es decir, todo lo que recibe lo envía de vuelta a el cliente.</p>
+
+<h2>Próximas entregas</h2>
+
+<p>En las próximas entregas seguiremos explorando Node.js e intentare exponer su modelo asíncrono y como nos afecta al hacer nuestras aplicaciones.</p>
+
+<p>Hasta la próxima :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alberto Avila</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-28T09:39:00-07:00" pubdate data-updated="true">Dec 28<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/nodejs/'>nodejs</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://hardcoders.mx/blog/2012/12/28/nodejs-para-novatos-parte-1/" data-via="" data-counturl="http://hardcoders.mx/blog/2012/12/28/nodejs-para-novatos-parte-1/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/27/objetos-en-javascript/" title="Previous Post: Objetos en Javascript">&laquo; Objetos en Javascript</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/01/08/templates-con-underscore-dot-js/" title="Next Post: Templates con Underscore.js">Templates con Underscore.js &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/08/templates-con-underscore-dot-js/">Templates con Underscore.js</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/28/nodejs-para-novatos-parte-1/">nodejs para novatos - parte 1</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/27/objetos-en-javascript/">Objetos en Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/11/chat-basico-con-socket-dot-io/">Chat básico con Socket.io</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/10/como-contribuir-a-un-blog-en-octopress/">Como contribuir a un blog en octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - hardcoders.mx -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'hardcoders';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hardcoders.mx/blog/2012/12/28/nodejs-para-novatos-parte-1/';
+        var disqus_url = 'http://hardcoders.mx/blog/2012/12/28/nodejs-para-novatos-parte-1/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

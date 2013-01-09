@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2012-12-28T11:14:18-07:00</updated>
+  <updated>2013-01-08T21:02:15-07:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Templates con Underscore.js]]></title>
+    <link href="http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js/"/>
+    <updated>2013-01-08T21:00:00-07:00</updated>
+    <id>http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js</id>
+    <content type="html"><![CDATA[<p>En este post veremos como compilar templates del lado de cliente con Javascript y <a href="http://underscorejs.org/">Underscore.js</a>, por que usar templates del lado del cliente, disfrutenlo y dejen sus comentarios.</p>
+
+<!-- more -->
+
+
+<h2>¿Qué es Underscore.js?</h2>
+
+<p><a href="http://underscorejs.org/">Underscore.js</a> es una librería de Javascript que contiene alrededor de 80 funciones que nos hacen la vida en Javascript más sencilla. Tiene funciones como <strong>map</strong>, <strong>each</strong>, entre otras muchas.</p>
+
+<p>Los templates son sólo una parte de todas sus aplicaciones, que veremos a continuación.</p>
+
+<h2>¿Para que me sirven templates del lado del cliente?</h2>
+
+<p>Actualmente muchas aplicaciones estan hechas en Javascript que consume una API o un servicio, esta API regresa muchas veces los datos en JSON.</p>
+
+<p>Por ejemplo, tenemos un listado de personas y en nuestro cliente hacemos una llamada AJAX que nos regresa los datos de esas personas en JSON y luego tenemos que desplegar esa información en una tabla. Cuando no usamos Templates lo que tenemos que hacer es recorrer ese arreglo de objetos e ir creando en una cádena el HTML y luego ponerla en el lugar del DOM que queremos, por ejemplo usando jQuery:</p>
+
+<p>```javascript No usando templates
+$(document).ready(function() {</p>
+
+<pre><code>$.get(
+    '/url/recurso',
+    function(data) {
+        // Suponiendo que data tiene id, nombre, edad
+        var html = '&lt;table&gt;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Nombre&lt;/th&gt;&lt;th&gt;Edad&lt;/th&gt;&lt;/tr&gt;';
+        for (var i = 0; i &lt; data.length; i++) {
+            html += '&lt;tr&gt;'
+                + '&lt;td&gt;' + data[i].id + '&lt;/td&gt;'
+                + '&lt;td&gt;' + data[i].nombre + '&lt;/td&gt;'
+                + '&lt;td&gt;' + data[i].edad + '&lt;/td&gt;'
+                + '&lt;/tr&gt;';
+        }
+        html += '&lt;/table&gt;';
+        $('#contenedor').html(html);
+    }   
+);
+</code></pre>
+
+<p>});
+```</p>
+
+<p>Puede haber muchas variantes de lo anterior, pero sería algo similar. Esto podría funcionar por un tiempo, pero cuando la aplicación crezca esto se va a volver tedioso, poco escalable y difícil de mantener. Aquí es donde entran al rescate los templates del lado del cliente.</p>
+
+<h2>Usando Templates</h2>
+
+<p>En Underscore.js la función a usar para generar los templates será <code>_.template(templateString, [data], [settings])</code>. El primer argumento es un string que contiene el html a compilar. El segundo es un objeto javascript con las variables que se usaremos en el template.</p>
+
+<p>Cuando usamos solo el primer argumento la función nos regresará una función que después ejecutaremos, la cual nos regresará un string con el html compilado.</p>
+
+<iframe style="width: 100%; height: 220px" src="http://jsfiddle.net/keogh/XZQQA/embedded/js,html,result/presentation"></iframe>
+
+
+<p>Cuando usamos los dos primeros argumentos la función regresará un string con HTML compilado listo para meterlo al DOM.</p>
+
+<iframe style="width: 100%; height: 150px" src="http://jsfiddle.net/keogh/uxyvy/embedded/js,html,result/presentation"></iframe>
+
+
+<h2>Los Tags</h2>
+
+<p>Dentro del HTML a compilar queremos imprimir variables y a veces ejecutar código, esto va dentro de unos tags especiales, los cuales pueden cambiarse (más de eso adelante). Underscore.js tiene 3 tags por default, cada uno con diferentes funcionalidades:</p>
+
+<ul>
+<li><strong>Evaluate:</strong> <code>&lt;% ... %&gt;</code> Ejecuta código Javascript.</li>
+<li><strong>Interpolate:</strong> <code>&lt;%= ... %&gt;</code> Sirve para imprimir variables. (También podemos imprimir variables usando el <em>evaluate</em> y la función <code>print</code> de Javascript <code>&lt;% print(nombre); %&gt;)</code>.</li>
+<li><strong>Escape:</strong> <code>&lt;%- ... %&gt;</code> Sirve para código HTML escapado.</li>
+</ul>
+
+
+<h2>Las Variables</h2>
+
+<p>Las variables se pasan al compilador como un <a href="/blog/2012/12/27/objetos-en-javascript/">objeto literal</a>, ya sea como segundo parámetro de <code>_.template</code> o como primer parámetro de la función que nos regresa cuando usamos solo el primer parámetro en <code>_.template</code>.</p>
+
+<p>En el template el nombre de la variable sera el <em>key</em> de los elementos del objeto literal, y el valor de la variable será el <em>value</em> de los elementos del objeto literal.</p>
+
+<p>```javascript Variables en el template
+var data = {</p>
+
+<pre><code>nombre: "Isaac",
+edad: 28
+</code></pre>
+
+<p>}</p>
+
+<p>// nombre para obtener "Isaac" y edad para obtener "28"
+$('#contenido').html( _.template("Hola &lt;%= nombre %> tienes &lt;%= edad %> años", data) );
+```</p>
+
+<h2>A Seguir Templeteando</h2>
+
+<p>Cuando el template es más complejo, como el primer ejemplo, escribir el código HTML como string para pasarlo como primer argumento sería poco efectivo. Entonces lo que haremos será tener el código HTML junto con el javascript a compilar dentro de una etiqueta <code>&lt;script type="text/template"&gt;...&lt;/script&gt;</code>.</p>
+
+<p>Entonces siguiendo esto tendríamos (el template esta en la pestaña HTML):</p>
+
+<iframe style="width: 100%; height: 350px" src="http://jsfiddle.net/keogh/JUvnD/embedded/js,html,result/presentation"></iframe>
+
+
+<p>En lugar de un <code>for</code> podríamos usar la función <code>each</code> de Underscore.js.</p>
+
+<iframe style="width: 100%; height: 350px" src="http://jsfiddle.net/keogh/46haD/embedded/js,html,result/presentation"></iframe>
+
+
+<h2>Tags Personalizados</h2>
+
+<p>En lugar de usar el <em>ERB-style</em> podemos crear nuestros propios tags, ya sea porque nos sentimos más cómodos usando <em></em> u otros. Por ejemplo, cuando estás en Ruby on Rails los tags usados son los mismos que usa underscore.js por default <code>&lt;% ... %&gt;</code>, esto traera problemas.</p>
+
+<p>Entonces podemos definir 3 nuevos tags: <em></em> para <em>evaluate</em>, <em></em> para <em>interpolate</em>, y <em></em> para <em>escape</em>.</p>
+
+<p>Esto lo hacemos mandadole un objeto como tercer parámetro a <code>_.template</code> o definirlo globalmente para todos las compilaciones que haremos en nuestra aplicación con la variable <code>_.templateSettings</code></p>
+
+<p>```javascript Tags Personalizados
+// Usando como tercer parámetro
+_.template("Hola ", {nombre: "Isaac"}, {interpolate: //g,});</p>
+
+<p>// Definiedolo globalmente
+_.templateSettings = {</p>
+
+<pre><code>interpolate: /\{\{\=(.+?)\}\}/g,
+evaluate: /\{\{(.+?)\}\}/g,
+escape: /\{\{\-(.+?)\}\}/g
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Fuente: <a href="http://stackoverflow.com/questions/7514922/rails-with-underscore-js-templates">http://stackoverflow.com/questions/7514922/rails-with-underscore-js-templates</a></p>
+
+<p>Con esto podemos modificar nuestro ejemplo y cambiar los tags:</p>
+
+<iframe style="width: 100%; height: 350px" src="http://jsfiddle.net/keogh/RxunZ/embedded/js,html,result/presentation"></iframe>
+
+
+<h2>Fin</h2>
+
+<p>Con esto terminamos el post de templates del lado del cliente usando Underscore.js, si quieres aprender más de Underscore.js y todas sus funciones visita <a href="http://underscorejs.org">http://underscorejs.org</a>.</p>
+
+<p>En entregas posteriores trataré de desentrañar todas las funciones de Underscore.js con ejemplos. No olviden dejar sus comentarios, dudas, etc.</p>
+
+<p>A Codear!!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Objetos en Javascript]]></title>

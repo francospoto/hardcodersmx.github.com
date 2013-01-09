@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nodejs | hardcoders.mx]]></title>
+  <link href="http://hardcoders.mx/blog/categories/nodejs/atom.xml" rel="self"/>
+  <link href="http://hardcoders.mx/"/>
+  <updated>2013-01-08T21:02:15-07:00</updated>
+  <id>http://hardcoders.mx/</id>
+  <author>
+    <name><![CDATA[hardcoders.mx]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[nodejs para novatos - parte 1]]></title>
+    <link href="http://hardcoders.mx/blog/2012/12/28/nodejs-para-novatos-parte-1/"/>
+    <updated>2012-12-28T09:39:00-07:00</updated>
+    <id>http://hardcoders.mx/blog/2012/12/28/nodejs-para-novatos-parte-1</id>
+    <content type="html"><![CDATA[<p>Como nuestro amigo <a href="http://soygeek.com.mx">Isaac Zepeda</a> se fue a lo grande con <a href="/blog/2012/12/11/chat-basico-con-socket-dot-io/">su anterior post sobe nodejs</a>, no me queda más que tratar de escribir una pequeña introducción mas tranquila y civil, sin grandes pretensiones, sobre nodejs, para tratar de ayudarlos a entender de que va todo esto.</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<h2>Introducción</h2>
+
+<p><a href="http://nodejs.org">Node.js</a> es una plataforma construida sobre la <a href="http://code.google.com/p/v8/">v8 engine de google</a>, el javascript engine libre que le da vida a chrome. Es decir, es un conjunto de librerías montadas sobre la v8 engine que nos permite correr javascript fuera del browser, y enviarlo al lado del servidor.</p>
+
+<p>¿Que tiene de especial esto?, pues que la manera que esta estructurado hace sencillo realizar aplicaciones de red de manera rápida y escalable (O al menos ese es su pitch). Node.js sigue un modelo event-driven non-blocking (más sobre eso mas adelante) el cual se lleva muy bien con javascript y le permite atender una gran cantidad de usuarios sin mayores problemas.</p>
+
+<p>Con esto dicho vamos de lleno a estamparnos con el clásico hello world con un pequeño twist.</p>
+
+<p>```javascript hello-world.js
+console.log('hello');
+setTimeout(function() {
+  console.log('world');
+}, 3000);</p>
+
+<p>```</p>
+
+<p>Si tenemos instalado node lo anterior lo podemos correr con <code>node hello-world.js</code>.</p>
+
+<p>Esto nos imprime <code>hello</code> y tres segundos después imprime <code>world</code>, esto nos muestra un par de cosas, la primera es que tenemos disponible nuestro viejo amigo <code>setTimeout</code>. La segunda y quizás más importante es que una aplicación de node no termina hasta que no se ejecuten todos sus callbacks pendientes.</p>
+
+<h2>Hello world web</h2>
+
+<p>Ahora vamos a hacer un pequeño salto quantico a lo siguiente:</p>
+
+<p>```javascript hello-world-http.js
+var http = require('http');</p>
+
+<p>var processRequest = function(request, response) {
+  response.writeHead(200, {'Content-Type': 'text/plain'});
+  response.end('Hello World\n');<br/>
+};</p>
+
+<p>var server = http.createServer(processRequest);
+server.listen(1337, '127.0.0.1');
+console.log('Server running at http://127.0.0.1:1337/');
+<code>
+Si corremos esto crearemos un pequeño webserver que escucha en la interfaz local en el puerto</code>1337<code>, este webserver responde a toda petición con el texto</code>hello world<code>, si abren su navegador en</code>http://localhost:1337``` pueden ver el resultado.</p>
+
+<p>Ahora el análisis, en la primer linea <code>var http = require('http');</code>, importamos <a href="http://nodejs.org/api/http.html">el modulo http</a> y lo asignamos a la variable <code>http</code>.</p>
+
+<p>Todas las librerías integradas en nodejs están definidas en módulos, para <em>importar</em> estos módulos tenemos que usar la función <code>require</code>, y asignar el resultado de la llamada a una variable la cual quedara enlazada a la definición del modulo y por medio de ella podremos llamar sus distintos métodos. Uno también puede definir sus propios módulos, y puede usar módulos third-party, pero eso esta fuera del alcance de esta entrada.</p>
+
+<p>Entre la linea 3 y 6 definimos una función la cual usaremos para responder las solicitudes http, esta función espera recibir un request http, y tiene como obligación realizar las llamadas necesarias sobre <code>response</code> para darle respuesta a la solicitud http. Lo único que hace en este ejemplo es escribir el status code <code>200 OK</code>, escribe el header <code>Content-Type: 'plain/text'</code>, escribe <code>hello world</code>en la respuesta y termina la respuesta.</p>
+
+<p>Por si sola esta función no hace nada, tiene que ser llamada en el contexto correcto para que pueda dar respuesta a las peticiones http.</p>
+
+<p>Ahora en la linea 8 <code>var server = http.createServer(processRequest);</code> llamamos al método <a href="http://nodejs.org/api/http.html#http_http_createserver_requestlistener">createServer del modulo http</a>, y como parámetro enviamos una referencia a la función <code>processRequest</code>recién definida, esta llamada nos regresara un objeto http server la cual estamos asignando a <code>server</code>. Este objeto mandara llamar a la función que indicamos (<code>processRequest</code>) por cada petición http que reciba.</p>
+
+<p>Por ultimo, solo hace falta iniciar el servidor, eso lo logramos con la linea 9 donde realizamos <code>server.listen(1337, '127.0.0.1');</code>, aquí solo indicamos a que interfaz de red y puerto enlazaremos nuestro servidor y logramos que empiece a aceptar peticiones http y estas sean procesadas por nuestra función <code>processRequest</code>.</p>
+
+<p>Comúnmente este ejemplo y otros similares los encontramos un poco diferentes, en lugar de definir el método previamente es común verlo inline, como por ejemplo:</p>
+
+<p>```javascript hello-world-http-2.js
+var http = require('http');</p>
+
+<p>http.createServer(function(request, response) {
+  response.writeHead(200, {'Content-Type': 'text/plain'});
+  response.end('Hello World\n');<br/>
+}).listen(1337, '127.0.0.1');
+console.log('Server running at http://127.0.0.1:1337/');
+```</p>
+
+<p>Primordialmente es una cuestión de estilo, recomiendo usar la versión que les sea mas clara.</p>
+
+<h2>Servidor de eco.</h2>
+
+<p>Ahora veamos el siguiente ejemplo:</p>
+
+<p>```javascript echo.js
+var net = require('net');</p>
+
+<p>net.createServer(function(socket) {
+  console.log('Sup buddy');
+}).listen(8080);
+```</p>
+
+<p>En este ejemplo usamos el <a href="http://nodejs.org/api/net.html">modulo net</a> el cual nos permite crear clientes y servidores TCP, si se fijan el ejemplo es muy similar, solo que el callback del método <code>createServer</code> recibe un solo parámetro, socket.</p>
+
+<p>Cada que nuestro server reciba una nueva conexión TCP, invocara nuestro callback y como parámetro nos enviara el objeto socket que nos sirve para comunicarnos con el cliente que recién se conecta, si queremos leer la información que nos envíen, o bien escribir de vuelta lo haremos sobre este objeto.</p>
+
+<p>En ese caso lo único que estamos haciendo es imprimir en la consola, por lo que si lo corremos <code>node echo.js</code>, y posteriormente nos conectamos, con, por ejemplo telnet, recibiremos el mensaje en la consola. <code>telnet localhost 8080</code>.</p>
+
+<p>Vamos a aumentar el ejemplo ahora con la funcionalidad que realmente estamos buscando:</p>
+
+<p>```javascript echo-v2.js
+var net = require('net');</p>
+
+<p>net.createServer(function(socket) {
+  socket.on('data', function(data) {</p>
+
+<pre><code>socket.write(data);
+</code></pre>
+
+<p>  });
+}).listen(8080);
+```</p>
+
+<p>Dentro del callback de la nueva conexión tenemos ahora la siguiente llamada <code>socket.on('data', ...</code>. Lo que estamos haciendo es suscribirnos al evento <code>data</code> del socket que recién recibimos. Este evento se lanza cada que recibimos información por parte del socket, y en el callback nos envía como parámetro los datos recibidos <code>function(data) { ...</code>.</p>
+
+<p>En este callback lo único que hacemos es escribir de vuelta lo que recibimos al socket con <code>socket.write(data);</code>, con lo cual tenemos un servidor de eco en TCP, es decir, todo lo que recibe lo envía de vuelta a el cliente.</p>
+
+<h2>Próximas entregas</h2>
+
+<p>En las próximas entregas seguiremos explorando Node.js e intentare exponer su modelo asíncrono y como nos afecta al hacer nuestras aplicaciones.</p>
+
+<p>Hasta la próxima :)</p>
+]]></content>
+  </entry>
+  
+</feed>
