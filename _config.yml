@@ -3,11 +3,11 @@
 # ----------------------- #
 
 url: http://hardcoders.mx
-#url: http://hardcodersmx.github.com
+# url: http://hardcodersmx.github.com
 title: hardcoders.mx
 subtitle: Vive para codear
 author: hardcoders.mx
-simple_search: http://google.com/search
+# simple_search: http://google.com/search
 description: hardcoders.mx es una comunidad de desarrolladores interesados en aprender nuevas tencologias y compartir el conocimiento.
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
@@ -86,7 +86,7 @@ pinboard_user:
 pinboard_count: 3
 
 # Delicious
-delicious_user: 
+delicious_user:
 delicious_count: 3
 
 # Disqus Comments

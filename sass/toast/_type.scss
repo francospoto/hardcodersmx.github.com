@@ -1,38 +1,61 @@
 /* Toast Framework - type.css */
 body {
-	font: 100%/1.5 Helvetica Neue, Helvetica, Arial, sans-serif;
+	font: 100%/1.5 $serif;
+}
+
+p {
+    font-size: 125%;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: none;
+  color: #615b9d;
+  border-bottom: 1px solid transparent;
+
+
+  &:hover {
+    border-bottom-color: #615b9d;
+  }
+}
+
+/* Headings */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $sans;
 }
 
 h1 {
-    font-size: 3em; /* 48 / 16 */
-    line-height: 1em; /* 48 / 48 */
-    margin-bottom: .5em; /* 24 / 48 */
+  font-size: 34px; /* 48 / 16 */
+  line-height: 38px; /* 48 / 48 */
+  margin-bottom: 4px; /* 24 / 48 */
+  letter-spacing: -0.025em;
 }
 h2 {
-    font-size: 2.25em; /* 36 / 16 */
-    line-height: 1.333333333333333em; /* 48 / 36 */
-    margin-bottom: .6666666666666667em; /* 24 / 36 */
+  font-size: 26px; /* 36 / 16 */
+  line-height: 26px; /* 48 / 36 */
+  margin-bottom: 40px; /* 24 / 36 */
 }
 h3 {
-    font-size: 1.5em; /* 24 / 16 */
-    line-height: 1em; /* 24 / 24 */
-    margin-bottom: 1em; /* 24 / 24 */
+  font-size: 1.5em; /* 24 / 16 */
+  line-height: 1em; /* 24 / 24 */
+  margin-bottom: 1em; /* 24 / 24 */
 }
 h4 {
-    font-size: 1.3125em; /* 21 / 16 */
-    line-height: 1.142857142857143em; /* 24 / 21 */
-    margin-bottom: 1.142857142857143em; /* 24 / 21 */
+  font-size: 1.3125em; /* 21 / 16 */
+  line-height: 1.142857142857143em; /* 24 / 21 */
+  margin-bottom: 1.142857142857143em; /* 24 / 21 */
 }
 h5 {
-    font-size: 1.125em; /* 18 / 16 */
-    line-height: 1.333333333333333em; /* 24 / 18 */
-    margin-bottom: 1.333333333333333em; /* 24 / 18 */
+  font-size: 1.125em; /* 18 / 16 */
+  line-height: 1.333333333333333em; /* 24 / 18 */
+  margin-bottom: 1.333333333333333em; /* 24 / 18 */
 }
 h6 {
-    font-size: 1em; /* 16 / 16 */
-    line-height: 1.5em; /* 24 / 16 */
-    margin-bottom: 1.5em; /* 24 / 16 */
+  font-size: 1em; /* 16 / 16 */
+  line-height: 1.5em; /* 24 / 16 */
+  margin-bottom: 1.5em; /* 24 / 16 */
 }
 p, ul, ol, dl, blockquote {
-    margin-bottom: 1.5em; /* 24 / 16 */
+  margin-bottom: 24px; /* 24 / 16 */
 }
