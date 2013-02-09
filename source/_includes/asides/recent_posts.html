@@ -1,6 +1,6 @@
-<section class="wrap">
+<section class="recent-posts wrap">
   <h1>Entradas recientes</h1>
-  <ul class="recent-posts">
+  <ul>
     {% for post in site.posts limit: site.recent_posts %}
       <li class="post">
         <a href="{{ root_url }}{{ post.url }}">{{ post.title }}</a>

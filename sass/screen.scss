@@ -26,6 +26,7 @@ $mono: Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace 
 
 $border-radius: 3px;
 $link: #fd5521;
+$lines: #eee;
 
 @mixin shadow-box($border: #fff .5em solid, $shadow: rgba(#000, .15) 0 1px 4px, $border-radius: .3em) {
   @include border-radius($border-radius);
@@ -197,7 +198,7 @@ article {
   }
 
   a[rel="full-article"] {
-    background: #fd5521;
+    background: $link;
     color: #fefeff;
     text-align: center;
     padding: 5px 10px;
@@ -206,12 +207,95 @@ article {
 }
 
 .recent-posts {
-  margin: 0;
-  padding: 0;
+  border: 1px solid #eee;
+  background: #fefefe;
+  padding: 10px;
+  @include border-radius($border-radius);
+
+  h1 {
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    li {
+      list-style: none;
+      float: left;
+      margin: 15px 15px 0 0;
+
+      a {
+        background: $link;
+        color: #fff;
+        padding: 6px 8px;
+        display: block;
+        border: 1px solid darken($link, 5%);
+        @include border-radius($border-radius);
+
+        &:hover {
+          text-decoration: none;
+          background: lighten($link, 5%);
+          border-color: darken($link, 10%);
+        }
+
+        &:active {
+          background: darken($link, 2.5%);
+        }
+      }
+    }
+  }
+} // recent-posts
+
+footer {
+  clear: both;
 }
 
 .copy {
   font-size: 13px;
   text-align: center;
+  display: block;
+  margin-top: 30px;
+  padding-top: 29px;
+  border-top: 1px dotted #ddd;
 }
 
+.year-wrap {
+  display: block;
+  border: 1px solid #ddd;
+  padding: 10px;
+
+  @include border-radius($border-radius);
+
+  h2 {
+    font-size: 18px;
+
+  }
+}
+
+article.hentry header {
+  h1 {
+    border-bottom: 1px solid #eee;
+    margin: 0;
+    a {
+      &:hover {
+        text-decoration: none;
+        border-color: transparent;
+      }
+    }
+  }
+
+  .meta {
+    margin: 0;
+    padding: 7px 0;
+    border-bottom: 1px solid $lines;
+    display: inline-block;
+  }
+} // article.hentry
+
+  .post-content {
+    p { margin: 20px 0; }
+    h2 { margin: 40px 0 0 0; }
+  }
