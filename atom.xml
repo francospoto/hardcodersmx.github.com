@@ -4,7 +4,7 @@
   <title><![CDATA[hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2013-01-08T21:02:15-07:00</updated>
+  <updated>2013-04-23T12:14:07-06:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -12,6 +12,95 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Instalar Ruby y Rails]]></title>
+    <link href="http://hardcoders.mx/blog/2013/04/23/instalar-ruby-y-rails/"/>
+    <updated>2013-04-23T10:26:00-06:00</updated>
+    <id>http://hardcoders.mx/blog/2013/04/23/instalar-ruby-y-rails</id>
+    <content type="html"><![CDATA[<p><img src="http://1.bp.blogspot.com/-20zATidMWZw/T9MIcbm1SpI/AAAAAAAACmo/pnnZs2Ed3Tg/s1600/rubyrails.jpg" alt="image" /></p>
+
+<p>Antes de comenzar para los usuarios de <strong><em>Windows</em></strong> mi recomendación es que dejen de usarlo, pero por lo pronto necesitaran <a href="http://railsinstaller.org/">Rails Installer</a> que ya incluye (Ruby, Rails, SQLite, Etc), <em>Bajo su propio riesgo</em>.</p>
+
+<p>Si eres usuario <strong><em>Mac (OSX) o Linux</em></strong> ya debes de tener instalado Ruby pero es mejor hacerlo de esta manera, lo primero que necesitamos es <a href="https://rvm.io/">RVM</a> (Ruby Version Manager) la cual que nos permitirá gestionar dentro de un mismo ordenador, varios entornos de intérpretes de Ruby y conjuntos de <a href="http://rubygems.org/">gemas</a> (las gemas en Ruby podríamos decir que son como los JAR en Java o como los plugins de PHP).</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><figcaption><span>Puedes seleccionar la versión de Ruby que deseas instalar en este caso la última estable</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>curl -L https://get.rvm.io | bash -s stable --rails --autolibs<span class="o">=</span>enabled <span class="c"># Or, --ruby=1.9.3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Verifica que versión de Ruby tienes instalada</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ruby -v
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Con los pasos anteriores también se instaló la gema de Rails pero solo para estar seguros puedes usar el siguiente comando</p>
+
+<figure class='code'><figcaption><span>Instalar gema de Rails</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>gem install rails
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Recomendaciones</h2>
+
+<p>Ahora ya tienes listo tu entorno de desarrollo para <strong><em>Ruby on Rails</em></strong> y puedes tomar en cuenta las siguientes recomendaciones:</p>
+
+<ul>
+<li><strong>Editor de texto Fancy</strong>
+
+<ul>
+<li>Te recomiendo utilizar <a href="http://www.sublimetext.com/2">Sublime Text</a> es ligero, sencillo y multiplataforma.</li>
+</ul>
+</li>
+<li><strong>MySQL como motor de BD</strong>
+
+<ul>
+<li>Por default Rails usa SQLite como motor de BD pero yo te recomiendo usar <a href="http://dev.mysql.com/downloads/">MySQL</a></li>
+</ul>
+</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Instalar MySQL</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#Si usas Mac (OSx) y Tienes Brew</span>
+</span><span class='line'>brew install mysql
+</span><span class='line'>
+</span><span class='line'><span class="c">#Si usas Ubuntu</span>
+</span><span class='line'>apt-get install mysql-server
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>¿Que es Ruby on Rails?</h2>
+
+<p>Si no tienes idea de por donde empezar puedes probar con los siguientes links:</p>
+
+<ul>
+<li><a href="http://tryruby.org">Try Ruby</a> &#8220;Ruby desde Cero&#8221;</li>
+<li><a href="http://railsforzombies.org/">Rails for Zombies</a> &#8220;Ruby desde Cero&#8221;</li>
+</ul>
+
+
+<h2>Que comience la magia</h2>
+
+<p>Ahora puedes empezar a codear tu Idea Millonaria en Rails</p>
+
+<figure class='code'><figcaption><span>Crea un nuevo proyecto en Rails</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails new idea_millonaria <span class="c">#Si quieres usar MySQL como DB, -d mysql</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Templates con Underscore.js]]></title>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rails | hardcoders.mx]]></title>
+  <link href="http://hardcoders.mx/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://hardcoders.mx/"/>
+  <updated>2013-04-23T12:14:07-06:00</updated>
+  <id>http://hardcoders.mx/</id>
+  <author>
+    <name><![CDATA[hardcoders.mx]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Instalar Ruby y Rails]]></title>
+    <link href="http://hardcoders.mx/blog/2013/04/23/instalar-ruby-y-rails/"/>
+    <updated>2013-04-23T10:26:00-06:00</updated>
+    <id>http://hardcoders.mx/blog/2013/04/23/instalar-ruby-y-rails</id>
+    <content type="html"><![CDATA[<p><img src="http://1.bp.blogspot.com/-20zATidMWZw/T9MIcbm1SpI/AAAAAAAACmo/pnnZs2Ed3Tg/s1600/rubyrails.jpg" alt="image" /></p>
+
+<p>Antes de comenzar para los usuarios de <strong><em>Windows</em></strong> mi recomendación es que dejen de usarlo, pero por lo pronto necesitaran <a href="http://railsinstaller.org/">Rails Installer</a> que ya incluye (Ruby, Rails, SQLite, Etc), <em>Bajo su propio riesgo</em>.</p>
+
+<p>Si eres usuario <strong><em>Mac (OSX) o Linux</em></strong> ya debes de tener instalado Ruby pero es mejor hacerlo de esta manera, lo primero que necesitamos es <a href="https://rvm.io/">RVM</a> (Ruby Version Manager) la cual que nos permitirá gestionar dentro de un mismo ordenador, varios entornos de intérpretes de Ruby y conjuntos de <a href="http://rubygems.org/">gemas</a> (las gemas en Ruby podríamos decir que son como los JAR en Java o como los plugins de PHP).</p>
+
+<!-- more -->
+
+
+<p><code>bash Puedes seleccionar la versión de Ruby que deseas instalar en este caso la última estable
+$ curl -L https://get.rvm.io | bash -s stable --rails --autolibs=enabled # Or, --ruby=1.9.3
+</code></p>
+
+<p><code>bash Verifica que versión de Ruby tienes instalada
+ruby -v
+</code></p>
+
+<p>Con los pasos anteriores también se instaló la gema de Rails pero solo para estar seguros puedes usar el siguiente comando</p>
+
+<p><code>bash Instalar gema de Rails
+gem install rails
+</code></p>
+
+<h2>Recomendaciones</h2>
+
+<p>Ahora ya tienes listo tu entorno de desarrollo para <strong><em>Ruby on Rails</em></strong> y puedes tomar en cuenta las siguientes recomendaciones:</p>
+
+<ul>
+<li><strong>Editor de texto Fancy</strong>
+
+<ul>
+<li>Te recomiendo utilizar <a href="http://www.sublimetext.com/2">Sublime Text</a> es ligero, sencillo y multiplataforma.</li>
+</ul>
+</li>
+<li><strong>MySQL como motor de BD</strong>
+
+<ul>
+<li>Por default Rails usa SQLite como motor de BD pero yo te recomiendo usar <a href="http://dev.mysql.com/downloads/">MySQL</a>
+```bash Instalar MySQL
+
+<h1>Si usas Mac (OSx) y Tienes Brew</h1>
+
+<p>brew install mysql</p></li>
+</ul>
+</li>
+</ul>
+
+
+<h1>Si usas Ubuntu</h1>
+
+<p>apt-get install mysql-server
+```</p>
+
+<h2>¿Que es Ruby on Rails?</h2>
+
+<p>Si no tienes idea de por donde empezar puedes probar con los siguientes links:</p>
+
+<ul>
+<li><a href="http://tryruby.org">Try Ruby</a> "Ruby desde Cero"</li>
+<li><a href="http://railsforzombies.org/">Rails for Zombies</a> "Ruby desde Cero"</li>
+</ul>
+
+
+<h2>Que comience la magia</h2>
+
+<p>Ahora puedes empezar a codear tu Idea Millonaria en Rails</p>
+
+<p><code>bash Crea un nuevo proyecto en Rails
+rails new idea_millonaria #Si quieres usar MySQL como DB, -d mysql
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>
