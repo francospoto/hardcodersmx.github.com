@@ -131,7 +131,17 @@ body {
   li {
     display: inline-block;
     a {
-      color: #fefeff;
+      color: #fefeff;
+      -webkit-transition-property: background;
+      -moz-transition-property: background;
+      -ms-transition-property: background;
+      -o-transition-property: background;
+      transition-property: background;
+      -webkit-transition-duration: 0.1s;
+      -moz-transition-duration: 0.1s;
+      -ms-transition-duration: 0.1s;
+      -o-transition-duration: 0.1s;
+      transition-duration: 0.1s;
     }
   }
 }
@@ -145,6 +155,18 @@ body {
     a {
       color: #fefeff;
     }
+  }
+
+  .twitter:hover {
+    background: #19b6ed;
+  }
+
+  .facebook:hover {
+    background: #3a579a;
+  }
+
+  .rss:hover {
+    background: #FF511E;
   }
 }
 
@@ -264,14 +286,57 @@ footer {
 
 .year-wrap {
   display: block;
-  border: 1px solid #ddd;
-  padding: 10px;
 
   @include border-radius($border-radius);
 
-  h2 {
-    font-size: 18px;
+  article {
+    border-bottom: 1px solid #eee;
+    padding: 5px;
+    font-size: 14px;
+    margin: 0 0 10px 0;
+  }
 
+  h1 {
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+    a {
+      margin: 0;
+      padding: 0;
+      color: $link;
+      border: none;
+
+      &:hover {
+        text-decoration: none;
+        border: none;
+      }
+    }
+  }
+
+  h2 {
+    font-size: 48px;
+    color: #ddd;
+    margin: 60px 0 20px 0;
+    display: block;
+  }
+
+  footer {
+    margin: 0;
+    padding: 5px 0 0 0;
+
+    time, span { font-size: 13px; }
+
+    span a {
+      color: #444;
+      &:hover {
+        color: $link;
+      }
+    }
+
+    time {
+      margin-right: 20px;
+      font-weight: bold;
+    }
   }
 }
 
