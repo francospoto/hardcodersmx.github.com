@@ -52,13 +52,6 @@ $lines: #eee;
 @import "toast/type";
 @import "toast/animate";
 
-// * {
-//   -webkit-background-size: cover;
-//   -moz-background-size: cover;
-//   -o-background-size: cover;
-//   background-size: cover;
-// }
-
 html, body {
   height: 100% !important;
 }
@@ -67,9 +60,11 @@ body {
   background: #feffff;
   color: #555;
 }
+
 .black {
   background: #111;
 }
+
 .remove {
   display: none;
 }
@@ -284,8 +279,8 @@ footer {
   border-top: 1px dotted #ddd;
 }
 
-.year-wrap {
-  display: block;
+.year-wrap, .category {
+  // display: block;
 
   @include border-radius($border-radius);
 
@@ -355,7 +350,6 @@ article.hentry header {
   .meta {
     margin: 0;
     padding: 7px 0;
-    border-bottom: 1px solid $lines;
     display: inline-block;
   }
 } // article.hentry
@@ -364,3 +358,39 @@ article.hentry header {
     p { margin: 20px 0; }
     h2 { margin: 40px 0 0 0; }
   }
+
+
+footer .meta {
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin: 20px auto;
+  display: block;
+}
+
+.left-thumb {
+  max-width: 300px;
+  padding: 10px;
+  margin: 8px 20px 20px 0;
+  background: #fff;
+  border: 10px solid #eee;
+  float: left;
+  display: inline-block;
+}
+
+.code {
+  clear: both;
+}
+
+pre {
+  margin: 0;
+  font-size: 13px;
+}
+
+.gutter {
+margin: 0;
+float: left;
+}
+
+.highlight .line-numbers, html .gist .gist-file .gist-syntax .gist-highlight .line-numbers {
+  margin: 0 !important;
+}
