@@ -1,0 +1,57 @@
+/* Toast Framework - type.css */
+body {
+	font: normal 100%/1.6 $sans;
+}
+
+p {
+    font-size: 115%;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: none;
+  color: $link;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+
+  &:hover {
+    border-bottom-color: rgba(0,0,0,.1);
+  }
+}
+
+/* Headings */
+
+h1 {
+  font-size: 38px; /* 48 / 16 */
+  line-height: 38px; /* 48 / 48 */
+  margin-bottom: 4px; /* 24 / 48 */
+  letter-spacing: -0.025em;
+}
+h2 {
+  font-size: 26px; /* 36 / 16 */
+  line-height: 26px; /* 48 / 36 */
+  margin-bottom: 40px; /* 24 / 36 */
+}
+h3 {
+  font-size: 1.5em; /* 24 / 16 */
+  line-height: 1em; /* 24 / 24 */
+  margin-bottom: 1em; /* 24 / 24 */
+}
+h4 {
+  font-size: 1.3125em; /* 21 / 16 */
+  line-height: 1.142857142857143em; /* 24 / 21 */
+  margin-bottom: 1.142857142857143em; /* 24 / 21 */
+}
+h5 {
+  font-size: 1.125em; /* 18 / 16 */
+  line-height: 1.333333333333333em; /* 24 / 18 */
+  margin-bottom: 1.333333333333333em; /* 24 / 18 */
+}
+h6 {
+  font-size: 1em; /* 16 / 16 */
+  line-height: 1.5em; /* 24 / 16 */
+  margin-bottom: 1.5em; /* 24 / 16 */
+}
+p, ul, ol, dl, blockquote {
+  margin-bottom: 24px; /* 24 / 16 */
+}

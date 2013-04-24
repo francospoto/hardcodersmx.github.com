@@ -7,7 +7,7 @@ categories: Ruby Rails RoR
 author: "Marco Medina"
 ---
 
-![image](http://1.bp.blogspot.com/-20zATidMWZw/T9MIcbm1SpI/AAAAAAAACmo/pnnZs2Ed3Tg/s1600/rubyrails.jpg)
+<img src="http://1.bp.blogspot.com/-20zATidMWZw/T9MIcbm1SpI/AAAAAAAACmo/pnnZs2Ed3Tg/s1600/rubyrails.jpg)" class="left-thumb">
 
 Antes de comenzar para los usuarios de ***Windows*** mi recomendación es que dejen de usarlo, pero por lo pronto necesitaran [Rails Installer](http://railsinstaller.org/) que ya incluye (Ruby, Rails, SQLite, Etc), *Bajo su propio riesgo*.
 
