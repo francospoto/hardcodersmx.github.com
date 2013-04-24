@@ -9,7 +9,7 @@
   <meta name="author" content="hardcoders.mx">
 
   
-  <meta name="description" content="En este post veremos como compilar templates del lado de cliente con Javascript y Underscore.js, por que usar templates del lado del cliente, &hellip;">
+  <meta name="description" content="Templates con Underscore.js Jan 8th, 2013 | Comments En este post veremos como compilar templates del lado de cliente con Javascript y Underscore.js &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,14 +21,17 @@
   <link rel="canonical" href="http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js/">
   <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--<script src="/javascripts/scripts.js" type="text/javascript"></script>-->
   <link href="/atom.xml" rel="alternate" title="hardcoders.mx" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <!-- Fonts from Typekit
+<script type="text/javascript" src="//use.typekit.net/roa5xqi.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
+-->
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -43,43 +46,42 @@
   </script>
 
 
+
 </head>
 
 <body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">hardcoders.mx</a></h1>
-  
-    <h2>Vive para codear</h2>
-  
-</hgroup>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:hardcoders.mx" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
+  <nav class="main-nav-wrap" role="navigation"><!--
+  <ul class="subscription" data-subscription="rss">
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+    
+  </ul>
+-->
+    
+  <ul class="wrap main-navigation">
+  <li><a href="/" class="active">Hardcoders</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <ul class="social-header">
+    <li><a href="/atom.xml"rel="subscribe-rss" class="rss" title="subscribe via RSS">RSS</a></li>
+    <li><a href="https://twitter.com/hardcodersmx" class="pull-right twitter">Twitter</a></li>
+    <li><a href="https://www.facebook.com/hardcodersmx" class="pull-right facebook">Facebook</a></li>
+  </ul>
 </ul>
-
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
+  <div class="header-wrap">
+    <header class="wrap" role="banner"><hgroup>
+  <h1><a href="/"><img src="/images/hc-logo.png" alt="hardcoders.mx"></a></h1>
+</hgroup>
+</header>
+  </div>
+
+  <div id="content" class="main-content">
+    <div class="wrapper wrap">
+  <article class="hentry wrap" role="article">
+    
   <header>
     
-      <h1 class="entry-title">Templates Con Underscore.js</h1>
+      <h1 class="entry-title"><a href="">Templates con Underscore.js</a></h1>
     
     
       <p class="meta">
@@ -104,7 +106,7 @@
   </header>
 
 
-<div class="entry-content"><p>En este post veremos como compilar templates del lado de cliente con Javascript y <a href="http://underscorejs.org/">Underscore.js</a>, por que usar templates del lado del cliente, disfrutenlo y dejen sus comentarios.</p>
+<div class="entry-content post-content"><p>En este post veremos como compilar templates del lado de cliente con Javascript y <a href="http://underscorejs.org/">Underscore.js</a>, por que usar templates del lado del cliente, disfrutenlo y dejen sus comentarios.</p>
 
 <!-- more -->
 
@@ -270,14 +272,14 @@
 </div>
 
 
-  <footer>
-    <p class="meta">
-      
+    <footer>
+      <p class="meta">
+        
   
 
-<span class="byline author vcard">Posted by <span class="fn">Isaac Zepeda</span></span>
+<span class="byline author vcard">Escrito por: <span class="fn">Isaac Zepeda</span></span>
 
-      
+        
 
 
 
@@ -290,7 +292,7 @@
 
 
 <time datetime="2013-01-08T21:00:00-07:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
-      
+        
 
 <span class="categories">
   
@@ -299,9 +301,9 @@
 </span>
 
 
-    </p>
-    
-      <div class="sharing">
+      </p>
+      
+        <div class="sharing">
   
   <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js/" data-via="" data-counturl="http://hardcoders.mx/blog/2013/01/08/templates-con-underscore-dot-js/" >Tweet</a>
   
@@ -313,72 +315,35 @@
   
 </div>
 
-    
-    <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/12/28/nodejs-para-novatos-parte-1/" title="Previous Post: nodejs para novatos - parte 1">&laquo; nodejs para novatos - parte 1</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/04/23/instalar-ruby-y-rails/" title="Next Post: Instalar Ruby y Rails">Instalar Ruby y Rails &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-
-<aside class="sidebar">
+      <p class="meta">
+        
+          <a class="basic-alignment left" href="/blog/2012/12/28/nodejs-para-novatos-parte-1/" title="Previous Post: nodejs para novatos - parte 1">&laquo; nodejs para novatos - parte 1</a>
+        
+        
+          <a class="basic-alignment right" href="/blog/2013/04/23/instalar-ruby-y-rails/" title="Next Post: Instalar Ruby y Rails">Instalar Ruby y Rails &raquo;</a>
+        
+      </p>
+    </footer>
+  </article>
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/04/23/instalar-ruby-y-rails/">Instalar Ruby y Rails</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/08/templates-con-underscore-dot-js/">Templates con Underscore.js</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/28/nodejs-para-novatos-parte-1/">nodejs para novatos - parte 1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/27/objetos-en-javascript/">Objetos en Javascript</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/11/chat-basico-con-socket-dot-io/">Chat básico con Socket.io</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-
+    <section class="wrap">
+      <!-- <h1>Comentarios</h1> -->
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
   
-</aside>
-
-
-    </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - hardcoders.mx -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+  </div>
 
+  <footer class="wrap">
+  <p class="copy">
+    Copyright &copy; 2013 - hardcoders.mx -
+    <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </p>
 </footer>
+
+
   
 
 <script type="text/javascript">
@@ -429,6 +394,7 @@
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>
+
 
 
 

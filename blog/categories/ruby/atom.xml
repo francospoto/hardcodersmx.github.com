@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2013-04-23T12:18:53-06:00</updated>
+  <updated>2013-04-23T18:24:45-06:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -18,7 +18,7 @@
     <link href="http://hardcoders.mx/blog/2013/04/23/instalar-ruby-y-rails/"/>
     <updated>2013-04-23T10:26:00-06:00</updated>
     <id>http://hardcoders.mx/blog/2013/04/23/instalar-ruby-y-rails</id>
-    <content type="html"><![CDATA[<p><img src="http://1.bp.blogspot.com/-20zATidMWZw/T9MIcbm1SpI/AAAAAAAACmo/pnnZs2Ed3Tg/s1600/rubyrails.jpg" alt="image" /></p>
+    <content type="html"><![CDATA[<p><img src="http://1.bp.blogspot.com/-20zATidMWZw/T9MIcbm1SpI/AAAAAAAACmo/pnnZs2Ed3Tg/s1600/rubyrails.jpg)" class="left-thumb"></p>
 
 <p>Antes de comenzar para los usuarios de <strong><em>Windows</em></strong> mi recomendación es que dejen de usarlo, pero por lo pronto necesitaran <a href="http://railsinstaller.org/">Rails Installer</a> que ya incluye (Ruby, Rails, SQLite, Etc), <em>Bajo su propio riesgo</em>.</p>
 
