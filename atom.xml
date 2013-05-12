@@ -4,7 +4,7 @@
   <title><![CDATA[hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2013-04-23T18:24:45-06:00</updated>
+  <updated>2013-05-12T14:33:39-06:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -12,6 +12,256 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Autenticación con token en Ruby on Rails y Devise]]></title>
+    <link href="http://hardcoders.mx/blog/2013/05/12/autenticacion-con-token-en-ruby-on-rails-y-devise/"/>
+    <updated>2013-05-12T13:05:00-06:00</updated>
+    <id>http://hardcoders.mx/blog/2013/05/12/autenticacion-con-token-en-ruby-on-rails-y-devise</id>
+    <content type="html"><![CDATA[<p>Un pequeño y sencillo tutorial para crear una autenticación basada en tokens en Ruby on Rails y <a href="https://github.com/plataformatec/devise">Devise</a>. Para este tutorial se requiere conocimiento básico en Rails y tener Rails y Devise instalado.</p>
+
+<!-- more -->
+
+
+<p>Este tutorial toma por hecho que ya tienen instalado y funcionando <a href="https://github.com/plataformatec/devise">Devise</a> en su proyecto.</p>
+
+<ol>
+<li>Editar el archivo de configuración de devise en tu proyecto</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/config/initializers/devise.rb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Agregamos estas dos líneas que tal vez ya están comentadas</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">skip_session_storage</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:http_auth</span><span class="p">,</span> <span class="ss">:token_auth</span><span class="o">]</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">token_authentication_key</span> <span class="o">=</span> <span class="ss">:auth_token</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Crear la migración que agregue los campos necesarios para el uso de Token’, en mi caso el modelo que uso para Devise es User y la tabla users.</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AddTokenToUsers</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">up</span>
+</span><span class='line'>      <span class="n">change_table</span><span class="p">(</span><span class="ss">:users</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>          <span class="c1"># Token authenticatable</span>
+</span><span class='line'>          <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:authentication_token</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      
+</span><span class='line'>      <span class="n">add_index</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:authentication_token</span><span class="p">,</span> <span class="ss">:unique</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">down</span>
+</span><span class='line'>      <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">IrreversibleMigration</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.- Creamos nuestro controlador para el manejo de Tokens, creamos nuestro controlador desde la consola que en este caso lo llamaremos Tokens</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">generate</span> <span class="n">controller</span> <span class="no">Tokens</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Una vez creado nos vamos al archivo generado que en mi caso seria <code>app/controllers/tokens_controller.rb</code></p>
+
+<p>y escribimos un código similar a este:</p>
+
+<figure class='code'><figcaption><span>tokens_controller.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TokensController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="n">skip_before_filter</span> <span class="ss">:verify_authenticity_token</span>
+</span><span class='line'>  <span class="n">respond_to</span> <span class="ss">:json</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># crear token POST /tokens.json</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>      <span class="c1"># tomamos las variables del POST</span>
+</span><span class='line'>      <span class="n">email</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:email</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">password</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:password</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1"># aquí mandamos un mensaje por si no nos hacen un post a /tokens sin .json</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">format</span> <span class="o">!=</span> <span class="ss">:json</span>
+</span><span class='line'>          <span class="n">render</span> <span class="ss">:status</span><span class="o">=&gt;</span><span class="mi">406</span><span class="p">,</span> <span class="ss">:json</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:message</span><span class="o">=&gt;</span><span class="s2">&quot;solo se aceptan peticiones json :(&quot;</span><span class="p">}</span>
+</span><span class='line'>          <span class="k">return</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="c1"># aquí mandamos un mensaje por si no nos mandaron las variables email o password</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">email</span><span class="o">.</span><span class="n">nil?</span>  <span class="o">||</span> <span class="n">password</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>          <span class="n">render</span> <span class="ss">:status</span><span class="o">=&gt;</span><span class="mi">400</span><span class="p">,</span>
+</span><span class='line'>          <span class="ss">:json</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:message</span><span class="o">=&gt;</span><span class="s2">&quot;Algo anda mal con tu POST :(&quot;</span><span class="p">}</span>
+</span><span class='line'>          <span class="k">return</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="c1">#buscamos el usuario por el email</span>
+</span><span class='line'>      <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_email</span><span class="p">(</span><span class="n">email</span><span class="o">.</span><span class="n">downcase</span><span class="p">)</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="c1">#enviamos un mensaje por si no existe el usuario</span>
+</span><span class='line'>      <span class="k">if</span> <span class="vi">@user</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:status</span><span class="o">=&gt;</span><span class="mi">401</span><span class="p">,</span> <span class="ss">:json</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:message</span><span class="o">=&gt;</span><span class="s2">&quot;tu email o password son incorrectos :(&quot;</span><span class="p">}</span>
+</span><span class='line'>      <span class="k">return</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="c1">#generamos el token y lo guardamos</span>
+</span><span class='line'>      <span class="vi">@user</span><span class="o">.</span><span class="n">ensure_authentication_token!</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="c1">#validamos el password y si es correcto devolvemos el token :)</span>
+</span><span class='line'>      <span class="k">if</span> <span class="vi">@user</span><span class="o">.</span><span class="n">valid_password?</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+</span><span class='line'>          <span class="n">render</span> <span class="ss">:status</span><span class="o">=&gt;</span><span class="mi">200</span><span class="p">,</span> <span class="ss">:json</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:token</span><span class="o">=&gt;</span><span class="vi">@user</span><span class="o">.</span><span class="n">authentication_token</span><span class="p">}</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:status</span><span class="o">=&gt;</span><span class="mi">401</span><span class="p">,</span> <span class="ss">:json</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:message</span><span class="o">=&gt;</span><span class="s2">&quot;tu email o password son incorrectos :(&quot;</span><span class="p">}</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># elimar token DELETE /tokens/sznxbcmshad.json</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
+</span><span class='line'>      <span class="c1"># buscamos el usuario por el token</span>
+</span><span class='line'>      <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_authentication_token</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>      
+</span><span class='line'>      <span class="c1"># si lo encontramos eliminamos el token y si no le mandamos un mensaje</span>
+</span><span class='line'>      <span class="k">if</span> <span class="vi">@user</span>
+</span><span class='line'>          <span class="vi">@user</span><span class="o">.</span><span class="n">reset_authentication_token!</span>
+</span><span class='line'>          <span class="n">render</span> <span class="ss">:status</span><span class="o">=&gt;</span><span class="mi">200</span><span class="p">,</span> <span class="ss">:json</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:token</span><span class="o">=&gt;</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">}</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>          <span class="n">render</span> <span class="ss">:status</span><span class="o">=&gt;</span><span class="mi">404</span><span class="p">,</span> <span class="ss">:json</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:message</span><span class="o">=&gt;</span><span class="s1">&#39;token no valido.&#39;</span><span class="p">,</span> <span class="ss">:token</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">}</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># esta función la hicimos solo para obtener los datos del usuario con la sesión abierta</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">getUser</span>
+</span><span class='line'>      <span class="c1"># de nuevo si no nos piden un json los mandamos a volar </span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">format</span> <span class="o">!=</span> <span class="ss">:json</span>
+</span><span class='line'>          <span class="n">render</span> <span class="ss">:status</span><span class="o">=&gt;</span><span class="mi">406</span><span class="p">,</span> <span class="ss">:json</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:message</span><span class="o">=&gt;</span><span class="s2">&quot;solo json :(&quot;</span><span class="p">}</span>
+</span><span class='line'>          <span class="k">return</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1"># aqui les mandamos el json del usuario</span>
+</span><span class='line'>      <span class="n">user</span> <span class="o">=</span> <span class="n">current_user</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:status</span><span class="o">=&gt;</span><span class="mi">200</span><span class="p">,</span> <span class="ss">:json</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:user</span><span class="o">=&gt;</span><span class="n">user</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ya creado nuestro controlador le damos acceso en archivo de rutas de nuestro proyecto.</p>
+
+<figure class='code'><figcaption><span>config/routes.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:tokens</span><span class="p">,</span><span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:create</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">collection</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">get</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s1">&#39;getUser&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Con esto ya tenemos habilitado a Devise para que funcione con tokens :)</p>
+
+<p>por ejemplo si quisiéramos enviar un post al un controlador llamado categories la url sería:
+<code>localhost:3000/categories?auth_token=t0k3n-t0k3n</code></p>
+
+<p>Si quisiéramos iniciar sesión tendríamos que enviar un POST a <code>http://localhost:3000/tokens.json</code> con el email y el password, esto nos regresara un json con el objeto token, y si quieres obtener los datos del usuario tomamos la variable token y mandamos un GET a <code>http://localhost:3000/tokens/user.json?auth_token=t0k3n-t0k3n</code></p>
+
+<p>que nos regresara un json con los datos del usuario y para cerrar la sesión solo tendriamos que mandar un DELETE a <code>http://localhost:3000/tokens/t0k3n-t0k3n.json</code> y listo :).</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Instalar Ruby y Rails]]></title>

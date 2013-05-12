@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2013-04-23T18:24:45-06:00</updated>
+  <updated>2013-05-12T14:33:39-06:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -12,6 +12,172 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Autenticación con token en Ruby on Rails y Devise]]></title>
+    <link href="http://hardcoders.mx/blog/2013/05/12/autenticacion-con-token-en-ruby-on-rails-y-devise/"/>
+    <updated>2013-05-12T13:05:00-06:00</updated>
+    <id>http://hardcoders.mx/blog/2013/05/12/autenticacion-con-token-en-ruby-on-rails-y-devise</id>
+    <content type="html"><![CDATA[<p>Un pequeño y sencillo tutorial para crear una autenticación basada en tokens en Ruby on Rails y <a href="https://github.com/plataformatec/devise">Devise</a>. Para este tutorial se requiere conocimiento básico en Rails y tener Rails y Devise instalado.</p>
+
+<!-- more -->
+
+
+<p>Este tutorial toma por hecho que ya tienen instalado y funcionando <a href="https://github.com/plataformatec/devise">Devise</a> en su proyecto.</p>
+
+<ol>
+<li>Editar el archivo de configuración de devise en tu proyecto</li>
+</ol>
+
+
+<p><code>
+/config/initializers/devise.rb
+</code></p>
+
+<p>Agregamos estas dos líneas que tal vez ya están comentadas</p>
+
+<p><code>ruby
+config.skip_session_storage = [:http_auth, :token_auth]
+config.token_authentication_key = :auth_token
+</code></p>
+
+<ol>
+<li>Crear la migración que agregue los campos necesarios para el uso de Token’, en mi caso el modelo que uso para Devise es User y la tabla users.</li>
+</ol>
+
+
+<p>``` ruby
+class AddTokenToUsers &lt; ActiveRecord::Migration</p>
+
+<pre><code>def self.up
+    change_table(:users) do |t|
+        # Token authenticatable
+        t.string :authentication_token
+    end
+
+    add_index :users, :authentication_token, :unique =&gt; true
+end
+
+def self.down
+    raise ActiveRecord::IrreversibleMigration
+end
+</code></pre>
+
+<p>end
+```</p>
+
+<p>3.- Creamos nuestro controlador para el manejo de Tokens, creamos nuestro controlador desde la consola que en este caso lo llamaremos Tokens</p>
+
+<p><code>
+rails generate controller Tokens
+</code></p>
+
+<p>Una vez creado nos vamos al archivo generado que en mi caso seria <code>app/controllers/tokens_controller.rb</code></p>
+
+<p>y escribimos un código similar a este:</p>
+
+<p>``` ruby tokens_controller.rb
+class TokensController &lt; ApplicationController</p>
+
+<pre><code>skip_before_filter :verify_authenticity_token
+</code></pre>
+
+<p>  respond_to :json</p>
+
+<p>  # crear token POST /tokens.json</p>
+
+<pre><code>def create
+    # tomamos las variables del POST
+    email = params[:email]
+    password = params[:password]
+
+    # aquí mandamos un mensaje por si no nos hacen un post a /tokens sin .json
+    if request.format != :json
+        render :status=&gt;406, :json=&gt;{:message=&gt;"solo se aceptan peticiones json :("}
+        return
+    end
+
+    # aquí mandamos un mensaje por si no nos mandaron las variables email o password
+    if email.nil?  || password.nil?
+        render :status=&gt;400,
+        :json=&gt;{:message=&gt;"Algo anda mal con tu POST :("}
+        return
+    end
+
+    #buscamos el usuario por el email
+    @user = User.find_by_email(email.downcase)
+
+    #enviamos un mensaje por si no existe el usuario
+if @user.nil?
+  render :status=&gt;401, :json=&gt;{:message=&gt;"tu email o password son incorrectos :("}
+    return
+end
+
+    #generamos el token y lo guardamos
+@user.ensure_authentication_token!
+
+    #validamos el password y si es correcto devolvemos el token :)
+if @user.valid_password?(password)
+    render :status=&gt;200, :json=&gt;{:token=&gt;@user.authentication_token}
+else
+    render :status=&gt;401, :json=&gt;{:message=&gt;"tu email o password son incorrectos :("}
+end
+end
+
+# elimar token DELETE /tokens/sznxbcmshad.json
+def destroy
+    # buscamos el usuario por el token
+    @user = User.find_by_authentication_token(params[:id])
+
+    # si lo encontramos eliminamos el token y si no le mandamos un mensaje
+    if @user
+        @user.reset_authentication_token!
+        render :status=&gt;200, :json=&gt;{:token=&gt;params[:id]}
+    else 
+        render :status=&gt;404, :json=&gt;{:message=&gt;'token no valido.', :token =&gt; params[:id]}
+    end
+end
+
+# esta función la hicimos solo para obtener los datos del usuario con la sesión abierta
+def getUser
+    # de nuevo si no nos piden un json los mandamos a volar 
+    if request.format != :json
+        render :status=&gt;406, :json=&gt;{:message=&gt;"solo json :("}
+        return
+    end
+
+    # aqui les mandamos el json del usuario
+    user = current_user
+    render :status=&gt;200, :json=&gt;{:user=&gt;user}
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+```</p>
+
+<p>Ya creado nuestro controlador le damos acceso en archivo de rutas de nuestro proyecto.</p>
+
+<p>``` ruby config/routes.rb
+resources :tokens,:only => [:create, :destroy] do</p>
+
+<pre><code>collection do 
+    get 'user', :action =&gt; 'getUser'
+end
+</code></pre>
+
+<p>end
+```
+Con esto ya tenemos habilitado a Devise para que funcione con tokens :)</p>
+
+<p>por ejemplo si quisiéramos enviar un post al un controlador llamado categories la url sería:
+<code>localhost:3000/categories?auth_token=t0k3n-t0k3n</code></p>
+
+<p>Si quisiéramos iniciar sesión tendríamos que enviar un POST a <code>http://localhost:3000/tokens.json</code> con el email y el password, esto nos regresara un json con el objeto token, y si quieres obtener los datos del usuario tomamos la variable token y mandamos un GET a <code>http://localhost:3000/tokens/user.json?auth_token=t0k3n-t0k3n</code></p>
+
+<p>que nos regresara un json con los datos del usuario y para cerrar la sesión solo tendriamos que mandar un DELETE a <code>http://localhost:3000/tokens/t0k3n-t0k3n.json</code> y listo :).</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Instalar Ruby y Rails]]></title>
