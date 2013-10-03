@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Aleatoriedad con Peso"
-date: 2013-10-02 11:55
+date: 2013-10-03 11:55
 comments: true
-categories: [Lua, Games Development, Matemáticas]
+categories: [Lua, Games Development, Probabilidad]
 author: "Oscar Obeso"
 ---
 
