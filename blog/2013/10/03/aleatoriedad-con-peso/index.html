@@ -1,0 +1,613 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Aleatoriedad con Peso - hardcoders.mx</title>
+  <meta name="author" content="hardcoders.mx">
+
+  
+  <meta name="description" content="Aleatoriedad con Peso Oct 3rd, 2013 | Comments En los videojuegos, la probabilidad es una herramienta que nos da el alcance de poder realizar un &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hardcoders.mx/blog/2013/10/03/aleatoriedad-con-peso/">
+  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--<script src="/javascripts/scripts.js" type="text/javascript"></script>-->
+  <link href="/atom.xml" rel="alternate" title="hardcoders.mx" type="application/atom+xml">
+  <!-- Fonts from Typekit
+<script type="text/javascript" src="//use.typekit.net/roa5xqi.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36827366-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+</head>
+
+<body   >
+
+  <nav class="main-nav-wrap" role="navigation"><!--
+  <ul class="subscription" data-subscription="rss">
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+    
+  </ul>
+-->
+    
+  <ul class="wrap main-navigation">
+  <li><a href="/" class="active">Hardcoders</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <ul class="social-header">
+    <li><a href="/atom.xml"rel="subscribe-rss" class="rss" title="subscribe via RSS">RSS</a></li>
+    <li><a href="https://twitter.com/hardcodersmx" class="pull-right twitter">Twitter</a></li>
+    <li><a href="https://www.facebook.com/hardcodersmx" class="pull-right facebook">Facebook</a></li>
+  </ul>
+</ul>
+</nav>
+  <div class="header-wrap">
+    <header class="wrap" role="banner"><hgroup>
+  <h1><a href="/"><img src="/images/hc-logo.png" alt="hardcoders.mx"></a></h1>
+</hgroup>
+</header>
+  </div>
+
+  <div id="content" class="main-content">
+    <div class="wrapper wrap">
+  <article class="hentry wrap" role="article">
+    
+  <header>
+    
+      <h1 class="entry-title"><a href="">Aleatoriedad con Peso</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-03T11:55:00-06:00" pubdate data-updated="true">Oct 3<span>rd</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content post-content"><p><img src="/images/posts/59862.jpg" class="left-thumb"></p>
+
+<p>En los videojuegos, la probabilidad es una herramienta que nos da el alcance de poder realizar un juego con resultados provenientes de un azar controlado. Cuando se aplican probabilidad y estadísticas en un videojuego, el producto es un agrado consistente que no se nota a simple vista, pero que provoca que un jugador sienta que el juego tiene resultados congruentes, y no es simplemente un resultado azaroso total.</p>
+
+<!-- more -->
+
+
+<p>Esto lo tenía yo muy claro desde siempre. Sólo basta recordar algunos de los viejos clásicos “Tycooneros”, donde siempre existía una probabilidad de que ocurriera cierto evento, y era grato ver que dicha probabilidad seguía las reglas naturales del azar. Cada evento tenía su peso, y cada peso cumplía con su cometido. La probabilidad formaba y forma parte importante de los videojuegos, para darle esa sazón de realidad y coherencia a los resultados de cada acción que realizabas.</p>
+
+<p>Hoy, después de varios golpes de cabeza y páginas de algunos conceptos básicos de la probabilidad, me construí un algoritmo que, aunque puede no ser la manera más eficiente, resultó ser eficaz al momento de querer obtener un número a base de un conjunto de probabilidades.</p>
+
+<p>Partiendo de un arreglo de probabilidades, puedo lanzar un resultado acorde con las probabilidades especificadas, y así lograr obtener un resultado naturalmente real. Iniciemos con un simple ejemplo:</p>
+
+<p>Se tiene una caja con 10 pelotas, de las cuales 3 son negras, 4 rojas, 1 verde y 2 azules. Por lo tanto la probabilidad de cada una sería la siguiente:</p>
+
+<ul>
+<li>Negra: 0.3</li>
+<li>Roja: 0.4</li>
+<li>Verde: 0.1</li>
+<li>Azul: 0.2</li>
+</ul>
+
+
+<p>Iniciemos creando dos arreglos, uno con el nombre del objeto, y otro con la respectiva probabilidad de cada uno.</p>
+
+<figure class='code'><figcaption><span>Definiendo variables iniciales</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="kd">local</span> <span class="n">pelotas</span> <span class="o">=</span> <span class="p">{</span><span class="err">“</span><span class="n">Negra</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">Roja</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">Verde</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">Azul</span><span class="err">”</span><span class="p">}</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">probabilidades</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ahora, crearemos el método <code>WeightedRandom</code>, el cual te regresará un número del 1 al 4 al azar (siendo que tenemos 4 tipos de pelotas) pero tomará en cuenta el respectivo peso de cada una de ellas al momento de tomar la decisión.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="k">function</span> <span class="nf">WeightedRandom</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">rn</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">-- La variable donde se alojará un número aleatorio</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">auxarr</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">-- Un arreglo auxiliar donde pondremos los valores acumulados</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">table</span><span class="p">.</span><span class="n">getn</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>      <span class="n">auxarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">auxarr</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="c1">-- Vamos acumulando los valores anteriores.</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">auxarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="c1">-- El ciclo anterior nos crea un nuevo arreglo, que es el que nos ayudará a decidir cuál de los </span>
+</span><span class='line'>  <span class="c1">-- números es el elegido. El arreglo que aquí se forma es el siguiente: </span>
+</span><span class='line'>  <span class="c1">-- {0.3,0.7,0.9,1}</span>
+</span><span class='line'>  <span class="c1">-- Una vez creado nuestro arreglo auxiliar, procedemos a generar un número aleatorio</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="c1">-- Aquí generaremos un número entre el 0 y el 1, </span>
+</span><span class='line'>  <span class="c1">-- subiendo de 0.001++ de esta manera, tendremos mucha más precisión. </span>
+</span><span class='line'>  <span class="n">rn</span> <span class="o">=</span> <span class="p">(</span><span class="nb">math.random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">))</span><span class="o">/</span><span class="mi">1000</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">table</span><span class="p">.</span><span class="n">getn</span><span class="p">(</span><span class="n">auxarr</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="c1">-- Ahora, verificamos en qué sección del arreglo cayó el </span>
+</span><span class='line'>    <span class="c1">-- número y regresamos el valor una vez lo hayamos encontrado.</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">rn</span> <span class="o">&lt;=</span> <span class="n">auxarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">then</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">i</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ahora hagamos un par de pruebas, para ver qué tan exacto es nuestro código</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="n">helparr</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000000</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1">-- Iteramos 1000000 de veces. La tendencia de la</span>
+</span><span class='line'>  <span class="c1">-- probabilidad es que, mientras más grande es el número de</span>
+</span><span class='line'>  <span class="c1">-- intentos, más tiende a su probabilidad cada objeto.</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">result</span> <span class="o">=</span> <span class="n">WeightedRandom</span><span class="p">(</span><span class="n">probabilidades</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">helparr</span><span class="p">[</span><span class="n">result</span><span class="p">]</span> <span class="o">==</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>    <span class="n">helparr</span><span class="p">[</span><span class="n">result</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">helparr</span><span class="p">[</span><span class="n">result</span><span class="p">]</span> <span class="o">=</span> <span class="n">helparr</span><span class="p">[</span><span class="n">result</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">table</span><span class="p">.</span><span class="n">getn</span><span class="p">(</span><span class="n">helparr</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">print</span><span class="p">(</span><span class="n">pelotas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">..</span> <span class="s2">&quot;</span><span class="s"> : &quot;</span> <span class="o">..</span> <span class="n">helparr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mi">1000000</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>El código anterior imprime:</p>
+
+<ul>
+<li>Negra : 0.300286</li>
+<li>Roja : 0.398842</li>
+<li>Verde : 0.099572</li>
+<li>Azul : 0.2013</li>
+</ul>
+
+
+<p>Si observan, cada una de las pelotas está muy cerca de su probabilidad, lo que indica que el algoritmo tiene buena precisión.</p>
+
+<p>Ahora, ¿qué pasa cuando los valores que indicamos no logran una sumatoria de 1?</p>
+
+<p>Digamos, yo quiero poner un peso x a cada objeto, más sin embargo, no sé cuántos objetos pueden existir, puede que algunas veces solo se trate con dos objetos, puede que otras con 4, etc. Por lo tanto, no puedo especificarles a cada uno un valor que forme la sumatoria de uno en conjunto con otros, pero sí les puedo dar un peso de importancia. Para este caso, se normalizan los valores, y a partir de esto, se les genera un nuevo valor dependiendo de los demás participantes, de esta manera generando otro número aleatorio con peso. Haciendo el método aún más dinámico.</p>
+
+<p>Veamos un ejemplo de esta situación:</p>
+
+<p>El usuario tiene opción a adquisición de ciertos productos, de los cuales, cada vez que compra uno, este se agrega a su “caja mágica” de donde sacará uno producto al azar cada vez que se active dicha caja. Digamos que entre los productos están una pelota de baloncesto, una pelota de golf, una pelota de futbol  y una pelota de boliche. Digamos que mientras más grande es la pelota, mayor probabilidad tiene de salir pero no están todas en la caja en un principio. Mientras más vaya comprando, más se irán agregando a la caja, estando disponibles como opción al momento de abrir la caja y tomar un objeto al azar. Para ello realizamos lo siguiente:</p>
+
+<p>Otorgamos un peso a cada objeto, en relación a los demás. Podemos utilizar el mismo método de generar una sumatoria entre todos que de igual a 1, para poder ubicarnos mejor:</p>
+
+<ul>
+<li>Pelota de baloncesto: 0.4</li>
+<li>Pelota de Futbol: 0.3</li>
+<li>Pelota de Boliche:0.25</li>
+<li>Pelota de golf: 0.05</li>
+</ul>
+
+
+<p>Una vez generados los pesos, hagamos tres pares de arreglos imaginarios: el primer par será la caja teniendo solo la pelota de baloncesto y la pelota de futbol, con sus respectivas probabilidades. El segundo, será la misma caja pero con la pelota de boliche. Y el tercero, será un arreglo con todas las pelotas y todas las probabilidades.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="kd">local</span> <span class="n">pelotas1</span> <span class="o">=</span> <span class="p">{</span><span class="err">“</span><span class="n">Baloncesto</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">Futbol</span><span class="err">”</span><span class="p">}</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">prob1</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.3</span><span class="p">}</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">pelotas2</span> <span class="o">=</span> <span class="p">{</span><span class="err">“</span><span class="n">Baloncesto</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">Futbol</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">Boliche</span><span class="err">”</span><span class="p">}</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">prob2</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.25</span><span class="p">}</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">pelotas</span> <span class="mi">3</span> <span class="o">=</span> <span class="p">{</span><span class="err">“</span><span class="n">Baloncesto</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">Futbol</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">Boliche</span><span class="err">”</span><span class="p">,</span><span class="err">”</span><span class="n">Golf</span><span class="err">”</span><span class="p">}</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">prob3</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.05</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ahora, utilizaremos el mismo método WeightedRandom pero con algunas modificaciones, donde podramos ‘normalizar’ los valores obtenidos, para que estos nos den igual a 1. Lo que haremos será aplicar una simple regla de 3:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="k">function</span> <span class="nf">WeightedRandom</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1">-- Normalizando los Valores</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">-- Variable donde se acumularán la suma de valores.</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">rn</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">-- La variable donde guardaremos el número aleatorio </span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">auxarr</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">-- El arreglo auxiliar</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">table</span><span class="p">.</span><span class="n">getn</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="k">do</span> <span class="c1">-- Sumamos todos los valores</span>
+</span><span class='line'>    <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">-- Hacemos lo mismo que en el anterior, solo que ahora dividimos el</span>
+</span><span class='line'>  <span class="c1">-- valor del arreglo entre la suma, para que este se normalice. </span>
+</span><span class='line'>  <span class="c1">-- Pues queremos que la suma de los valores nos de igual a 1.</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">table</span><span class="p">.</span><span class="n">getn</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>     <span class="n">auxarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">auxarr</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">sum</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>     <span class="n">auxarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">sum</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">-- Realizamos el azar, y voilá, nos regresará el número que toca.</span>
+</span><span class='line'>  <span class="n">rn</span> <span class="o">=</span> <span class="p">(</span><span class="nb">math.random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">))</span> <span class="o">/</span> <span class="mi">1000</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">table</span><span class="p">.</span><span class="n">getn</span><span class="p">(</span><span class="n">auxarr</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">rn</span> <span class="o">&lt;=</span> <span class="n">auxarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">then</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">i</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">table</span><span class="p">.</span><span class="n">getn</span><span class="p">(</span><span class="n">auxarr</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1">-- Este return es un “por si las moscas”</span>
+</span><span class='line'>  <span class="c1">-- debido a que existe cierta posibilidad de que, por falta de</span>
+</span><span class='line'>  <span class="c1">-- decimales, la suma total no de a 1 si no a algo como 0.998~ y, </span>
+</span><span class='line'>  <span class="c1">-- Por lo que, si nos diera un 1, en el random, nunca encontraría lugar.</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Y con las modificaciones hechas, podemos realizar un par de pruebas:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="n">helparr1</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="n">helparr2</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="n">helparr3</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000000</span> <span class="k">do</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">result1</span> <span class="o">=</span> <span class="n">WeightedRandom</span><span class="p">(</span><span class="n">prob1</span><span class="p">)</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">result2</span> <span class="o">=</span> <span class="n">WeightedRandom</span><span class="p">(</span><span class="n">prob2</span><span class="p">)</span>
+</span><span class='line'>  <span class="kd">local</span> <span class="n">result3</span> <span class="o">=</span> <span class="n">WeightedRandom</span><span class="p">(</span><span class="n">prob3</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">helparr1</span><span class="p">[</span><span class="n">result1</span><span class="p">]</span> <span class="o">==</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>    <span class="n">helparr1</span><span class="p">[</span><span class="n">result1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">helparr1</span><span class="p">[</span><span class="n">result1</span><span class="p">]</span> <span class="o">=</span> <span class="n">helparr1</span><span class="p">[</span><span class="n">result1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">helparr2</span><span class="p">[</span><span class="n">result2</span><span class="p">]</span> <span class="o">==</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>    <span class="n">helparr2</span><span class="p">[</span><span class="n">result2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">helparr2</span><span class="p">[</span><span class="n">result2</span><span class="p">]</span> <span class="o">=</span> <span class="n">helparr2</span><span class="p">[</span><span class="n">result2</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">helparr3</span><span class="p">[</span><span class="n">result3</span><span class="p">]</span> <span class="o">==</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>    <span class="n">helparr3</span><span class="p">[</span><span class="n">result3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">helparr3</span><span class="p">[</span><span class="n">result3</span><span class="p">]</span> <span class="o">=</span> <span class="n">helparr3</span><span class="p">[</span><span class="n">result3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">-------------Prueba 1---------------&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">table</span><span class="p">.</span><span class="n">getn</span><span class="p">(</span><span class="n">helparr1</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">print</span><span class="p">(</span><span class="n">pelotas1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">..</span> <span class="s2">&quot;</span><span class="s"> : &quot;</span><span class="o">..</span><span class="n">helparr1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mi">1000000</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">-------------------------------------&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">-------------Prueba 2----------------&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">table</span><span class="p">.</span><span class="n">getn</span><span class="p">(</span><span class="n">helparr2</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">print</span><span class="p">(</span><span class="n">pelotas2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">..</span> <span class="s2">&quot;</span><span class="s"> : &quot;</span><span class="o">..</span><span class="n">helparr2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mi">1000000</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">-------------------------------------&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">--------------Prueba 3---------------&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">table</span><span class="p">.</span><span class="n">getn</span><span class="p">(</span><span class="n">helparr3</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">print</span><span class="p">(</span><span class="n">pelotas3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">..</span> <span class="s2">&quot;</span><span class="s"> : &quot;</span><span class="o">..</span><span class="n">helparr3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mi">1000000</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">--------------------------------------&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">--[[</span>
+</span><span class='line'><span class="cm">Imprime:</span>
+</span><span class='line'><span class="cm">-------------Prueba 1---------------</span>
+</span><span class='line'><span class="cm">Baloncesto : 0.571195</span>
+</span><span class='line'><span class="cm">Futbol : 0.428805</span>
+</span><span class='line'><span class="cm">-------------------------------------</span>
+</span><span class='line'><span class="cm">-------------Prueba 2----------------</span>
+</span><span class='line'><span class="cm">Baloncesto : 0.421145</span>
+</span><span class='line'><span class="cm">Futbol : 0.313976</span>
+</span><span class='line'><span class="cm">Boliche : 0.264879</span>
+</span><span class='line'><span class="cm">-------------------------------------</span>
+</span><span class='line'><span class="cm">--------------Prueba 3---------------</span>
+</span><span class='line'><span class="cm">Baloncesto : 0.400662</span>
+</span><span class='line'><span class="cm">Futbol : 0.299869</span>
+</span><span class='line'><span class="cm">Boliche : 0.249288</span>
+</span><span class='line'><span class="cm">Golf : 0.050181</span>
+</span><span class='line'><span class="cm">--------------------------------------</span>
+</span><span class='line'><span class="cm">--]]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Como ven, este método es más dinámico, pues nos permite meter a la caja el número de objetos que queramos, siempre y cuando estos tengan un peso respectivo y relacionado con los otros objetos, sin necesidad de que éste sume 1.</p>
+
+<p>Y así, es como es posible incluir la probabilidad dentro de un videojuego, ahora solo falta usar tu imaginación para crear las situaciones probables dentro de tu mundo aleatoriamente controlado.</p>
+</div>
+
+
+    <footer>
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard">Escrito por: <span class="fn">Oscar Obeso</span></span>
+
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-03T11:55:00-06:00" pubdate data-updated="true">Oct 3<span>rd</span>, 2013</time>
+        
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/games-development/'>Games Development</a>, <a class='category' href='/blog/categories/lua/'>Lua</a>, <a class='category' href='/blog/categories/probabilidad/'>Probabilidad</a>
+  
+</span>
+
+
+      </p>
+      
+        <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://hardcoders.mx/blog/2013/10/03/aleatoriedad-con-peso/" data-via="" data-counturl="http://hardcoders.mx/blog/2013/10/03/aleatoriedad-con-peso/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+      
+      <p class="meta">
+        
+          <a class="basic-alignment left" href="/blog/2013/05/12/autenticacion-con-token-en-ruby-on-rails-y-devise/" title="Previous Post: Autenticación con token en Ruby on Rails y Devise">&laquo; Autenticación con token en Ruby on Rails y Devise</a>
+        
+        
+      </p>
+    </footer>
+  </article>
+  
+    <section class="wrap">
+      <!-- <h1>Comentarios</h1> -->
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+  
+  </div>
+  </div>
+
+  <footer class="wrap">
+  <p class="copy">
+    Copyright &copy; 2013 - hardcoders.mx -
+    <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </p>
+</footer>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'hardcoders';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hardcoders.mx/blog/2013/10/03/aleatoriedad-con-peso/';
+        var disqus_url = 'http://hardcoders.mx/blog/2013/10/03/aleatoriedad-con-peso/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+
+</body>
+</html>
