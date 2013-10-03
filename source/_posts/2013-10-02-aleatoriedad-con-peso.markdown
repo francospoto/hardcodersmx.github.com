@@ -11,7 +11,7 @@ En los videojuegos, la probabilidad es una herramienta que nos da el alcance de 
 
 <!-- more -->
 
-Esto lo tenía muy claro desde siempre. Sólo basta recordar algunos de los viejos clásicos “Tycooneros”, donde siempre existía una probabilidad de que ocurriera cierto evento, y era grato ver que dicha probabilidad seguía las reglas naturales del azar. Cada evento tenía su peso, y cada peso cumplía con su cometido. La probabilidad formaba y forma parte importante de los videojuegos, para darle esa sazón de realidad y coherencia a los resultados de cada acción que realizabas. 
+Esto lo tenía yo muy claro desde siempre. Sólo basta recordar algunos de los viejos clásicos “Tycooneros”, donde siempre existía una probabilidad de que ocurriera cierto evento, y era grato ver que dicha probabilidad seguía las reglas naturales del azar. Cada evento tenía su peso, y cada peso cumplía con su cometido. La probabilidad formaba y forma parte importante de los videojuegos, para darle esa sazón de realidad y coherencia a los resultados de cada acción que realizabas. 
 
 Hoy, después de varios golpes de cabeza y páginas de algunos conceptos básicos de la probabilidad, me construí un algoritmo que, aunque puede no ser la manera más eficiente, resultó ser eficaz al momento de querer obtener un número a base de un conjunto de probabilidades.
 
@@ -22,29 +22,29 @@ Se tiene una caja con 10 pelotas, de las cuales 3 son negras, 4 rojas, 1 verde y
 * Negra: 0.3
 * Roja: 0.4
 * Verde: 0.1
-Azul: 0.2
+* Azul: 0.2
 
-Iniciemos creando dos arreglos, 1 con el nombre del objeto, y otro con la respectiva probabilidad de cada uno.
+Iniciemos creando dos arreglos, uno con el nombre del objeto, y otro con la respectiva probabilidad de cada uno.
 
 ``` lua Definiendo variables iniciales
 local pelotas = {“Negra”,”Roja”,”Verde”,”Azul”}
 local probabilidades = {0.3, 0.4, 0.1, 0.2}
 ```
 
-Ahora, crearemos el método WeightedRandom, el cual te regresará un número del 1 al 4 al azar (siendo que tenemos 4 tipos de pelotas) pero tomará en cuenta el respectivo peso de cada una de ellas al momento de tomar la decisión.
+Ahora, crearemos el método ```WeightedRandom```, el cual te regresará un número del 1 al 4 al azar (siendo que tenemos 4 tipos de pelotas) pero tomará en cuenta el respectivo peso de cada una de ellas al momento de tomar la decisión.
 
 ``` lua
 function WeightedRandom(array)
-	local rn = 0 -- La variable donde se alocará un número aleatorio
+	local rn = 0 -- La variable donde se alojará un número aleatorio
 	local auxarr = {} -- Un arreglo auxiliar donde pondremos los valores acumulados
 	for i=1,table.getn(array) do
-		if (i > 1) then
-			auxarr[i] = auxarr[i-1]+array[i] -- Vamos acumulando los valores anteriores.
-		else
-			auxarr[i] = array[i]
-		end
+    if (i > 1) then
+      auxarr[i] = auxarr[i-1]+array[i] -- Vamos acumulando los valores anteriores.
+    else
+      auxarr[i] = array[i]
+    end
 	end
-	-- Este ciclo nos crea un nuevo arreglo, que es el que nos ayudará a decidir cuál de los 
+	-- El ciclo anterior nos crea un nuevo arreglo, que es el que nos ayudará a decidir cuál de los 
 	-- números es el elegido. El arreglo que aquí se forma es el siguiente: 
 	-- {0.3,0.7,0.9,1}
 	-- Una vez creado nuestro arreglo auxiliar, procedemos a generar un número aleatorio
@@ -54,11 +54,11 @@ function WeightedRandom(array)
 	rn = (math.random(1,1000))/1000
 
 	for i=1,table.getn(auxarr) do 
-	-- Ahora, verificamos en qué sección del arreglo cayó el 
-	-- número y regresamos el valor una vez lo hayamos encontrado.
-		if rn <= auxarr[i] then
-			return i
-		end
+    -- Ahora, verificamos en qué sección del arreglo cayó el 
+    -- número y regresamos el valor una vez lo hayamos encontrado.
+    if rn <= auxarr[i] then
+      return i
+    end
 	end
 end
 ```
@@ -73,9 +73,9 @@ for i=1,1000000 do
 	-- intentos, más tiende a su probabilidad cada objeto.
 	local result = WeightedRandom(probabilidades)
 	if (helparr[result] == nil) then
-		helparr[result] = 1
+    helparr[result] = 1
 	else
-		helparr[result] = helparr[result]+1
+    helparr[result] = helparr[result]+1
 	end
 end
 
@@ -128,26 +128,26 @@ function WeightedRandom(array)
 	local rn = 0 -- La variable donde guardaremos el número aleatorio 
 	local auxarr = {} -- El arreglo auxiliar
 	for i=1,table.getn(array) do -- Sumamos todos los valores
-		sum = sum + array[i]
+    sum = sum + array[i]
 	end
 
 	-- Hacemos lo mismo que en el anterior, solo que ahora dividimos el
 	-- valor del arreglo entre la suma, para que este se normalice. 
 	-- Pues queremos que la suma de los valores nos de igual a 1.
 	for i=1,table.getn(array) do
-		if (i > 1) then
-			auxarr[i] = auxarr[i-1]+array[i]/sum
-		else
-			auxarr[i] = array[i]/sum
-		end
+    if (i > 1) then
+     auxarr[i] = auxarr[i-1]+array[i]/sum
+    else
+     auxarr[i] = array[i]/sum
+    end
 	end
 
 	-- Realizamos el azar, y voilá, nos regresará el número que toca.
 	rn = (math.random(1,1000)) / 1000
 	for i=1,table.getn(auxarr) do
-		if rn <= auxarr[i] then
-			return i
-		end
+    if rn <= auxarr[i] then
+      return i
+    end
 	end
 	return table.getn(auxarr) 
 	-- Este return es un “por si las moscas”
@@ -168,19 +168,19 @@ for i=1,1000000 do
 	local result2 = WeightedRandom(prob2)
 	local result3 = WeightedRandom(prob3)
 	if (helparr1[result1] == nil) then
-		helparr1[result1] = 1
+    helparr1[result1] = 1
 	else
-		helparr1[result1] = helparr1[result1]+1
+    helparr1[result1] = helparr1[result1]+1
 	end
 	if (helparr2[result2] == nil) then
-		helparr2[result2] = 1
+    helparr2[result2] = 1
 	else
-		helparr2[result2] = helparr2[result2]+1
+    helparr2[result2] = helparr2[result2]+1
 	end
 	if (helparr3[result3] == nil) then
-		helparr3[result3] = 1
+    helparr3[result3] = 1
 	else
-		helparr3[result3] = helparr3[result3]+1
+    helparr3[result3] = helparr3[result3]+1
 	end
 end
 
