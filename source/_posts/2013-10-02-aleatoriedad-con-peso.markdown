@@ -7,6 +7,8 @@ categories: [Lua, Games Development, Matemáticas]
 author: "Oscar Obeso"
 ---
 
+<img src="{{ root_url }}/images/posts/59862.jpg" class="left-thumb">
+
 En los videojuegos, la probabilidad es una herramienta que nos da el alcance de poder realizar un juego con resultados provenientes de un azar controlado. Cuando se aplican probabilidad y estadísticas en un videojuego, el producto es un agrado consistente que no se nota a simple vista, pero que provoca que un jugador sienta que el juego tiene resultados congruentes, y no es simplemente un resultado azaroso total.
 
 <!-- more -->
