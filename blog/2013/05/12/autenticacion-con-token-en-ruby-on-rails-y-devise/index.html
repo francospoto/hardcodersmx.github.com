@@ -9,7 +9,7 @@
   <meta name="author" content="hardcoders.mx">
 
   
-  <meta name="description" content="Autenticación con token en Ruby on Rails y Devise May 12th, 2013 | Comments Un pequeño y sencillo tutorial para crear una autenticación basada en &hellip;">
+  <meta name="description" content="Autenticación con token en Ruby on Rails y Devise May 12th, 2013 | Comments | Escrito por: Miguel Machado Un pequeño y sencillo tutorial para crear &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,10 +97,15 @@
   
 
 
-<time datetime="2013-05-12T13:05:00-06:00" pubdate data-updated="true">May 12<span>th</span>, 2013</time>
+<time datetime="2013-05-12T13:05:00-07:00" pubdate data-updated="true">May 12<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
+        | 
+  
+
+<span class="byline author vcard">Escrito por: <span class="fn">Miguel Machado</span></span>
+
       </p>
     
   </header>
@@ -150,7 +155,7 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AddTokenToUsers</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AddTokenToUsers</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Migration</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">up</span>
 </span><span class='line'>      <span class="n">change_table</span><span class="p">(</span><span class="ss">:users</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
 </span><span class='line'>          <span class="c1"># Token authenticatable</span>
@@ -161,7 +166,7 @@
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">down</span>
-</span><span class='line'>      <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">IrreversibleMigration</span>
+</span><span class='line'>      <span class="k">raise</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:IrreversibleMigration</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -370,7 +375,7 @@
   
 
 
-<time datetime="2013-05-12T13:05:00-06:00" pubdate data-updated="true">May 12<span>th</span>, 2013</time>
+<time datetime="2013-05-12T13:05:00-07:00" pubdate data-updated="true">May 12<span>th</span>, 2013</time>
         
 
 <span class="categories">
@@ -417,7 +422,7 @@
 
   <footer class="wrap">
   <p class="copy">
-    Copyright &copy; 2013 - hardcoders.mx -
+    Copyright &copy; 2014 - hardcoders.mx -
     <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
   </p>
 </footer>

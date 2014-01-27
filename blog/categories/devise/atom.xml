@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Devise | hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/blog/categories/devise/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2013-10-03T14:41:31-06:00</updated>
+  <updated>2014-01-27T10:57:35-07:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Autenticación con token en Ruby on Rails y Devise]]></title>
     <link href="http://hardcoders.mx/blog/2013/05/12/autenticacion-con-token-en-ruby-on-rails-y-devise/"/>
-    <updated>2013-05-12T13:05:00-06:00</updated>
+    <updated>2013-05-12T13:05:00-07:00</updated>
     <id>http://hardcoders.mx/blog/2013/05/12/autenticacion-con-token-en-ruby-on-rails-y-devise</id>
     <content type="html"><![CDATA[<p>Un pequeño y sencillo tutorial para crear una autenticación basada en tokens en Ruby on Rails y <a href="https://github.com/plataformatec/devise">Devise</a>. Para este tutorial se requiere conocimiento básico en Rails y tener Rails y Devise instalado.</p>
 
