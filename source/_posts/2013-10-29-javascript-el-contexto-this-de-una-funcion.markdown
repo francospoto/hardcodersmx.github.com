@@ -13,12 +13,12 @@ El contexto es el this
 
 <!-- more -->
 
-Cuando una función es invocada recibe dos parámetros implícitos adicionales (además de los parámetros que le pasemos en la invocación): ```this``` y ```arguments```. El valor del ```this``` es determinado por como es invacada la función. El valor del ```this``` es determinado por como es invacada la función. Existen 4 formas de invocar una función: Como método, función, constructor y usando ```apply``` (este último incluye ```call```).
+Cuando una función es invocada recibe dos parámetros implícitos adicionales (además de los parámetros que le pasemos en la invocación): ```this``` y ```arguments```. El valor del ```this``` es determinado por como es invocada la función. Existen 4 formas de invocar una función: Como método, función, constructor y usando ```apply``` (este último incluye ```call```).
 
-# Como método
+## Como método
 
-# Como función
+## Como función
 
-# Como constructor
+## Como constructor
 
-# Usando apply y call
+## Usando apply y call
