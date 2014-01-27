@@ -3,6 +3,7 @@
 {% if category != '0' %}
 <footer>
   <time datetime="{{ post.date | datetime | date_to_xmlschema }}" pubdate>{{ post.date | date: "<span class='month'>%b</span> <span class='day'>%d</span> <span class='year'>%Y</span>"}}</time>
+  <span class="author">Autor: {{ post.author }}<span> | 
   <span class="categories">Categor&iacute;as: {{ post.categories | category_links }}</span>
 </footer>
 {% endif %}
