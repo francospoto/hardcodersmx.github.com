@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "JavaScript: El contexto (this) de una función"
-date: 2013-10-29 18:18
+date: 2014-01-30 14:00
 comments: true
 categories: 
 author: "Isaac Zepeda"
