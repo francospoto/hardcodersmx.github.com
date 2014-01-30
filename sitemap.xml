@@ -36,18 +36,24 @@
         <loc>
             http://hardcoders.mx/blog/2013/05/12/autenticacion-con-token-en-ruby-on-rails-y-devise/
         </loc>
-        <lastmod>2014-01-27T10:32:45-07:00</lastmod>
+        <lastmod>2014-01-30T13:52:06-07:00</lastmod>
     </url>
     <url>
         <loc>http://hardcoders.mx/blog/2013/10/03/aleatoriedad-con-peso/</loc>
-        <lastmod>2014-01-27T10:32:45-07:00</lastmod>
+        <lastmod>2014-01-30T13:52:06-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://hardcoders.mx/blog/2014/01/30/javascript-el-contexto-this-de-una-funcion/
+        </loc>
+        <lastmod>2014-01-30T13:52:06-07:00</lastmod>
     </url>
     <url>
         <loc>http://hardcoders.mx/blog/archives/</loc>
-        <lastmod>2014-01-27T10:32:45-07:00</lastmod>
+        <lastmod>2014-01-30T13:52:06-07:00</lastmod>
     </url>
     <url>
         <loc>http://hardcoders.mx/</loc>
-        <lastmod>2014-01-27T10:32:45-07:00</lastmod>
+        <lastmod>2014-01-30T13:52:06-07:00</lastmod>
     </url>
 </urlset>
