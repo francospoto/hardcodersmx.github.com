@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2014-01-30T13:52:42-07:00</updated>
+  <updated>2014-08-04T09:32:39-07:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -374,7 +374,7 @@ persona.imprimir(); // E invocar sus métodos
 function Persona() {</p>
 
 <pre><code>// Para definir variables de instancia usamos la palabra reservada 'this'
-this.nombre = "Isaac"; 
+this.nombre = "Isaac";
 this.edad = 28;
 
 // Esta es una variable local a la función y no puede ser accedida desde fuera.
@@ -413,7 +413,7 @@ var p2 = new Persona();
 
 <h3>Agregando Métodos</h3>
 
-<p>Hay dos maneras de agregar métodos, la primera es agregarlos como cualquier otra propiedad dentro del constructor y la otra definiendolo es su <code>prototype</code>.</p>
+<p>Hay dos maneras de agregar métodos, la primera es agregarlos como cualquier otra propiedad dentro del constructor y la otra definiéndolo es su <code>prototype</code>.</p>
 
 <p>```javascript Defiendo el método dentro del constructor
 function Persona() {</p>
@@ -421,7 +421,7 @@ function Persona() {</p>
 <pre><code>this.nombre = "Isaac";
 
 this.caminar = function() {
-    alert(this.name + " está caminando");
+    alert(this.nombre + " está caminando");
 }
 </code></pre>
 
@@ -438,7 +438,7 @@ function Persona() {</p>
 
 <p>Persona.prototype.caminar = function() {</p>
 
-<pre><code>alert(this.name + " está caminando");
+<pre><code>alert(this.nombre + " está caminando");
 </code></pre>
 
 <p>}

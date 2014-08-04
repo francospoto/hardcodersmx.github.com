@@ -4,7 +4,7 @@
   <title><![CDATA[hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2014-01-30T13:52:42-07:00</updated>
+  <updated>2014-08-04T09:32:39-07:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -1409,7 +1409,7 @@
 
 <h3>Agregando Métodos</h3>
 
-<p>Hay dos maneras de agregar métodos, la primera es agregarlos como cualquier otra propiedad dentro del constructor y la otra definiendolo es su <code>prototype</code>.</p>
+<p>Hay dos maneras de agregar métodos, la primera es agregarlos como cualquier otra propiedad dentro del constructor y la otra definiéndolo es su <code>prototype</code>.</p>
 
 <figure class='code'><figcaption><span>Defiendo el método dentro del constructor</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1422,7 +1422,7 @@
 </span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">=</span> <span class="s2">&quot;Isaac&quot;</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">caminar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; está caminando&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">+</span> <span class="s2">&quot; está caminando&quot;</span><span class="p">);</span>
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -1442,7 +1442,7 @@
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="nx">Persona</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">caminar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; está caminando&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nombre</span> <span class="o">+</span> <span class="s2">&quot; está caminando&quot;</span><span class="p">);</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
