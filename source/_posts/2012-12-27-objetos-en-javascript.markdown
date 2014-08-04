@@ -74,7 +74,7 @@ Como pueden notar cuando construimos objetos simples o literales no hay manera d
 ```javascript Funciones como constructores
 function Persona() {
 	// Para definir variables de instancia usamos la palabra reservada 'this'
-	this.nombre = "Isaac"; 
+	this.nombre = "Isaac";
 	this.edad = 28;
 
 	// Esta es una variable local a la función y no puede ser accedida desde fuera.
@@ -108,14 +108,14 @@ var p2 = new Persona();
 
 ### Agregando Métodos
 
-Hay dos maneras de agregar métodos, la primera es agregarlos como cualquier otra propiedad dentro del constructor y la otra definiendolo es su ```prototype```.
+Hay dos maneras de agregar métodos, la primera es agregarlos como cualquier otra propiedad dentro del constructor y la otra definiéndolo es su ```prototype```.
 
 ```javascript Defiendo el método dentro del constructor
 function Persona() {
 	this.nombre = "Isaac";
 
 	this.caminar = function() {
-		alert(this.name + " está caminando");
+		alert(this.nombre + " está caminando");
 	}
 }
 ```
@@ -126,11 +126,11 @@ function Persona() {
 }
 
 Persona.prototype.caminar = function() {
-	alert(this.name + " está caminando");
+	alert(this.nombre + " está caminando");
 }
 ```
 
-Ambos funcionan correctamente, pero hay pequeñas diferencias. 
+Ambos funcionan correctamente, pero hay pequeñas diferencias.
 
 Si se define el método dentro del constructor cada vez que se instancie el objeto creará una propiedad con un objeto de tipo función, así si el objeto ```Persona``` se instancia 3 veces se crearán 3 funciones en memoria que hacen lo mismo. En cambio si lo creamos en el ```prototype``` la función se creará solo una vez, y todas las instancias de ```Persona``` apuntarán a la misma función, usando menos memoria y mejorando un poco el performance.
 
