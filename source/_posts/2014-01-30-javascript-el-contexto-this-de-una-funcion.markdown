@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "JavaScript: El contexto (this) de una función"
-date: 2014-01-30 14:00
+date: 2014-09-12 14:00
 comments: true
 categories: [Javascript]
 author: "Isaac Zepeda"
@@ -15,7 +15,7 @@ Sin embargo, el valor del contexto puede ser algo tricky y más cuando se va ini
 
 <!-- more -->
 
-Cuando una función es invocada recibe dos parámetros implícitos adicionales (además de los parámetros que le pasemos en la invocación): ```this``` y ```arguments```. El valor del ```this``` es determinado por como es invocada la función. 
+Cuando una función es invocada recibe dos parámetros implícitos adicionales (además de los parámetros que le pasemos en la invocación): ```this``` y ```arguments```. El valor del ```this``` es determinado por como es invocada la función.
 
 Existen 4 formas de invocar una función, se conocen como *invocation patterns*: Como método, función, constructor y usando ```apply``` (este último incluye ```call```).
 
@@ -28,7 +28,7 @@ var myObject = {
   value: 0,
   increment: function (inc) {
     this.value += inc;
-  } 
+  }
 };
 
 myObject.increment(1);
@@ -44,7 +44,7 @@ El ```this``` apunta al objeto ```myObject``` pudiendo modificar sus attributos.
 
 Cuando una función no es una propiedad de un objeto, entonces es invocada como función: ```sum(3,3)```. Cuando esto pasa el ```this``` dentro de la función toma el valor del objeto global. En caso de un script ejecutándose en el navegador, el ```this``` toma el valor del objeto ```window```.
 
-``` javascript 
+``` javascript
 function sum(x, y) {
   this.x = x;
   this.y = y;
@@ -97,20 +97,20 @@ Person.prototype.getName.apply(zepeda); // 'Zepeda'
 Person.prototype.getName.call(isaac); // 'Isaac'
 ```
 
-En la línea 5 invocamos el metodo ```getName``` pero le decimos que el ```this``` será igual al argumento pasado en el ```apply``` o ```call```. 
+En la línea 5 invocamos el metodo ```getName``` pero le decimos que el ```this``` será igual al argumento pasado en el ```apply``` o ```call```.
 
 Ahora la diferencia entre ```apply``` y ```call``` radica en como le pasamos argumentos a la función que estamos invocando. En el ```apply``` los argumentos deben de ir en un ```array```, mientras que en el ```call``` los argumentos se pasan separados por comas.
 
 ```javascript
 var increment = function (inc) {
-  this.value += inc; 
+  this.value += inc;
 };
 
 var myObject = {
   value: 2
 };
 
-// El segundo argumento es un array donde cada elemento corresponde en orden 
+// El segundo argumento es un array donde cada elemento corresponde en orden
 // con los argumentos de la función a la que se le hace apply
 increment.apply(myObject, [5]); // El this.value == myObject.value
 myObject.value; // 7
@@ -127,25 +127,3 @@ myObject.value; // 8
 * [La Internetz](http://google.com)
 
 Saludos!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
