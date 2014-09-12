@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Patrones de Diseño | hardcoders.mx]]></title>
+  <link href="http://hardcoders.mx/blog/categories/patrones-de-diseño/atom.xml" rel="self"/>
+  <link href="http://hardcoders.mx/"/>
+  <updated>2014-09-12T16:10:44-07:00</updated>
+  <id>http://hardcoders.mx/</id>
+  <author>
+    <name><![CDATA[hardcoders.mx]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Patrón Módulo en JavaScript (Module Pattern)]]></title>
+    <link href="http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern/"/>
+    <updated>2014-09-09T12:27:00-07:00</updated>
+    <id>http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern</id>
+    <content type="html"><![CDATA[<p><img src="/images/posts/legoblocks.jpg" class="left-thumb"></p>
+
+<p>Los módulos son muy importantes ya que nos permiten mantener nuestro código encapsulado, sin contaminar el <code>scope</code> global y evitar colisión de nombres. Además nos ayudan a mantener en el proyecto unidades de código separadas y organizadas.</p>
+
+<p>El <em>Module Pattern</em> es considerado un Patrón de Diseño y en JavaScript nos ofrece la posibilidad de simular propiedades y métodos privados. Digo "simular" porque las variables y funciones en JavaScript no tienen modificadores de acceso, pero a través de los <em>closures</em> podemos simular este comportamiento.</p>
+
+<!-- more -->
+
+
+<p>El <em>Module Pattern</em> se implementa creando una función anónima que se auto-invoca y regresa un objeto literal.</p>
+
+<p>``` javascript
+var myModule = (function () {
+  var counter = 0;</p>
+
+<p>  return {</p>
+
+<pre><code>incrementCounter: function () {
+  return counter++;
+},
+
+resetCounter: function () {
+  console.log('Valor de counter antes de reset: ' + counter);
+  counter = 0;
+}
+</code></pre>
+
+<p>  }
+})();</p>
+
+<p>// Uso:
+myModule.incrementCounter();
+myModule.incrementCounter();
+myModule.resetCounter(); // Imprime 2
+```</p>
+
+<p>De esta forma al tener una función anónima creamos un <code>scope</code> dentro de la función, evitando así contaminar el ámbito global. Regresamos un objeto literal que contiene dos métodos, ambos métodos pueden acceder a la variable <code>counter</code> ya que se ha creado un <code>closure</code>. Así podemos simular propiedades privadas.</p>
+
+<p>Entonces básicamente el <em>Module Pattern</em> se define de la siguiente forma.</p>
+
+<p>``` javascript
+var myModule = (function () {
+  var privateProperty = 10;</p>
+
+<p>  var privateMethodOne = function () {</p>
+
+<pre><code>// Algo
+</code></pre>
+
+<p>  };</p>
+
+<p>  var privateMethodTwo = function () {</p>
+
+<pre><code>// Algo
+</code></pre>
+
+<p>  };</p>
+
+<p>  return {</p>
+
+<pre><code>publicProperty: "foo",
+publicMethodOne: function () {
+  //...
+},
+publicMethodTwo: function () {
+  // Invocar método privado
+  privateMethodOne();
+},
+publicMethodThree: privateMethodTwo //Alias de privateMethodTwo
+</code></pre>
+
+<p>  }
+})();
+```</p>
+
+<h2>Revealing Module Pattern (Patrón Módulo Revelado)</h2>
+
+<p>El <em>Revealing Module Pattern</em> es una variante del <em>Module Pattern</em> en el cual definimos nuestras propiedades públicas y privadas dentro la función anónima y en el <code>return</code> apuntamos a las funciones que deseamos exponer. Así tenemos un buen manejo de código, mas limpio y entendible.</p>
+
+<p>``` javascript
+var Counter = (function () {
+  var counter = 0;</p>
+
+<p>  var privateMethod = function () {</p>
+
+<pre><code>// Algo privado
+</code></pre>
+
+<p>  };</p>
+
+<p>  var incrementCounter = function () {</p>
+
+<pre><code>return counter++
+</code></pre>
+
+<p>  };</p>
+
+<p>  var resetCounter = function () {</p>
+
+<pre><code>console.log('Valor de counter antes de reset: ' + counter);
+counter = 0;
+</code></pre>
+
+<p>  };</p>
+
+<p>  return {</p>
+
+<pre><code>increment: incrementCounter,
+reset: resetCounter
+</code></pre>
+
+<p>  }
+})();
+```</p>
+
+<p>Podemos ver claramente cuales métodos son los expuestos por el módulo.</p>
+
+<p>Otra de las razones de este patrón es que en el <em>Module Pattern</em> cuando necesitas invocar un miembro público se hace necesario usar el <code>this</code>, y hay quienes consideran esto confuso y menos consistente.</p>
+
+<p>``` javascript Module Pattern, usando this
+var Module = (function () {
+  return {</p>
+
+<pre><code>methodOne: function () {
+  // Something
+},
+methodTwo: function () {
+  // Invocar al método público methodOne
+  this.methodOne();
+}
+</code></pre>
+
+<p>  };
+});
+```</p>
+
+<p>En el <em>Revealing Module Pattern</em> ya no se hace necesario el <code>this</code>.</p>
+
+<p>``` javascript Revealing Module Pattern, no usa this
+var Module = (function () {
+  var methodOne = function () {</p>
+
+<pre><code>// Something
+</code></pre>
+
+<p>  };</p>
+
+<p>  var methodTwo = function () {</p>
+
+<pre><code>// Invocar al método público methodOne
+methodOne();
+</code></pre>
+
+<p>  };</p>
+
+<p>  return {</p>
+
+<pre><code>methodOne: methodOne,
+methodTwo: methodTwo
+</code></pre>
+
+<p>  };
+});
+```</p>
+
+<h2>Convención para métodos privados</h2>
+
+<p>Puede llegar el momento que nuestro módulo crezca demasiado (regularmente sucede) y se hace un poco tedioso tratar de ver cuales métodos y propiedades son públicos y cuales privados. Por esta razón muchos siguen una convención de usar el prefijo <code>_</code> en el nombre del miembro cuando se trata de un miembro privado.</p>
+
+<p>``` javascript Convención para miembros privados
+var myModule = (function () {
+  var _privateProperty = 10;</p>
+
+<p>  var _privateMethodOne = function () {</p>
+
+<pre><code>// Algo
+</code></pre>
+
+<p>  };</p>
+
+<p>  var _privateMethodTwo = function () {</p>
+
+<pre><code>// Algo
+_privateMethodOne();
+</code></pre>
+
+<p>  };</p>
+
+<p>  var publicMethodOne = function () {</p>
+
+<pre><code>//...
+</code></pre>
+
+<p>  };</p>
+
+<p>  var publicMethodTwo = function () {</p>
+
+<pre><code>// ...
+</code></pre>
+
+<p>  };</p>
+
+<p>  return {</p>
+
+<pre><code>publicProperty: "foo",
+publicMethodOne: publicMethodOne,
+publicMethodTwo: publicMethodTwo,
+publicMethodThree: _privateMethodTwo //Alias de _privateMethodTwo
+</code></pre>
+
+<p>  }
+})();
+```</p>
+
+<h2>Conclusión</h2>
+
+<p>Las principales ventajas de usar el <em>Module Pattern</em> son la encapsulación y limpieza de tu código. Además de tener miembros privados.</p>
+
+<p>El <em>Revealing Module Pattern</em> nos permite ser mas consistentes en nuestros scripts.</p>
+
+<p>Sin embargo hay algunas desventajas:</p>
+
+<ul>
+<li>Los miembros públicos y privados se acceden de forma distinta y si queremos cambiar la visibilidad en algún momento tendríamos que hacer cambios en cada parte que se usa ese miembro (solo aplica al <em>Module Pattern</em>).</li>
+<li>No podemos acceder a los métodos privados desde métodos definidos en el módulo después de su creación.</li>
+<li>No se pueden realizar pruebas de unidad sobre los métodos privados.</li>
+<li>Su extensión es complicada.</li>
+</ul>
+
+
+<h2>Lectura recomendada</h2>
+
+<ul>
+<li><a href="http://toddmotto.com/mastering-the-module-pattern/">Mastering the Module Pattern</a> by <a href="https://twitter.com/toddmotto">Todd Motto</a></li>
+<li><a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript">Learning JavaSctipt Design Patterns</a> by <a href="https://twitter.com/addyosmani">Addy Osmani</a></li>
+<li><a href="http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html">JavaScript Module Pattern: In-Depth</a> by <a href="https://twitter.com/bcherry">Ben Cherry</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

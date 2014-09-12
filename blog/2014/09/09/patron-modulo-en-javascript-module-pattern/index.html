@@ -1,0 +1,547 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Patrón Módulo en JavaScript (Module Pattern) - hardcoders.mx</title>
+  <meta name="author" content="hardcoders.mx">
+
+  
+  <meta name="description" content="Patrón Módulo en JavaScript (Module Pattern) Sep 9th, 2014 | Comments | Escrito por: Isaac Zepeda Los módulos son muy importantes ya que nos &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern/">
+  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--<script src="/javascripts/scripts.js" type="text/javascript"></script>-->
+  <link href="/atom.xml" rel="alternate" title="hardcoders.mx" type="application/atom+xml">
+  <!-- Fonts from Typekit
+<script type="text/javascript" src="//use.typekit.net/roa5xqi.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36827366-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+</head>
+
+<body   >
+
+  <nav class="main-nav-wrap" role="navigation"><!--
+  <ul class="subscription" data-subscription="rss">
+    <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+    
+  </ul>
+-->
+    
+  <ul class="wrap main-navigation">
+  <li><a href="/" class="active">Hardcoders</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <ul class="social-header">
+    <li><a href="/atom.xml"rel="subscribe-rss" class="rss" title="subscribe via RSS">RSS</a></li>
+    <li><a href="https://twitter.com/hardcodersmx" class="pull-right twitter">Twitter</a></li>
+    <li><a href="https://www.facebook.com/groups/hardcoders/" class="pull-right facebook">Facebook</a></li>
+  </ul>
+</ul>
+</nav>
+  <div class="header-wrap">
+    <header class="wrap" role="banner"><hgroup>
+  <h1><a href="/"><img src="/images/hc-logo.png" alt="hardcoders.mx"></a></h1>
+</hgroup>
+</header>
+  </div>
+
+  <div id="content" class="main-content">
+    <div class="wrapper wrap">
+  <article class="hentry wrap" role="article">
+    
+  <header>
+    
+      <h1 class="entry-title"><a href="">Patrón Módulo en JavaScript (Module Pattern)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-09T12:27:00-07:00" pubdate data-updated="true">Sep 9<span>th</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+        | 
+  
+
+<span class="byline author vcard">Escrito por: <span class="fn">Isaac Zepeda</span></span>
+
+      </p>
+    
+  </header>
+
+
+<div class="entry-content post-content"><p><img src="/images/posts/legoblocks.jpg" class="left-thumb"></p>
+
+<p>Los módulos son muy importantes ya que nos permiten mantener nuestro código encapsulado, sin contaminar el <code>scope</code> global y evitar colisión de nombres. Además nos ayudan a mantener en el proyecto unidades de código separadas y organizadas.</p>
+
+<p>El <em>Module Pattern</em> es considerado un Patrón de Diseño y en JavaScript nos ofrece la posibilidad de simular propiedades y métodos privados. Digo &#8220;simular&#8221; porque las variables y funciones en JavaScript no tienen modificadores de acceso, pero a través de los <em>closures</em> podemos simular este comportamiento.</p>
+
+<!-- more -->
+
+
+<p>El <em>Module Pattern</em> se implementa creando una función anónima que se auto-invoca y regresa un objeto literal.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myModule</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">incrementCounter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">counter</span><span class="o">++</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">resetCounter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Valor de counter antes de reset: &#39;</span> <span class="o">+</span> <span class="nx">counter</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">})();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Uso:</span>
+</span><span class='line'><span class="nx">myModule</span><span class="p">.</span><span class="nx">incrementCounter</span><span class="p">();</span>
+</span><span class='line'><span class="nx">myModule</span><span class="p">.</span><span class="nx">incrementCounter</span><span class="p">();</span>
+</span><span class='line'><span class="nx">myModule</span><span class="p">.</span><span class="nx">resetCounter</span><span class="p">();</span> <span class="c1">// Imprime 2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>De esta forma al tener una función anónima creamos un <code>scope</code> dentro de la función, evitando así contaminar el ámbito global. Regresamos un objeto literal que contiene dos métodos, ambos métodos pueden acceder a la variable <code>counter</code> ya que se ha creado un <code>closure</code>. Así podemos simular propiedades privadas.</p>
+
+<p>Entonces básicamente el <em>Module Pattern</em> se define de la siguiente forma.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myModule</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">privateProperty</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">privateMethodOne</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Algo</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">privateMethodTwo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Algo</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">publicProperty</span><span class="o">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">publicMethodOne</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">//...</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">publicMethodTwo</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// Invocar método privado</span>
+</span><span class='line'>      <span class="nx">privateMethodOne</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">publicMethodThree</span><span class="o">:</span> <span class="nx">privateMethodTwo</span> <span class="c1">//Alias de privateMethodTwo</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">})();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Revealing Module Pattern (Patrón Módulo Revelado)</h2>
+
+<p>El <em>Revealing Module Pattern</em> es una variante del <em>Module Pattern</em> en el cual definimos nuestras propiedades públicas y privadas dentro la función anónima y en el <code>return</code> apuntamos a las funciones que deseamos exponer. Así tenemos un buen manejo de código, mas limpio y entendible.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Counter</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">privateMethod</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Algo privado</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">incrementCounter</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">counter</span><span class="o">++</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">resetCounter</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Valor de counter antes de reset: &#39;</span> <span class="o">+</span> <span class="nx">counter</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">increment</span><span class="o">:</span> <span class="nx">incrementCounter</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">reset</span><span class="o">:</span> <span class="nx">resetCounter</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">})();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Podemos ver claramente cuales métodos son los expuestos por el módulo.</p>
+
+<p>Otra de las razones de este patrón es que en el <em>Module Pattern</em> cuando necesitas invocar un miembro público se hace necesario usar el <code>this</code>, y hay quienes consideran esto confuso y menos consistente.</p>
+
+<figure class='code'><figcaption><span>Module Pattern, usando this</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Module</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">methodOne</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// Something</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">methodTwo</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// Invocar al método público methodOne</span>
+</span><span class='line'>      <span class="k">this</span><span class="p">.</span><span class="nx">methodOne</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>En el <em>Revealing Module Pattern</em> ya no se hace necesario el <code>this</code>.</p>
+
+<figure class='code'><figcaption><span>Revealing Module Pattern, no usa this</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Module</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">methodOne</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Something</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">methodTwo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Invocar al método público methodOne</span>
+</span><span class='line'>    <span class="nx">methodOne</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">methodOne</span><span class="o">:</span> <span class="nx">methodOne</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">methodTwo</span><span class="o">:</span> <span class="nx">methodTwo</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Convención para métodos privados</h2>
+
+<p>Puede llegar el momento que nuestro módulo crezca demasiado (regularmente sucede) y se hace un poco tedioso tratar de ver cuales métodos y propiedades son públicos y cuales privados. Por esta razón muchos siguen una convención de usar el prefijo <code>_</code> en el nombre del miembro cuando se trata de un miembro privado.</p>
+
+<figure class='code'><figcaption><span>Convención para miembros privados</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myModule</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">_privateProperty</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">_privateMethodOne</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Algo</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">_privateMethodTwo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Algo</span>
+</span><span class='line'>    <span class="nx">_privateMethodOne</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">publicMethodOne</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//...</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">publicMethodTwo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">publicProperty</span><span class="o">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">publicMethodOne</span><span class="o">:</span> <span class="nx">publicMethodOne</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">publicMethodTwo</span><span class="o">:</span> <span class="nx">publicMethodTwo</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">publicMethodThree</span><span class="o">:</span> <span class="nx">_privateMethodTwo</span> <span class="c1">//Alias de _privateMethodTwo</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">})();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusión</h2>
+
+<p>Las principales ventajas de usar el <em>Module Pattern</em> son la encapsulación y limpieza de tu código. Además de tener miembros privados.</p>
+
+<p>El <em>Revealing Module Pattern</em> nos permite ser mas consistentes en nuestros scripts.</p>
+
+<p>Sin embargo hay algunas desventajas:</p>
+
+<ul>
+<li>Los miembros públicos y privados se acceden de forma distinta y si queremos cambiar la visibilidad en algún momento tendríamos que hacer cambios en cada parte que se usa ese miembro (solo aplica al <em>Module Pattern</em>).</li>
+<li>No podemos acceder a los métodos privados desde métodos definidos en el módulo después de su creación.</li>
+<li>No se pueden realizar pruebas de unidad sobre los métodos privados.</li>
+<li>Su extensión es complicada.</li>
+</ul>
+
+
+<h2>Lectura recomendada</h2>
+
+<ul>
+<li><a href="http://toddmotto.com/mastering-the-module-pattern/">Mastering the Module Pattern</a> by <a href="https://twitter.com/toddmotto">Todd Motto</a></li>
+<li><a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript">Learning JavaSctipt Design Patterns</a> by <a href="https://twitter.com/addyosmani">Addy Osmani</a></li>
+<li><a href="http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html">JavaScript Module Pattern: In-Depth</a> by <a href="https://twitter.com/bcherry">Ben Cherry</a></li>
+</ul>
+
+</div>
+
+
+    <footer>
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard">Escrito por: <span class="fn">Isaac Zepeda</span></span>
+
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-09T12:27:00-07:00" pubdate data-updated="true">Sep 9<span>th</span>, 2014</time>
+        
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>Javascript</a>, <a class='category' href='/blog/categories/patrones-de-diseño/'>Patrones de Diseño</a>
+  
+</span>
+
+
+      </p>
+      
+        <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern/" data-via="" data-counturl="http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+      
+      <p class="meta">
+        
+          <a class="basic-alignment left" href="/blog/2014/01/30/javascript-el-contexto-this-de-una-funcion/" title="Previous Post: JavaScript: El contexto (this) de una función">&laquo; JavaScript: El contexto (this) de una función</a>
+        
+        
+      </p>
+    </footer>
+  </article>
+  
+    <section class="wrap">
+      <!-- <h1>Comentarios</h1> -->
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+  
+  </div>
+  </div>
+
+  <footer class="wrap">
+  <p class="copy">
+    Copyright &copy; 2014 - hardcoders.mx -
+    <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  </p>
+</footer>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'hardcoders';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern/';
+        var disqus_url = 'http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+
+</body>
+</html>
