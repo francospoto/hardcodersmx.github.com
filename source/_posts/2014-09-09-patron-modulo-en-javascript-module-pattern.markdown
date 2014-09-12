@@ -123,7 +123,7 @@ var Module = (function () {
     // Something
   };
 
-  methodTwo: function () {
+  var methodTwo: function () {
     // Invocar al método público methodOne
     methodOne();
   };
