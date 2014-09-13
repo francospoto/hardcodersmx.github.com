@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Patrones de Diseño | hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/blog/categories/patrones-de-diseño/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2014-09-12T16:24:28-07:00</updated>
+  <updated>2014-09-13T12:07:38-07:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Patrón Módulo en JavaScript (Module Pattern)]]></title>
-    <link href="http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern/"/>
-    <updated>2014-09-09T12:27:00-07:00</updated>
-    <id>http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern</id>
+    <link href="http://hardcoders.mx/blog/2014/09/12/patron-modulo-en-javascript-module-pattern/"/>
+    <updated>2014-09-12T12:27:00-07:00</updated>
+    <id>http://hardcoders.mx/blog/2014/09/12/patron-modulo-en-javascript-module-pattern</id>
     <content type="html"><![CDATA[<p><img src="/images/posts/legoblocks.jpg" class="left-thumb"></p>
 
 <p>Los módulos son muy importantes ya que nos permiten mantener nuestro código encapsulado, sin contaminar el <code>scope</code> global y evitar colisión de nombres. Además nos ayudan a mantener en el proyecto unidades de código separadas y organizadas.</p>

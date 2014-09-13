@@ -4,7 +4,7 @@
   <title><![CDATA[hardcoders.mx]]></title>
   <link href="http://hardcoders.mx/atom.xml" rel="self"/>
   <link href="http://hardcoders.mx/"/>
-  <updated>2014-09-12T16:24:28-07:00</updated>
+  <updated>2014-09-13T12:07:38-07:00</updated>
   <id>http://hardcoders.mx/</id>
   <author>
     <name><![CDATA[hardcoders.mx]]></name>
@@ -14,204 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[JavaScript: El contexto (this) de una función]]></title>
-    <link href="http://hardcoders.mx/blog/2014/09/12/javascript-el-contexto-this-de-una-funcion/"/>
-    <updated>2014-09-12T14:00:00-07:00</updated>
-    <id>http://hardcoders.mx/blog/2014/09/12/javascript-el-contexto-this-de-una-funcion</id>
-    <content type="html"><![CDATA[<p><img src="http://hardcoders.mx/images/posts/jscode.jpg" class="left-thumb"></p>
-
-<p>El contexto de una función básicamente es el valor del <code>this</code>. Dentro de una función usamos esta palabra reservada para referirnos al objeto en ejecución, tal como se hace en otros lenguajes como Java (o el <code>self</code> de Ruby).</p>
-
-<p>Sin embargo, el valor del contexto puede ser algo tricky y más cuando se va iniciando en este mundillo de Javascript, ya que puede tener diversos valores. Entonces, ¿Cuál es valor de <code>this</code>? Bueno, depende, depende de como la función es invocada.</p>
-
-<!-- more -->
-
-
-<p>Cuando una función es invocada recibe dos parámetros implícitos adicionales (además de los parámetros que le pasemos en la invocación): <code>this</code> y <code>arguments</code>. El valor del <code>this</code> es determinado por como es invocada la función.</p>
-
-<p>Existen 4 formas de invocar una función, se conocen como <em>invocation patterns</em>: Como método, función, constructor y usando <code>apply</code> (este último incluye <code>call</code>).</p>
-
-<h2>Como método</h2>
-
-<p>Primero definimos un <a href="http://hardcoders.mx/blog/2012/12/27/objetos-en-javascript/">objeto literal</a>.</p>
-
-<figure class='code'><figcaption><span>El this en un método</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myObject</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">value</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>  <span class="nx">increment</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">inc</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">+=</span> <span class="nx">inc</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">increment</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 2</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">increment</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 7</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>El <code>this</code> apunta al objeto <code>myObject</code> pudiendo modificar sus attributos. Esta asignación del <code>this</code> sucede en la invocación, es como si la función <code>increment</code> dijera ¿Quién me invocó?, en este caso <code>myObject</code> por lo tanto el valor de <code>this</code> es <code>myObject</code>.</p>
-
-<h2>Como función</h2>
-
-<p>Cuando una función no es una propiedad de un objeto, entonces es invocada como función: <code>sum(3,3)</code>. Cuando esto pasa el <code>this</code> dentro de la función toma el valor del objeto global. En caso de un script ejecutándose en el navegador, el <code>this</code> toma el valor del objeto <code>window</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span> <span class="c1">// 2, el this == window</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span> <span class="c1">// 1</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">sum</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span> <span class="c1">// 5</span>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span> <span class="c1">// 7</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Como constructor</h2>
-
-<p>Si una función es invocada usando <code>new</code> se crea un objeto que apunta al <code>prototype</code> de la función, y el <code>this</code> toma el valor de este nuevo objeto.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Person</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getName</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Isaac&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">p</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span> <span class="c1">// Isaac, el this == p</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Usando apply y call</h2>
-
-<p>Aquí es donde viene lo interesante. El <code>apply</code> y <code>call</code> hacen lo mismo: Invocar un función con un contexto en específico. Es decir, nosotros el especificamos el valor del <code>this</code>.</p>
-
-<p>Vamos a usar la función <code>Person</code> definida en la sección anterior:</p>
-
-<figure class='code'><figcaption><span>Usando el apply</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">isaac</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Isaac&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">zepeda</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Zepeda&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">isaac</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span> <span class="c1">// Isaac</span>
-</span><span class='line'><span class="nx">isaac</span><span class="p">.</span><span class="nx">getName</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">zepeda</span><span class="p">);</span> <span class="c1">// &#39;Zepeda&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Otra manera</span>
-</span><span class='line'><span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getName</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">zepeda</span><span class="p">);</span> <span class="c1">// &#39;Zepeda&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Ahora usando call</span>
-</span><span class='line'><span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getName</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">isaac</span><span class="p">);</span> <span class="c1">// &#39;Isaac&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>En la línea 5 invocamos el metodo <code>getName</code> pero le decimos que el <code>this</code> será igual al argumento pasado en el <code>apply</code> o <code>call</code>.</p>
-
-<p>Ahora la diferencia entre <code>apply</code> y <code>call</code> radica en como le pasamos argumentos a la función que estamos invocando. En el <code>apply</code> los argumentos deben de ir en un <code>array</code>, mientras que en el <code>call</code> los argumentos se pasan separados por comas.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">increment</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">inc</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">+=</span> <span class="nx">inc</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">myObject</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">value</span><span class="o">:</span> <span class="mi">2</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// El segundo argumento es un array donde cada elemento corresponde en orden</span>
-</span><span class='line'><span class="c1">// con los argumentos de la función a la que se le hace apply</span>
-</span><span class='line'><span class="nx">increment</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">myObject</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">]);</span> <span class="c1">// El this.value == myObject.value</span>
-</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span> <span class="c1">// 7</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// En el call los argumentos se pasan separados por coma .call(obj, arg1, arg2, arg3..)</span>
-</span><span class='line'><span class="nx">increment</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">myObject</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span> <span class="c1">// 8</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Bibliografía</h2>
-
-<ul>
-<li><a href="http://www.amazon.com/JavaScript-Good-Parts-ebook/dp/B0026OR2ZY/ref=sr_1_1?ie=UTF8&amp;qid=1391114482&amp;sr=8-1&amp;keywords=javascript+the+good+parts">JavaScript: The Good Parts</a>, Douglas Crockford, O&#8217;Reilly.</li>
-<li><a href="http://www.amazon.com/Secrets-JavaScript-Ninja-John-Resig/dp/193398869X/ref=sr_1_1?ie=UTF8&amp;qid=1391114440&amp;sr=8-1&amp;keywords=secret+javascript+ninja">Secrets of the JavaScript Ninja</a>, John Resig y Bear Bibeault.</li>
-<li><a href="http://google.com">La Internetz</a></li>
-</ul>
-
-
-<p>Saludos!</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Patrón Módulo en JavaScript (Module Pattern)]]></title>
-    <link href="http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern/"/>
-    <updated>2014-09-09T12:27:00-07:00</updated>
-    <id>http://hardcoders.mx/blog/2014/09/09/patron-modulo-en-javascript-module-pattern</id>
+    <link href="http://hardcoders.mx/blog/2014/09/12/patron-modulo-en-javascript-module-pattern/"/>
+    <updated>2014-09-12T12:27:00-07:00</updated>
+    <id>http://hardcoders.mx/blog/2014/09/12/patron-modulo-en-javascript-module-pattern</id>
     <content type="html"><![CDATA[<p><img src="http://hardcoders.mx/images/posts/legoblocks.jpg" class="left-thumb"></p>
 
 <p>Los módulos son muy importantes ya que nos permiten mantener nuestro código encapsulado, sin contaminar el <code>scope</code> global y evitar colisión de nombres. Además nos ayudan a mantener en el proyecto unidades de código separadas y organizadas.</p>
@@ -515,6 +321,200 @@
 <li><a href="http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html">JavaScript Module Pattern: In-Depth</a> by <a href="https://twitter.com/bcherry">Ben Cherry</a></li>
 </ul>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JavaScript: El contexto (this) de una función]]></title>
+    <link href="http://hardcoders.mx/blog/2014/01/30/javascript-el-contexto-this-de-una-funcion/"/>
+    <updated>2014-01-30T14:00:00-07:00</updated>
+    <id>http://hardcoders.mx/blog/2014/01/30/javascript-el-contexto-this-de-una-funcion</id>
+    <content type="html"><![CDATA[<p><img src="http://hardcoders.mx/images/posts/jscode.jpg" class="left-thumb"></p>
+
+<p>El contexto de una función básicamente es el valor del <code>this</code>. Dentro de una función usamos esta palabra reservada para referirnos al objeto en ejecución, tal como se hace en otros lenguajes como Java (o el <code>self</code> de Ruby).</p>
+
+<p>Sin embargo, el valor del contexto puede ser algo tricky y más cuando se va iniciando en este mundillo de Javascript, ya que puede tener diversos valores. Entonces, ¿Cuál es valor de <code>this</code>? Bueno, depende, depende de como la función es invocada.</p>
+
+<!-- more -->
+
+
+<p>Cuando una función es invocada recibe dos parámetros implícitos adicionales (además de los parámetros que le pasemos en la invocación): <code>this</code> y <code>arguments</code>. El valor del <code>this</code> es determinado por como es invocada la función.</p>
+
+<p>Existen 4 formas de invocar una función, se conocen como <em>invocation patterns</em>: Como método, función, constructor y usando <code>apply</code> (este último incluye <code>call</code>).</p>
+
+<h2>Como método</h2>
+
+<p>Primero definimos un <a href="http://hardcoders.mx/blog/2012/12/27/objetos-en-javascript/">objeto literal</a>.</p>
+
+<figure class='code'><figcaption><span>El this en un método</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myObject</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">value</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">increment</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">inc</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">+=</span> <span class="nx">inc</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">increment</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 2</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">increment</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span> <span class="c1">// 7</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>El <code>this</code> apunta al objeto <code>myObject</code> pudiendo modificar sus attributos. Esta asignación del <code>this</code> sucede en la invocación, es como si la función <code>increment</code> dijera ¿Quién me invocó?, en este caso <code>myObject</code> por lo tanto el valor de <code>this</code> es <code>myObject</code>.</p>
+
+<h2>Como función</h2>
+
+<p>Cuando una función no es una propiedad de un objeto, entonces es invocada como función: <code>sum(3,3)</code>. Cuando esto pasa el <code>this</code> dentro de la función toma el valor del objeto global. En caso de un script ejecutándose en el navegador, el <code>this</code> toma el valor del objeto <code>window</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">y</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span> <span class="c1">// 2, el this == window</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span> <span class="c1">// 1</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">sum</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span> <span class="c1">// 5</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span> <span class="c1">// 7</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Como constructor</h2>
+
+<p>Si una función es invocada usando <code>new</code> se crea un objeto que apunta al <code>prototype</code> de la función, y el <code>this</code> toma el valor de este nuevo objeto.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">Person</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getName</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Isaac&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">p</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span> <span class="c1">// Isaac, el this == p</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Usando apply y call</h2>
+
+<p>Aquí es donde viene lo interesante. El <code>apply</code> y <code>call</code> hacen lo mismo: Invocar un función con un contexto en específico. Es decir, nosotros el especificamos el valor del <code>this</code>.</p>
+
+<p>Vamos a usar la función <code>Person</code> definida en la sección anterior:</p>
+
+<figure class='code'><figcaption><span>Usando el apply</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">isaac</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Isaac&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">zepeda</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Zepeda&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">isaac</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span> <span class="c1">// Isaac</span>
+</span><span class='line'><span class="nx">isaac</span><span class="p">.</span><span class="nx">getName</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">zepeda</span><span class="p">);</span> <span class="c1">// &#39;Zepeda&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Otra manera</span>
+</span><span class='line'><span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getName</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">zepeda</span><span class="p">);</span> <span class="c1">// &#39;Zepeda&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Ahora usando call</span>
+</span><span class='line'><span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getName</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">isaac</span><span class="p">);</span> <span class="c1">// &#39;Isaac&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>En la línea 5 invocamos el metodo <code>getName</code> pero le decimos que el <code>this</code> será igual al argumento pasado en el <code>apply</code> o <code>call</code>.</p>
+
+<p>Ahora la diferencia entre <code>apply</code> y <code>call</code> radica en como le pasamos argumentos a la función que estamos invocando. En el <code>apply</code> los argumentos deben de ir en un <code>array</code>, mientras que en el <code>call</code> los argumentos se pasan separados por comas.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">increment</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">inc</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">+=</span> <span class="nx">inc</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">myObject</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">value</span><span class="o">:</span> <span class="mi">2</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// El segundo argumento es un array donde cada elemento corresponde en orden</span>
+</span><span class='line'><span class="c1">// con los argumentos de la función a la que se le hace apply</span>
+</span><span class='line'><span class="nx">increment</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">myObject</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">]);</span> <span class="c1">// El this.value == myObject.value</span>
+</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span> <span class="c1">// 7</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// En el call los argumentos se pasan separados por coma .call(obj, arg1, arg2, arg3..)</span>
+</span><span class='line'><span class="nx">increment</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">myObject</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span> <span class="c1">// 8</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Bibliografía</h2>
+
+<ul>
+<li><a href="http://www.amazon.com/JavaScript-Good-Parts-ebook/dp/B0026OR2ZY/ref=sr_1_1?ie=UTF8&amp;qid=1391114482&amp;sr=8-1&amp;keywords=javascript+the+good+parts">JavaScript: The Good Parts</a>, Douglas Crockford, O&#8217;Reilly.</li>
+<li><a href="http://www.amazon.com/Secrets-JavaScript-Ninja-John-Resig/dp/193398869X/ref=sr_1_1?ie=UTF8&amp;qid=1391114440&amp;sr=8-1&amp;keywords=secret+javascript+ninja">Secrets of the JavaScript Ninja</a>, John Resig y Bear Bibeault.</li>
+<li><a href="http://google.com">La Internetz</a></li>
+</ul>
+
+
+<p>Saludos!</p>
 ]]></content>
   </entry>
   
