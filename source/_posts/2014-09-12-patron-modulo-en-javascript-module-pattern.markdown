@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Patrón Módulo en JavaScript (Module Pattern)"
-date: 2014-09-09 12:27
+date: 2014-09-12 12:27
 comments: true
 categories: [Javascript, Patrones de Diseño]
 author: Isaac Zepeda
